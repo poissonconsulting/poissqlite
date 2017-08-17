@@ -4,23 +4,23 @@
 \alias{ps_blob}
 \title{BLOB}
 \usage{
-ps_blob(dir, ext = "[.]pdf$", n = 10000L, recursive = TRUE)
+ps_blob(dir = ".", pattern = "[.]pdf$", n = 10000L, recursive = TRUE)
 }
 \arguments{
-\item{dir}{A string of the directory}
+\item{dir}{A string of the directory name.}
 
-\item{ext}{A string of the file extension(s)}
+\item{pattern}{A string of the pattern to use when searching for files.}
 
 \item{n}{An integer of the (maximal) number of records to be read.}
 
-\item{recursive}{A flag indicating whether no recurse into subdirectories.}
+\item{recursive}{A flag indicating whether to recurse into subdirectories.}
 }
 \value{
-A tibble with the columns FileName and BLOB
+A named list of the BLOBs.
 }
 \description{
-BLOB
+Converts files in the directory into a list of BLOBs for storage in an SQLite database.
 }
 \seealso{
-readBin
+\code{\link{ps_deblob}}
 }

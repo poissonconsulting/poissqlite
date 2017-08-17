@@ -9,7 +9,9 @@ License: MIT + file LICENSE
 Depends: R (>= 3.4.1)
 Imports: datacheckr,
          magrittr,
-         tibble
+         purrr,
+         tibble,
+         yesno
 Suggests: testthat,
     covr
 Encoding: UTF-8
