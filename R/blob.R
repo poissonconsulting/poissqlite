@@ -17,7 +17,7 @@ blob <- function(dir, ext = "[.]pdf$", n =  10000L, recursive = TRUE) {
 #' @param dir A string of the directory
 #' @param ext A string of the file extension(s)
 #' @param n An integer of the (maximal) number of records to be read.
-#' @param recursive A flag indicating whether no recurse into subdirectories.
+#' @param recursive A flag indicating whether to recurse into subdirectories.
 #' @seealso readBin
 #' @return A tibble with the columns FileName and BLOB
 #' @export
