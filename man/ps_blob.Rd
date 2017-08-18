@@ -15,9 +15,6 @@ ps_blob(dir = ".", pattern = "[.]pdf$", n = 10000L, recursive = TRUE)
 
 \item{recursive}{A flag indicating whether to recurse into subdirectories.}
 }
-\value{
-A named list of the BLOBs.
-}
 \description{
 Converts files in the directory into a named list of BLOBs.
 }
@@ -28,5 +25,5 @@ using \code{\link{ps_blob_to_tibble}}.
 The file extension is stored inside each blob so there is no need to save the filenames.
 }
 \seealso{
-\code{\link{ps_deblob}} and \code{\link{ps_blob_to_tibble}}
+\code{\link{ps_deblob}}, \code{\link{ps_blob_to_tibble}} and \code{\link{readBin}}
 }

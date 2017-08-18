@@ -11,8 +11,7 @@
 #' @param pattern A string of the pattern to use when searching for files.
 #' @param recursive A flag indicating whether to recurse into subdirectories.
 #' @param n An integer of the (maximal) number of records to be read.
-#' @return A named list of the BLOBs.
-#' @seealso \code{\link{ps_deblob}} and \code{\link{ps_blob_to_tibble}}
+#' @seealso \code{\link{ps_deblob}}, \code{\link{ps_blob_to_tibble}} and \code{\link{readBin}}
 #' @export
 ps_blob <- function(dir = ".", pattern = "[.]pdf$", n =  10000L, recursive = TRUE) {
   check_string(dir)
