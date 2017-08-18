@@ -2,7 +2,10 @@
 #'
 #' Converts files in the directory into a named list of BLOBs.
 #'
-#' For importing
+#' For importing into SQLite database it is easiest to convert to a tibble
+#' using \code{\link{ps_blob_to_tibble}}.
+#'
+#' The file extension is stored inside each blob so there is no need to save the filenames.
 #'
 #' @param dir A string of the directory name.
 #' @param pattern A string of the pattern to use when searching for files.
@@ -41,6 +44,9 @@ ps_blob <- function(dir = ".", pattern = "[.]pdf$", n =  10000L, recursive = TRU
 #'
 #' If x is unnamed the files are assigned the names
 #' file1, file2 etc according to their order in x.
+#'
+#' As the file extension is stored inside each blob the names should not include
+#' the file extension. They can removed using \code{\link{file_path_sans_ext}}.
 #'
 #' @param x A list of BLOBs created by \code{\link{ps_blob}}.
 #' @param dir A string of the directory to save the files to.

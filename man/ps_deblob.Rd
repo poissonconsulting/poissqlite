@@ -20,6 +20,9 @@ Converts a possibly named list of BLOBs into files in the directory.
 \details{
 If x is unnamed the files are assigned the names
 file1, file2 etc according to their order in x.
+
+As the file extension is stored inside each blob the names should not include
+the file extension. They can removed using \code{\link{file_path_sans_ext}}.
 }
 \seealso{
 \code{\link{ps_blob}}

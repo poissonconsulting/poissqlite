@@ -22,7 +22,10 @@ A named list of the BLOBs.
 Converts files in the directory into a named list of BLOBs.
 }
 \details{
-For importing
+For importing into SQLite database it is easiest to convert to a tibble
+using \code{\link{ps_blob_to_tibble}}.
+
+The file extension is stored inside each blob so there is no need to save the filenames.
 }
 \seealso{
 \code{\link{ps_deblob}} and \code{\link{ps_blob_to_tibble}}
