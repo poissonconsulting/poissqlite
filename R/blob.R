@@ -63,7 +63,9 @@ ps_deblob <- function(x, dir = ".") {
   if (is.null(file))
     file <- paste0("file", 1:length(x))
 
-  names(x) %<>% paste0(file, ".", .)
+  names(x) %<>%
+    paste0(file, ".", .) %>%
+    file.path(dir, .)
 
   x %<>% purrr::lmap(function(x, ask = ask) {write_file(unlist(x), names(x)); x})
   invisible(names(x))

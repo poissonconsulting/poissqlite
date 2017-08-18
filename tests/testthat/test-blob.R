@@ -15,6 +15,7 @@ test_that("blob works", {
 
   names(blob) <- tools::file_path_sans_ext(names(blob))
 
-  names <- ps_deblob(blob, tempdir())
-  expect_identical(names, c("seb-dalgarno.pdf", "sub/joe-thorley.pdf"))
+  tempdir <- tempdir()
+  names <- ps_deblob(blob, tempdir)
+  expect_identical(names, file.path(tempdir,c("seb-dalgarno.pdf", "sub/joe-thorley.pdf")))
 })
