@@ -1,14 +1,15 @@
 #' BLOB
 #'
-#' Converts files in the directory into a list of BLOBs for storage in an SQLite database.
+#' Converts files in the directory into a named list of BLOBs.
 #'
+#' For importing
 #'
 #' @param dir A string of the directory name.
 #' @param pattern A string of the pattern to use when searching for files.
 #' @param recursive A flag indicating whether to recurse into subdirectories.
 #' @param n An integer of the (maximal) number of records to be read.
 #' @return A named list of the BLOBs.
-#' @seealso \code{\link{ps_deblob}}
+#' @seealso \code{\link{ps_deblob}} and \code{\link{ps_blob_to_tibble}}
 #' @export
 ps_blob <- function(dir = ".", pattern = "[.]pdf$", n =  10000L, recursive = TRUE) {
   check_string(dir)
@@ -36,7 +37,7 @@ ps_blob <- function(dir = ".", pattern = "[.]pdf$", n =  10000L, recursive = TRU
 
 #' DeBLOB
 #'
-#' Converts a possible named list of BLOBs into files in the directory.
+#' Converts a possibly named list of BLOBs into files in the directory.
 #'
 #' If x is unnamed the files are assigned the names
 #' file1, file2 etc according to their order in x.
@@ -44,14 +45,10 @@ ps_blob <- function(dir = ".", pattern = "[.]pdf$", n =  10000L, recursive = TRU
 #' @param x A list of BLOBs created by \code{\link{ps_blob}}.
 #' @param dir A string of the directory to save the files to.
 #' @return An invisible vector of the names of the files saved to dir.
-#' @seealso \code{\link{ps_deblob}}
+#' @seealso \code{\link{ps_blob}}
 #' @export
 ps_deblob <- function(x, dir = ".") {
-  if (!is.list(x)) stop("x must be list", call. = FALSE)
-  if (!length(x)) return(invisible(NULL))
-  if (!all(lapply(x, class) == "raw"))
-    stop("x must be a list of BLOBs created by ps_blob", call. = FALSE)
-  check_unique(names(x))
+  check_blob(x)
   check_string(dir)
 
   file <- names(x)
@@ -67,4 +64,22 @@ ps_deblob <- function(x, dir = ".") {
 
   x %<>% purrr::lmap(function(x, ask = ask) {write_file(unlist(x), names(x)); x})
   invisible(names(x))
+}
+
+#' BLOB to tibble
+#'
+#' @param x A list of blobs
+#' @return A tibble with columns File and BLOB.
+#' @export
+ps_blob_to_tibble <- function(x) {
+  check_blob(x)
+  if (!length(x)) return(tibble::tibble(File = character(0), BLOB = I(x)))
+
+  if (!is.null(names(x))) {
+    names <- names(x)
+    names(x) <- NULL
+  } else
+    names <- paste0("file", 1:length(x))
+
+  tibble::tibble(File = names, BLOB = I(x))
 }

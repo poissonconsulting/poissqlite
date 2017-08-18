@@ -15,12 +15,12 @@ ps_deblob(x, dir = ".")
 An invisible vector of the names of the files saved to dir.
 }
 \description{
-Converts a possible named list of BLOBs into files in the directory.
+Converts a possibly named list of BLOBs into files in the directory.
 }
 \details{
 If x is unnamed the files are assigned the names
 file1, file2 etc according to their order in x.
 }
 \seealso{
-\code{\link{ps_deblob}}
+\code{\link{ps_blob}}
 }

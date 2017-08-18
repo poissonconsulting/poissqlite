@@ -19,8 +19,11 @@ ps_blob(dir = ".", pattern = "[.]pdf$", n = 10000L, recursive = TRUE)
 A named list of the BLOBs.
 }
 \description{
-Converts files in the directory into a list of BLOBs for storage in an SQLite database.
+Converts files in the directory into a named list of BLOBs.
+}
+\details{
+For importing
 }
 \seealso{
-\code{\link{ps_deblob}}
+\code{\link{ps_deblob}} and \code{\link{ps_blob_to_tibble}}
 }
