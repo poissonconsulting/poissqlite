@@ -4,14 +4,12 @@
 \alias{ps_blob}
 \title{BLOB}
 \usage{
-ps_blob(dir = ".", pattern = "[.]pdf$", n = 10000L, recursive = TRUE)
+ps_blob(dir = ".", pattern = "[.]pdf$", recursive = FALSE)
 }
 \arguments{
 \item{dir}{A string of the directory name.}
 
 \item{pattern}{A string of the pattern to use when searching for files.}
-
-\item{n}{An integer of the (maximal) number of records to be read.}
 
 \item{recursive}{A flag indicating whether to recurse into subdirectories.}
 }
@@ -25,5 +23,5 @@ using \code{\link{ps_blob_to_tibble}}.
 The file extension is stored inside each blob so there is no need to save the filenames.
 }
 \seealso{
-\code{\link{ps_deblob}}, \code{\link{ps_blob_to_tibble}} and \code{\link{readBin}}
+\code{\link{ps_deblob}}, \code{\link{ps_blob_to_tibble}}
 }

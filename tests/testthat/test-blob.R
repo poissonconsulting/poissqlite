@@ -2,7 +2,7 @@ context("blob")
 
 test_that("blob works", {
   dir <- file.path(system.file(package = "poissqlite"))
-  blob <- ps_blob(dir)
+  blob <- ps_blob(dir, recursive = TRUE)
   expect_identical(length(blob), 2L)
   expect_identical(names(blob), c("seb-dalgarno.pdf", "sub/joe-thorley.pdf"))
 

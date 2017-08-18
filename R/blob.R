@@ -10,13 +10,11 @@
 #' @param dir A string of the directory name.
 #' @param pattern A string of the pattern to use when searching for files.
 #' @param recursive A flag indicating whether to recurse into subdirectories.
-#' @param n An integer of the (maximal) number of records to be read.
-#' @seealso \code{\link{ps_deblob}}, \code{\link{ps_blob_to_tibble}} and \code{\link{readBin}}
+#' @seealso \code{\link{ps_deblob}}, \code{\link{ps_blob_to_tibble}}
 #' @export
-ps_blob <- function(dir = ".", pattern = "[.]pdf$", n =  10000L, recursive = TRUE) {
+ps_blob <- function(dir = ".", pattern = "[.]pdf$", recursive = FALSE) {
   check_string(dir)
   check_string(pattern)
-  check_count(n)
   check_flag(recursive)
 
   if (!dir.exists(dir))
@@ -28,7 +26,7 @@ ps_blob <- function(dir = ".", pattern = "[.]pdf$", n =  10000L, recursive = TRU
   if (!length(files))
     return(tibble::tibble(File = character(0), BLOB = I(raw(0))))
 
-  blob <- lapply(files, read_file, n = n)
+  blob <- lapply(files, read_file)
   names(blob) <- tools::file_ext(files)
 
   blob %<>% purrr::lmap(function(x) list(serialize(x, NULL)))

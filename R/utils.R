@@ -3,7 +3,8 @@ update_names <- function(x, dir) {
   x
 }
 
-read_file <- function(x, n) {
+read_file <- function(x) {
+  n <- file.info(x)$size
   readBin(x, what = "integer", n = n, endian = "little")
 }
 
