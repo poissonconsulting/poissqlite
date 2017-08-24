@@ -23,8 +23,7 @@ ps_blob <- function(dir = ".", pattern = "[.]pdf$", recursive = FALSE) {
   files <- list.files(dir, pattern = pattern, recursive = recursive, full.names = TRUE)
   sfiles <- list.files(dir, pattern = pattern, recursive = recursive)
 
-  if (!length(files))
-    return(tibble::tibble(File = character(0), BLOB = I(raw(0))))
+  if (!length(files)) stop("there are no files to blob", call. = FALSE)
 
   blob <- lapply(files, read_file)
   names(blob) <- tools::file_ext(files)

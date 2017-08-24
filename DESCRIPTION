@@ -1,6 +1,7 @@
 Package: poissqlite
 Title: What the Package Does (one line, title case)
-Version: 0.0.0.9000
+Version: 0.0.0.9001
+Date: 2017-08-24
 Authors@R: c(
     person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre")),
     person("Seb", "Dalgarno", role = "aut"))
