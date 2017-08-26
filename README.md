@@ -5,7 +5,9 @@
 poissqlite
 ==========
 
-poissqlite is an R package that facilitates working with SQLite databases.
+An R package to facilitate working with SQLite databases.
+
+For more information see <http://www.poissonconsulting.ca/poissqlite/>.
 
 Installation
 ------------
@@ -15,8 +17,10 @@ Installation
 devtools::install_github("poissonconsulting/poissqlite")
 ```
 
-BLOBs
------
+Demonstration
+-------------
+
+### BLOBs
 
 Files can be added to SQLite databases as storage type [BLOB](https://sqlite.org/datatype3.html).
 

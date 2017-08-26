@@ -1,5 +1,5 @@
 Package: poissqlite
-Title: SQLite databases
+Title: Work with SQLite Databases
 Version: 0.0.0.9002
 Date: 2017-08-26
 Authors@R: c(

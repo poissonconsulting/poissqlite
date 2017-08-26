@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SQLite databases • poissqlite</title>
+<title>Work with SQLite Databases • poissqlite</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
@@ -66,16 +66,20 @@
 <div id="poissqlite" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#poissqlite" class="anchor"></a>poissqlite</h1></div>
-<p>poissqlite is an R package that facilitates working with SQLite databases.</p>
+<p>An R package to facilitate working with SQLite databases.</p>
+<p>For more information see <a href="http://www.poissonconsulting.ca/poissqlite/" class="uri">http://www.poissonconsulting.ca/poissqlite/</a>.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("devtools")</span>
 devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"poissonconsulting/poissqlite"</span>)</code></pre></div>
 </div>
-<div id="blobs" class="section level2">
+<div id="demonstration" class="section level2">
 <h2 class="hasAnchor">
-<a href="#blobs" class="anchor"></a>BLOBs</h2>
+<a href="#demonstration" class="anchor"></a>Demonstration</h2>
+<div id="blobs" class="section level3">
+<h3 class="hasAnchor">
+<a href="#blobs" class="anchor"></a>BLOBs</h3>
 <p>Files can be added to SQLite databases as storage type <a href="https://sqlite.org/datatype3.html">BLOB</a>.</p>
 <p>The <code><a href="reference/ps_blob_file.html">ps_blob_file()</a></code> function can be used to convert a file to a blob (R object of class raw) while <code><a href="reference/ps_deblob_file.html">ps_deblob_file()</a></code> performs the inverse operation, i.e., saves a blob to a file of the original format. <code><a href="reference/ps_blob_files.html">ps_blob_files()</a></code> and <code><a href="reference/ps_deblob_files.html">ps_deblob_files()</a></code> are the equivalent functions for working with multiple files. In addition, the <code><a href="reference/ps_blob_object.html">ps_blob_object()</a></code> and <code><a href="reference/ps_deblob_object.html">ps_deblob_object()</a></code> can be used to convert between an R object and a blob. This is achieved by reading or writing the object as an <code>.rds</code> file which means that <code><a href="reference/ps_deblob_file.html">ps_deblob_file()</a></code> applied to a blob created using <code><a href="reference/ps_blob_object.html">ps_blob_object()</a></code> saves the intermediate <code>.rds</code> file.</p>
 <p>It’s important to realize that the <code>ps_blob</code> family of functions embed the original file extension in the raw data to ensure the converted files are the original format. A consequence of this is that when deblobbing, file names should not include an extension (file extensions can be removed using <code><a href="http://www.rdocumentation.org/packages/tools/topics/fileutils">tools::file_path_sans_ext()</a></code>). A second consequence is that the <code>ps_deblob</code> family of functions will only work on blobs created using <code>ps_blob</code>.</p>
@@ -95,6 +99,7 @@ blob &lt;-<span class="st"> </span><span class="kw"><a href="reference/ps_blob_o
 <span class="co">#&gt; [1,]    1    4    7</span>
 <span class="co">#&gt; [2,]    2    5    8</span>
 <span class="co">#&gt; [3,]    3    6    9</span></code></pre></div>
+</div>
 </div>
 <div id="contribution" class="section level2">
 <h2 class="hasAnchor">
