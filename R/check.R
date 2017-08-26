@@ -1,8 +1,6 @@
-check_blob <- function(x) {
-  if (!is.list(x)) stop("x must be list", call. = FALSE)
-  if (!length(x)) return(x)
-  if (!all(lapply(x, class) == "raw"))
-    stop("x must be a list of BLOBs created by ps_blob", call. = FALSE)
-  check_unique(names(x))
+check_blob <- function(x, x_name = substitute(x)) {
+  if (!is.character(x_name))
+    x_name <- deparse(x_name)
+  if (!is.raw(x)) error(x_name, " must be an object of class raw")
   x
 }

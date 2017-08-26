@@ -1,89 +1,141 @@
-#' BLOB
+#' Blob File
 #'
-#' Converts files in the directory into a named list of BLOBs.
+#' Converts a file in the directory into a raw object.
 #'
-#' For importing into SQLite database it is easiest to convert to a tibble
-#' using \code{\link{ps_blob_to_tibble}}.
+#' @param file A string of the file name.
+#' @export
+ps_blob_file <- function(file) {
+  check_string(file)
+
+  blob <- read_bin_file(file) %>%
+    list()
+  names(blob) <- tools::file_ext(file)
+
+  blob %<>% serialize(NULL)
+  blob
+}
+
+#' Blob Files
 #'
-#' The file extension is stored inside each blob so there is no need to save the filenames.
+#' Converts files in the directory into a tibble with a column File of file names
+#' and a column BLOB of raw objects.
 #'
 #' @param dir A string of the directory name.
 #' @param pattern A string of the pattern to use when searching for files.
 #' @param recursive A flag indicating whether to recurse into subdirectories.
-#' @seealso \code{\link{ps_deblob}}, \code{\link{ps_blob_to_tibble}}
 #' @export
-ps_blob <- function(dir = ".", pattern = "[.]pdf$", recursive = FALSE) {
+ps_blob_files <- function(dir = ".", pattern = "[.]pdf$", recursive = FALSE) {
   check_string(dir)
   check_string(pattern)
   check_flag(recursive)
 
   if (!dir.exists(dir))
-    stop("directory '", dir, "' does not exist", call. = FALSE)
+    error("directory '", dir, "' does not exist")
 
   files <- list.files(dir, pattern = pattern, recursive = recursive, full.names = TRUE)
   sfiles <- list.files(dir, pattern = pattern, recursive = recursive)
 
-  if (!length(files)) stop("there are no files to blob", call. = FALSE)
+  if (!length(files)) error("there are no matching files to blob")
 
-  blob <- lapply(files, read_file)
-  names(blob) <- tools::file_ext(files)
+  blob <- lapply(files, ps_blob_file)
 
-  blob %<>% purrr::lmap(function(x) list(serialize(x, NULL)))
-
-  names(blob) <- sfiles
-  blob
+  tibble::tibble(File = sfiles, BLOB = I(blob))
 }
 
-#' DeBLOB
+#' Blob Object
 #'
-#' Converts a possibly named list of BLOBs into files in the directory.
+#' Converts an R object into a raw object.
 #'
-#' If x is unnamed the files are assigned the names
-#' file1, file2 etc according to their order in x.
-#'
-#' As the file extension is stored inside each blob the names should not include
-#' the file extension. They can removed using \code{\link{file_path_sans_ext}}.
-#'
-#' @param x A list of BLOBs created by \code{\link{ps_blob}}.
-#' @param dir A string of the directory to save the files to.
-#' @return An invisible vector of the names of the files saved to dir.
-#' @seealso \code{\link{ps_blob}}
+#' @param object An R object.
 #' @export
-ps_deblob <- function(x, dir = ".") {
-  check_blob(x)
+ps_blob_object <- function(object) {
+  file <-  file.path(tempdir(), "object.rds")
+  saveRDS(object, file)
+  ps_blob_file(file)
+}
+
+#' Deblob to File
+#'
+#' Converts a raw object back to its original file format.
+#'
+#' @param blob A raw object.
+#' @param file A string of the file (the original file extension is added automatically)
+#' @param dir A string of the directory.
+#' @param ask A flag indicating whether to ask before creating the directory or replacing a file.
+#' @export
+ps_deblob_file <- function(blob, file = "blob", dir = ".",
+                              ask = getOption("poissqlite.ask", TRUE)) {
+  check_blob(blob)
+  check_string(file)
   check_string(dir)
+  check_flag(ask)
 
-  file <- names(x)
+  blob %<>% unserialize()
 
-  x %<>%
-    lapply(unserialize) %>%
-    purrr::flatten()
+  file %<>% paste0(".", names(blob))
 
-  if (is.null(file))
-    file <- paste0("file", 1:length(x))
+  blob %<>% unlist()
 
-  names(x) %<>%
-    paste0(file, ".", .) %>%
-    file.path(dir, .)
-
-  x %<>% purrr::lmap(function(x, ask = ask) {write_file(unlist(x), names(x)); x})
-  invisible(names(x))
+  write_bin_file(blob, file.path(dir, file), ask)
+  invisible(file)
 }
 
-#' BLOB to tibble
+#' Deblob to Files
 #'
-#' @param x A list of blobs
-#' @return A tibble with columns File and BLOB.
+#' Converts a list of raw objects
+#' back to their original file formats in the directory.
+#'
+#' If the elements in \code{blobs} have unique names they are used for the file names,
+#' otherwise the files are named file1, file2, ... by order.
+#'
+#' @param blobs A list of raw objects.
+#' @param dir A string of the directory to save the files to.
+#' @param ask A flag indicating whether to ask before creating the directory or replacing a file.
 #' @export
-ps_blob_to_tibble <- function(x) {
-  check_blob(x)
-  if (!length(x)) return(tibble::tibble(File = character(0), BLOB = I(x)))
+ps_deblob_files <- function(blobs, dir = ".",
+                               ask = getOption("poissqlite.ask", TRUE)) {
+  check_string(dir)
+  check_flag(ask)
 
-  if (!is.null(names(x))) {
-    names <- names(x)
-    names(x) <- NULL
-  } else
-    names <- paste0("file", 1:length(x))
+  if (!is.list(blobs)) error("blobs must be a list")
+  if (!length(blobs)) error("blobs must not be an empty list")
+  if (!all(vapply(blobs, is.raw, TRUE)))
+    error("blobs must be a list of raw objects")
 
-  tibble::tibble(File = names, BLOB = I(x))
+  files <- names(blobs)
+  names(blobs) <- NULL
+
+  if (is.null(files) || anyDuplicated(files))
+    files <- paste0("file", 1:length(blobs))
+
+  files %<>%
+    purrr::map2(blobs, ., ps_deblob_file, dir = dir, ask = ask) %>%
+    unlist()
+  invisible(files)
+}
+
+#' Deblob Object
+#'
+#' Converts a raw object into its original file format
+#'  and if it is an .rds file reads it it as an R object. Otherwise it throws an error.
+#'
+#' @param blob A raw object.
+#' @examples
+#' mat <- matrix(1:9, nrow = 3)
+#' blob <- ps_blob_object(mat)
+#' ps_deblob_object(blob)
+#' @export
+ps_deblob_object <- function(blob) {
+  check_blob(blob)
+
+  dir <- tempdir()
+
+  file <- ps_deblob_file(blob, dir = dir, ask = FALSE)
+
+  file %<>% file.path(dir, .)
+
+  if (!grepl("[.]rds$", file))
+    error("object blob is not an .rds file")
+
+  readRDS(file)
 }
