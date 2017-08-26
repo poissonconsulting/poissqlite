@@ -1,3 +1,3 @@
-#' @import datacheckr yesno
+#' @import blob datacheckr DBI yesno
 #' @importFrom magrittr %<>% %>%
 NULL

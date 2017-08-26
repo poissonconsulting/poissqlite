@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • poissqlite</title>
+<title>Opens a connection to an sqlite database. — ps_connect_sqlite • poissqlite</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -37,7 +37,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -78,88 +78,52 @@
       </header>
 
       <div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>
-        Reference
-        <small>version&nbsp;0.0.0.9003</small>
-      </h1>
+    <h1>Opens a connection to an sqlite database.</h1>
     </div>
 
-    <div class="contents">
-      <table class="ref-index">
+    
+    <p>The connection can be queried and closed using the functions
+in the <code>DBI</code> package.</p>
+    
 
-      <colgroup>
-        <col class="alias" />
-        <col class="title" />
-      </colgroup>
+    <pre class="usage"><span class='fu'>ps_connect_sqlite</span>(<span class='kw'>file</span> <span class='kw'>=</span> <span class='st'>"database"</span>, <span class='kw'>dir</span> <span class='kw'>=</span> <span class='st'>"."</span>, <span class='kw'>new</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>foreign_keys</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"poissqlite.ask"</span>, <span class='fl'>TRUE</span>))</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>file</th>
+      <td><p>A string of the name of the file (without the file extension .sqlite).</p></td>
+    </tr>
+    <tr>
+      <th>dir</th>
+      <td><p>A string of the directory.</p></td>
+    </tr>
+    <tr>
+      <th>new</th>
+      <td><p>A flag indicating whether to enforce connection to an existing database (FALSE) or connection to a new database (TRUE).</p></td>
+    </tr>
+    <tr>
+      <th>foreign_keys</th>
+      <td><p>A flag indicating whether to switch foreign keys on.</p></td>
+    </tr>
+    <tr>
+      <th>ask</th>
+      <td><p>A flag indicating whether to ask before creating a new directory.</p></td>
+    </tr>
+    </table>
+    
 
-      <tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="poissqlite.html">poissqlite</a></code> </p>
-          </td>
-          <td><p>poissqlite</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_blob_file.html">ps_blob_file</a></code> </p>
-          </td>
-          <td><p>Blob File</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_blob_files.html">ps_blob_files</a></code> </p>
-          </td>
-          <td><p>Blob Files</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_blob_object.html">ps_blob_object</a></code> </p>
-          </td>
-          <td><p>Blob Object</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_connect_sqlite.html">ps_connect_sqlite</a></code> </p>
-          </td>
-          <td><p>Opens a connection to an sqlite database.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_deblob_file.html">ps_deblob_file</a></code> </p>
-          </td>
-          <td><p>Deblob to File</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_deblob_files.html">ps_deblob_files</a></code> </p>
-          </td>
-          <td><p>Deblob to Files</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_deblob_object.html">ps_deblob_object</a></code> </p>
-          </td>
-          <td><p>Deblob Object</p></td>
-        </tr>
-      </tbody>
-      </table>
-    </div>
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
-    </ul>
+      <li><a href="#arguments">Arguments</a></li>
+                </ul>
+
   </div>
 </div>
 

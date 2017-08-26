@@ -8,7 +8,7 @@ ps_deblob_file(blob, file = "blob", dir = ".",
   ask = getOption("poissqlite.ask", TRUE))
 }
 \arguments{
-\item{blob}{A raw object.}
+\item{blob}{A blob object.}
 
 \item{file}{A string of the file (the original file extension is added automatically)}
 
@@ -17,5 +17,5 @@ ps_deblob_file(blob, file = "blob", dir = ".",
 \item{ask}{A flag indicating whether to ask before creating the directory or replacing a file.}
 }
 \description{
-Converts a raw object back to its original file format.
+Converts a blob object back to its original file format.
 }

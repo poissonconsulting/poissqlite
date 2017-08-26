@@ -14,6 +14,8 @@ error <- function(..., call. = FALSE) {
   stop(..., call. = call.)
 }
 
+is.blob <- function(x) inherits(x, "blob")
+
 read_bin_file <- function(x) {
   if (!file.exists(x))
     error("file '", file, "' does not exist")

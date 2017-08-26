@@ -15,5 +15,5 @@ ps_blob_files(dir = ".", pattern = "[.]pdf$", recursive = FALSE)
 }
 \description{
 Converts files in the directory into a tibble with a column File of file names
-and a column BLOB of raw objects.
+and a column BLOB of blob objects.
 }

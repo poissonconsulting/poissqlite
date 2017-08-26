@@ -10,5 +10,5 @@ ps_blob_object(object)
 \item{object}{An R object.}
 }
 \description{
-Converts an R object into a raw object.
+Converts an R object into a blob object.
 }
