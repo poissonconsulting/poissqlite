@@ -34,7 +34,7 @@ The connection can be queried or closed using the functions in the `DBI` package
 ```{r connect}
 library(poissqlite)
 conn <- ps_connect_sqlite(dir = tempdir(), new = TRUE)
-print(conn)
+print(class(conn))
 ```
 
 ### BLOBs

@@ -80,10 +80,10 @@
 conn &lt;-<span class="st"> </span><span class="kw"><a href="reference/ps_connect_sqlite.html">ps_connect_sqlite</a></span>(<span class="dt">dir =</span> <span class="kw">tempdir</span>(), <span class="dt">new =</span> <span class="ot">TRUE</span>)
 <span class="co">#&gt; Warning in rsqlite_fetch(res@ptr, n = n): Don't need to call dbFetch() for</span>
 <span class="co">#&gt; statements, only for queries</span>
-<span class="kw">print</span>(conn)
-<span class="co">#&gt; &lt;SQLiteConnection&gt;</span>
-<span class="co">#&gt;   Path: /var/folders/48/q6ltldjs251000_wvjrdy_vm0000gn/T//RtmpCRISPZ/database.sqlite</span>
-<span class="co">#&gt;   Extensions: TRUE</span></code></pre></div>
+<span class="kw">print</span>(<span class="kw">class</span>(conn))
+<span class="co">#&gt; [1] "SQLiteConnection"</span>
+<span class="co">#&gt; attr(,"package")</span>
+<span class="co">#&gt; [1] "RSQLite"</span></code></pre></div>
 </div>
 <div id="blobs" class="section level3">
 <h3 class="hasAnchor">
