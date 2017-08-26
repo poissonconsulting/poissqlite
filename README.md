@@ -23,7 +23,7 @@ conn <- ps_connect_sqlite(dir = tempdir(), new = TRUE)
 #> statements, only for queries
 print(conn)
 #> <SQLiteConnection>
-#>   Path: /var/folders/48/q6ltldjs251000_wvjrdy_vm0000gn/T//RtmpD9afLM/database.sqlite
+#>   Path: /var/folders/48/q6ltldjs251000_wvjrdy_vm0000gn/T//Rtmpwop4yE/database.sqlite
 #>   Extensions: TRUE
 ```
 
@@ -31,7 +31,7 @@ print(conn)
 
 Files and R objects can be added to SQLite databases as storage type [BLOB](https://sqlite.org/datatype3.html).
 
-The `ps_blob_file()` function can be used to convert a file to a `blob` while `ps_deblob_file()` performs the inverse operation, i.e., saves a blob to a file of the original format. `ps_blob_files()` and `ps_deblob_files()` are the equivalent functions for working with multiple files. In addition, the `ps_blob_object()` and `ps_deblob_object()` can be used to convert between an R object and a blob. This is achieved by reading or writing the object as an `.rds` file which means that `ps_deblob_file()` applied to a blob created using `ps_blob_object()` saves the intermediate `.rds` file.
+The `ps_blob_file()` function can be used to convert a file to a `blob` while `ps_deblob_file()` performs the inverse operation, i.e., saves a blob to a file of the original format. `ps_blob_files()` and `ps_deblob_files()` are the equivalent functions for working with multiple files. In addition, the `ps_blob_object()` and `ps_deblob_object()` can be used to convert between an R object and a blob. This is achieved by reading or writing the object as an `.rds` file which means that `ps_deblob_file()` applied to a blob created using `ps_blob_object()` produces the intermediate `.rds` file.
 
 It's important to realize that the `ps_blob` family of functions embed the original file extension in the raw data to ensure the converted files are the original format. A consequence of this is that when deblobbing, file names should not include an extension (file extensions can be removed using `tools::file_path_sans_ext()`). A second consequence is that the `ps_deblob` family of functions will only work on blobs created using the `ps_blob` functions.
 
@@ -68,6 +68,8 @@ ps_deblob_object(blob_table2$BLOBBY)
 #> [1,]    1    4    7
 #> [2,]    2    5    8
 #> [3,]    3    6    9
+
+dbDisconnect(conn)
 ```
 
 Installation

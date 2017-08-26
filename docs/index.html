@@ -82,14 +82,14 @@ conn &lt;-<span class="st"> </span><span class="kw"><a href="reference/ps_connec
 <span class="co">#&gt; statements, only for queries</span>
 <span class="kw">print</span>(conn)
 <span class="co">#&gt; &lt;SQLiteConnection&gt;</span>
-<span class="co">#&gt;   Path: /var/folders/48/q6ltldjs251000_wvjrdy_vm0000gn/T//RtmpNCbsNz/database.sqlite</span>
+<span class="co">#&gt;   Path: /var/folders/48/q6ltldjs251000_wvjrdy_vm0000gn/T//RtmpCRISPZ/database.sqlite</span>
 <span class="co">#&gt;   Extensions: TRUE</span></code></pre></div>
 </div>
 <div id="blobs" class="section level3">
 <h3 class="hasAnchor">
 <a href="#blobs" class="anchor"></a>BLOBs</h3>
 <p>Files and R objects can be added to SQLite databases as storage type <a href="https://sqlite.org/datatype3.html">BLOB</a>.</p>
-<p>The <code><a href="reference/ps_blob_file.html">ps_blob_file()</a></code> function can be used to convert a file to a <code>blob</code> while <code><a href="reference/ps_deblob_file.html">ps_deblob_file()</a></code> performs the inverse operation, i.e., saves a blob to a file of the original format. <code><a href="reference/ps_blob_files.html">ps_blob_files()</a></code> and <code><a href="reference/ps_deblob_files.html">ps_deblob_files()</a></code> are the equivalent functions for working with multiple files. In addition, the <code><a href="reference/ps_blob_object.html">ps_blob_object()</a></code> and <code><a href="reference/ps_deblob_object.html">ps_deblob_object()</a></code> can be used to convert between an R object and a blob. This is achieved by reading or writing the object as an <code>.rds</code> file which means that <code><a href="reference/ps_deblob_file.html">ps_deblob_file()</a></code> applied to a blob created using <code><a href="reference/ps_blob_object.html">ps_blob_object()</a></code> saves the intermediate <code>.rds</code> file.</p>
+<p>The <code><a href="reference/ps_blob_file.html">ps_blob_file()</a></code> function can be used to convert a file to a <code>blob</code> while <code><a href="reference/ps_deblob_file.html">ps_deblob_file()</a></code> performs the inverse operation, i.e., saves a blob to a file of the original format. <code><a href="reference/ps_blob_files.html">ps_blob_files()</a></code> and <code><a href="reference/ps_deblob_files.html">ps_deblob_files()</a></code> are the equivalent functions for working with multiple files. In addition, the <code><a href="reference/ps_blob_object.html">ps_blob_object()</a></code> and <code><a href="reference/ps_deblob_object.html">ps_deblob_object()</a></code> can be used to convert between an R object and a blob. This is achieved by reading or writing the object as an <code>.rds</code> file which means that <code><a href="reference/ps_deblob_file.html">ps_deblob_file()</a></code> applied to a blob created using <code><a href="reference/ps_blob_object.html">ps_blob_object()</a></code> produces the intermediate <code>.rds</code> file.</p>
 <p>It’s important to realize that the <code>ps_blob</code> family of functions embed the original file extension in the raw data to ensure the converted files are the original format. A consequence of this is that when deblobbing, file names should not include an extension (file extensions can be removed using <code><a href="http://www.rdocumentation.org/packages/tools/topics/fileutils">tools::file_path_sans_ext()</a></code>). A second consequence is that the <code>ps_deblob</code> family of functions will only work on blobs created using the <code>ps_blob</code> functions.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">9</span>, <span class="dt">nrow =</span> <span class="dv">3</span>)
 blob &lt;-<span class="st"> </span><span class="kw"><a href="reference/ps_blob_object.html">ps_blob_object</a></span>(mat)
@@ -122,7 +122,9 @@ blob_table2 &lt;-<span class="st"> </span><span class="kw">dbReadTable</span>(co
 <span class="co">#&gt;      [,1] [,2] [,3]</span>
 <span class="co">#&gt; [1,]    1    4    7</span>
 <span class="co">#&gt; [2,]    2    5    8</span>
-<span class="co">#&gt; [3,]    3    6    9</span></code></pre></div>
+<span class="co">#&gt; [3,]    3    6    9</span>
+
+<span class="kw">dbDisconnect</span>(conn)</code></pre></div>
 </div>
 </div>
 <div id="installation" class="section level2">
