@@ -23,14 +23,7 @@ knitr::opts_chunk$set(
 
 An R package to facilitate working with SQLite databases.
 
-## Installation
-
-```{r gh-installation, eval = FALSE}
-# install.packages("devtools")
-devtools::install_github("poissonconsulting/poissqlite")
-```
-
-## Demonstration
+## Documentation
 
 ### BLOBs
 
@@ -50,11 +43,18 @@ print(blob)
 ps_deblob_object(blob)
 ```
 
+## Installation
+
+```{r gh-installation, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("poissonconsulting/poissqlite")
+```
+
 ## Contribution
 
 Please report any [issues](https://github.com/poissonconsulting/poissqlite/issues).
 
 [Pull requests](https://github.com/poissonconsulting/poissqlite/pulls) are always welcome.
 
-Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). 
+Please note that this project is released with a [Contributor Code of Conduct](https://github.com/poissonconsulting/poissqlite/CONDUCT.md). 
 By participating in this project you agree to abide by its terms.
