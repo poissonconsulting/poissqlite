@@ -1,5 +1,5 @@
 Package: poissqlite
-Title: Facilitates working with SQLite databases
+Title: SQLite databases
 Version: 0.0.0.9002
 Date: 2017-08-26
 Authors@R: c(
@@ -7,6 +7,8 @@ Authors@R: c(
     person("Seb", "Dalgarno", role = "aut"))
 Description: Facilitates working with SQLite databases.
 License: MIT + file LICENSE
+URL: https://github.com/poissonconsulting/poissqlite
+BugReports: https://github.com/poissonconsulting/poissqlite/issues
 Depends: R (>= 3.4.1)
 Imports: datacheckr,
          magrittr,
