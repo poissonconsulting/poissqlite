@@ -52,4 +52,4 @@ Please report any [issues](https://github.com/poissonconsulting/poissqlite/issue
 
 [Pull requests](https://github.com/poissonconsulting/poissqlite/pulls) are always welcome.
 
-Please note that this project is released with a [Contributor Code of Conduct](https://github.com/poissonconsulting/poissqlite/CONDUCT.md). By participating in this project you agree to abide by its terms.
+Please note that this project is released with a [Contributor Code of Conduct](https://github.com/poissonconsulting/poissqlite/blob/master/CONDUCT.md). By participating in this project you agree to abide by its terms.
