@@ -19,26 +19,38 @@ knitr::opts_chunk$set(
 
 # poissqlite
 
-The goal of poissqlite is to ...
+poissqlite is an R package that facilitates working with SQLite databases.
 
 ## Installation
-
-You can install poissqlite from github with:
 
 ```{r gh-installation, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("poissonconsulting/poissqlite")
 ```
 
-## Example
+## BLOBs
 
-This is a basic example which shows you how to solve a common problem:
+Files can be added to SQLite databases as storage type [BLOB](https://sqlite.org/datatype3.html).
 
-```{r example}
-## basic example code
+The `ps_blob_file()` function can be used to convert a file to a blob (R object of class raw) while `ps_deblob_file()` performs the inverse operation, i.e., saves a blob to a file of the original format. `ps_blob_files()` and  `ps_deblob_files()` are the equivalent functions for working with multiple files.
+In addition, the `ps_blob_object()` and `ps_deblob_object()` can be used to convert between an R object and a blob. This is achieved by reading or writing the object as an `.rds` file which means that `ps_deblob_file()` applied to a blob created using `ps_blob_object()` saves the intermediate `.rds` file.
+
+It's important to realize that the `ps_blob` family of functions embed the original file extension in the raw data to ensure the converted files are the original format. A consequence of this is that when deblobbing, file names should not include an extension (file extensions can be removed using `tools::file_path_sans_ext()`). A second consequence is that the `ps_deblob` family of functions will only work on blobs created using `ps_blob`.
+
+
+```{r blob}
+library(poissqlite)
+mat <- matrix(1:9, nrow = 3)
+blob <- ps_blob_object(mat)
+print(blob)
+ps_deblob_object(blob)
 ```
 
 ## Contribution
+
+Please report any [issues](https://github.com/poissonconsulting/poissqlite/issues).
+
+[Pull requests](https://github.com/poissonconsulting/poissqlite/pulls) are always welcome.
 
 Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). 
 By participating in this project you agree to abide by its terms.
