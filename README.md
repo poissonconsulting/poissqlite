@@ -7,8 +7,6 @@ poissqlite
 
 An R package to facilitate working with SQLite databases.
 
-For more information see <http://www.poissonconsulting.ca/poissqlite/>.
-
 Installation
 ------------
 
