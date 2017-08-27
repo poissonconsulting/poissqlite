@@ -72,10 +72,10 @@ names(blobs) <- tools::file_path_sans_ext(blob_tibble_new$File)
 ps_deblob_files(blobs, dir = dir_new)
 
 cars_new <- read_csv(file.path(dir_new, "cars.csv"), 
-                            col_types = cols(
-                              speed = col_double(),
-                              dist = col_double()
-                            ))
+                     col_types = cols(
+                       speed = col_double(),
+                       dist = col_double()
+                     ))
 
 print(cars_new)
 ```

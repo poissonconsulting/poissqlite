@@ -133,10 +133,10 @@ blobs &lt;-<span class="st"> </span>blob_tibble_new<span class="op">$</span>BLOB
 <span class="kw"><a href="reference/ps_deblob_files.html">ps_deblob_files</a></span>(blobs, <span class="dt">dir =</span> dir_new)
 
 cars_new &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/read_delim">read_csv</a></span>(<span class="kw">file.path</span>(dir_new, <span class="st">"cars.csv"</span>), 
-                            <span class="dt">col_types =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/cols">cols</a></span>(
-                              <span class="dt">speed =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/parse_atomic">col_double</a></span>(),
-                              <span class="dt">dist =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/parse_atomic">col_double</a></span>()
-                            ))
+                     <span class="dt">col_types =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/cols">cols</a></span>(
+                       <span class="dt">speed =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/parse_atomic">col_double</a></span>(),
+                       <span class="dt">dist =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/parse_atomic">col_double</a></span>()
+                     ))
 
 <span class="kw">print</span>(cars_new)
 <span class="co">#&gt; # A tibble: 50 x 2</span>
