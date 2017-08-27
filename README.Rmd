@@ -69,7 +69,7 @@ names(blobs) <- blob_data_new$File
 dir.create(file.path(tempdir(), "new"))
 ps_deblob_files(blobs, dir = file.path(tempdir(), "new"), ask = FALSE)
 
-cars_new <- read.csv(file.path(file.path(tempdir(), "new"), "cars.csv")) 
+cars_new <- read.csv(file.path(tempdir(), "new", "cars.csv")) 
 print(head(cars_new))
 ```
 

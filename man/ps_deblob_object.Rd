@@ -10,8 +10,8 @@ ps_deblob_object(blob)
 \item{blob}{A blob.}
 }
 \description{
-Converts a blob into an R object. Throws an error if the object was not created using
-ps_blob_object.
+Converts a blob into an R object.
+Throws an error if the object was not created using ps_blob_object.
 }
 \examples{
 mat <- matrix(1:9, nrow = 3)

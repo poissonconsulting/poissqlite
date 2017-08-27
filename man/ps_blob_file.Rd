@@ -10,5 +10,5 @@ ps_blob_file(file)
 \item{file}{A string of the file name.}
 }
 \description{
-Converts a file in the directory into a blob object.
+Converts a file in the directory into a named blob.
 }

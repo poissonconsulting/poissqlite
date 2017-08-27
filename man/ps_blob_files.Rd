@@ -14,5 +14,5 @@ ps_blob_files(dir = ".", pattern = "^[^.].*[.][^.]+$", recursive = FALSE)
 \item{recursive}{A flag indicating whether to recurse into subdirectories.}
 }
 \description{
-Converts files in the directory into a named vector of blob elements.
+Converts files in the directory into a vector of named blobs.
 }

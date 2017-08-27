@@ -84,22 +84,27 @@
     </div>
 
     
-    <p>Converts a possibly uniquely named vector of blob objects
+    <p>Converts a vector of possibly uniquely named blobs
 back to their original file formats in the directory.</p>
     
 
-    <pre class="usage"><span class='fu'>ps_deblob_files</span>(<span class='no'>blobs</span>, <span class='kw'>dir</span> <span class='kw'>=</span> <span class='st'>"."</span>, <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"poissqlite.ask"</span>, <span class='fl'>TRUE</span>))</pre>
+    <pre class="usage"><span class='fu'>ps_deblob_files</span>(<span class='no'>blobs</span>, <span class='kw'>dir</span> <span class='kw'>=</span> <span class='st'>"."</span>, <span class='kw'>rm_ext</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"poissqlite.ask"</span>, <span class='fl'>TRUE</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>blobs</th>
-      <td><p>A vector of blob objects.</p></td>
+      <td><p>A blob vector.</p></td>
     </tr>
     <tr>
       <th>dir</th>
       <td><p>A string of the directory to save the files to.</p></td>
+    </tr>
+    <tr>
+      <th>rm_ext</th>
+      <td><p>A flag indicating whether to remove the extension if present from the blob names.</p></td>
     </tr>
     <tr>
       <th>ask</th>

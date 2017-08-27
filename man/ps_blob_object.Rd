@@ -12,5 +12,5 @@ ps_blob_object(object, name = substitute(object))
 \item{name}{A string of the name for the blob.}
 }
 \description{
-Converts an R object into a named blob scalar.
+Converts an R object into a named blob.
 }

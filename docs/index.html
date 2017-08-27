@@ -89,7 +89,7 @@ conn &lt;-<span class="st"> </span><span class="kw"><a href="reference/ps_connec
 <a href="#working-with-blobs" class="anchor"></a>Working with Blobs</h3>
 <p>Files and R objects can be added to SQLite databases as storage type <a href="https://sqlite.org/datatype3.html">BLOB</a>.</p>
 <p>The <code><a href="reference/ps_blob_file.html">ps_blob_file()</a></code> function can be used to convert a file to a <code>blob</code> while <code><a href="reference/ps_deblob_file.html">ps_deblob_file()</a></code> performs the inverse operation, i.e., saves a blob to a file of the original format. <code><a href="reference/ps_blob_files.html">ps_blob_files()</a></code> and <code><a href="reference/ps_deblob_files.html">ps_deblob_files()</a></code> are the equivalent functions for working with multiple files. In addition, the <code><a href="reference/ps_blob_object.html">ps_blob_object()</a></code> and <code><a href="reference/ps_deblob_object.html">ps_deblob_object()</a></code> can be used to convert between an R object and a blob. This is achieved by reading or writing the object as an <code>.rds</code> file which means that <code><a href="reference/ps_deblob_file.html">ps_deblob_file()</a></code> applied to a blob created using <code><a href="reference/ps_blob_object.html">ps_blob_object()</a></code> produces the intermediate <code>.rds</code> file.</p>
-<p>It’s important to realize that the <code>ps_blob</code> family of functions embed the original file extension in the raw data to ensure the converted files are the original format. A consequence of this is that when deblobbing, file names are stripp should not include an extension (file extensions can be removed using <code><a href="http://www.rdocumentation.org/packages/tools/topics/fileutils">tools::file_path_sans_ext()</a></code>). A second consequence is that the <code>ps_deblob</code> family of functions will only work on blobs created using the <code>ps_blob</code> functions.</p>
+<p>It’s important to realize that the <code>ps_blob</code> family of functions embed the original file extension in the raw data to ensure the converted files are the original format. A consequence is that the <code>ps_deblob</code> family of functions will only work on blobs created using the <code>ps_blob</code> functions.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">head</span>(datasets<span class="op">::</span>cars))
 <span class="co">#&gt;   speed dist</span>
 <span class="co">#&gt; 1     4    2</span>
@@ -116,12 +116,12 @@ blob_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span
 blob_data_new &lt;-<span class="st"> </span><span class="kw">dbReadTable</span>(conn, <span class="st">"blob_table"</span>)
 
 blobs &lt;-<span class="st"> </span>blob_data_new<span class="op">$</span>BLOB
-<span class="kw">names</span>(blobs) &lt;-<span class="st"> </span>tools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/tools/topics/fileutils">file_path_sans_ext</a></span>(blob_data_new<span class="op">$</span>File)
+<span class="kw">names</span>(blobs) &lt;-<span class="st"> </span>blob_data_new<span class="op">$</span>File 
 
 <span class="kw">dir.create</span>(<span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">"new"</span>))
 <span class="kw"><a href="reference/ps_deblob_files.html">ps_deblob_files</a></span>(blobs, <span class="dt">dir =</span> <span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">"new"</span>), <span class="dt">ask =</span> <span class="ot">FALSE</span>)
 
-cars_new &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="kw">file.path</span>(<span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">"new"</span>), <span class="st">"cars.csv"</span>)) 
+cars_new &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">"new"</span>, <span class="st">"cars.csv"</span>)) 
 <span class="kw">print</span>(<span class="kw">head</span>(cars_new))
 <span class="co">#&gt;   speed dist</span>
 <span class="co">#&gt; 1     4    2</span>

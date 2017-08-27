@@ -1,6 +1,6 @@
 #' Blob File
 #'
-#' Converts a file in the directory into a blob object.
+#' Converts a file in the directory into a named blob.
 #'
 #' @param file A string of the file name.
 #' @export
@@ -23,7 +23,7 @@ ps_blob_file <- function(file) {
 
 #' Blob Files
 #'
-#' Converts files in the directory into a named vector of blob elements.
+#' Converts files in the directory into a vector of named blobs.
 #'
 #' @param dir A string of the directory name.
 #' @param pattern A string of the pattern to use when searching for files.
@@ -56,7 +56,7 @@ ps_blob_files <- function(dir = ".", pattern = "^[^.].*[.][^.]+$", recursive = F
 
 #' Blob Object
 #'
-#' Converts an R object into a named blob scalar.
+#' Converts an R object into a named blob.
 #'
 #' @param object An R object.
 #' @param name A string of the name for the blob.
@@ -76,10 +76,10 @@ ps_blob_object <- function(object, name = substitute(object)) {
 
 #' Deblob to File
 #'
-#' Converts a blob object back to its original file format.
+#' Converts a blob back to its original file format.
 #'
-#' @param blob A blob object.
-#' @param file A string of the file (the original file extension is added automatically)
+#' @param blob A blob.
+#' @param file A string of the file (the original file extension is added automatically).
 #' @param dir A string of the directory.
 #' @param ask A flag indicating whether to ask before creating the directory or replacing a file.
 #' @export
@@ -114,12 +114,12 @@ ps_deblob_file_raw <- function(raw, file = "blob", dir = ".",
 
 #' Deblob to Files
 #'
-#' Converts a possibly uniquely named vector of blob objects
+#' Converts a vector of possibly uniquely named blobs
 #' back to their original file formats in the directory.
 #'
-#' @param blobs A vector of blob objects.
+#' @param blobs A blob vector.
 #' @param dir A string of the directory to save the files to.
-#' @param rm_ext A flag indicating whether to remove the extension from the blobs names.
+#' @param rm_ext A flag indicating whether to remove the extension if present from the blob names.
 #' @param ask A flag indicating whether to ask before creating the directory or replacing a file.
 #' @export
 ps_deblob_files <- function(blobs, dir = ".", rm_ext = TRUE,
@@ -148,8 +148,8 @@ ps_deblob_files <- function(blobs, dir = ".", rm_ext = TRUE,
 
 #' Deblob Object
 #'
-#' Converts a blob into an R object. Throws an error if the object was not created using
-#' ps_blob_object.
+#' Converts a blob into an R object.
+#' Throws an error if the object was not created using ps_blob_object.
 #'
 #' @param blob A blob.
 #' @examples
