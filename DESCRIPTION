@@ -19,7 +19,6 @@ Imports: blob,
          tibble,
          yesno
 Suggests: datasets,
-          readr,
           testthat,
           covr
 Encoding: UTF-8

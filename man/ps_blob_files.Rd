@@ -4,7 +4,7 @@
 \alias{ps_blob_files}
 \title{Blob Files}
 \usage{
-ps_blob_files(dir = ".", pattern = ".*", recursive = FALSE)
+ps_blob_files(dir = ".", pattern = "^[^.].*[.][^.]+$", recursive = FALSE)
 }
 \arguments{
 \item{dir}{A string of the directory name.}
@@ -14,6 +14,5 @@ ps_blob_files(dir = ".", pattern = ".*", recursive = FALSE)
 \item{recursive}{A flag indicating whether to recurse into subdirectories.}
 }
 \description{
-Converts files in the directory into a tibble with a column File of file names
-and a column BLOB of blob objects.
+Converts files in the directory into a named vector of blob elements.
 }

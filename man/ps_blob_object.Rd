@@ -4,11 +4,13 @@
 \alias{ps_blob_object}
 \title{Blob Object}
 \usage{
-ps_blob_object(object)
+ps_blob_object(object, name = substitute(object))
 }
 \arguments{
 \item{object}{An R object.}
+
+\item{name}{A string of the name for the blob.}
 }
 \description{
-Converts an R object into a blob object.
+Converts an R object into a named blob scalar.
 }

@@ -17,8 +17,7 @@ The `ps_connect_sqlite()` function can be used to connect to an sqlite3 database
 ``` r
 library(poissqlite)
 #> Loading required package: DBI
-dir <- tempdir()
-conn <- ps_connect_sqlite(dir = dir, new = TRUE)
+conn <- ps_connect_sqlite(dir = tempdir(), new = TRUE)
 #> Warning in rsqlite_fetch(res@ptr, n = n): Don't need to call dbFetch() for
 #> statements, only for queries
 print(class(conn))
@@ -36,68 +35,46 @@ The `ps_blob_file()` function can be used to convert a file to a `blob` while `p
 It's important to realize that the `ps_blob` family of functions embed the original file extension in the raw data to ensure the converted files are the original format. A consequence of this is that when deblobbing, file names should not include an extension (file extensions can be removed using `tools::file_path_sans_ext()`). A second consequence is that the `ps_deblob` family of functions will only work on blobs created using the `ps_blob` functions.
 
 ``` r
-library(readr)
+print(head(datasets::cars))
+#>   speed dist
+#> 1     4    2
+#> 2     4   10
+#> 3     7    4
+#> 4     7   22
+#> 5     8   16
+#> 6     9   10
 
-cars <- tibble::as_tibble(datasets::cars)
+write.csv(datasets::cars, file.path(tempdir(), "cars.csv"), row.names = FALSE)
+dir.create(file.path(tempdir(), "sub"))
+write.csv(datasets::chickwts, file.path(tempdir(), "sub/chickwts.csv"), row.names = FALSE)
 
-print(cars)
-#> # A tibble: 50 x 2
-#>    speed  dist
-#>    <dbl> <dbl>
-#>  1     4     2
-#>  2     4    10
-#>  3     7     4
-#>  4     7    22
-#>  5     8    16
-#>  6     9    10
-#>  7    10    18
-#>  8    10    26
-#>  9    10    34
-#> 10    11    17
-#> # ... with 40 more rows
+blobs <- ps_blob_files(tempdir(), pattern = "[.]csv$", recursive = TRUE)
 
-write_csv(cars, file.path(dir, "cars.csv"))
+print(blobs)
+#>         cars.csv sub/chickwts.csv 
+#>      blob[382 B]    blob[1,130 B]
 
-blob_tibble <- ps_blob_files(dir, pattern = "[.]csv$")
+blob_data <- data.frame(File = names(blobs), BLOB = blobs)
 
-print(blob_tibble)
-#> # A tibble: 1 x 2
-#>       File          BLOB
-#>      <chr>        <blob>
-#> 1 cars.csv <blob[378 B]>
+dbWriteTable(conn, "blob_table", blob_data)
 
-dbWriteTable(conn, "blob_table", blob_tibble)
+blob_data_new <- dbReadTable(conn, "blob_table")
 
-blob_tibble_new <- dbReadTable(conn, "blob_table")
+blobs <- blob_data_new$BLOB
+names(blobs) <- tools::file_path_sans_ext(blob_data_new$File)
 
-dir_new <- file.path(dir, "new")
-dir.create(dir_new)
-blobs <- blob_tibble_new$BLOB
-names(blobs) <- tools::file_path_sans_ext(blob_tibble_new$File)
+dir.create(file.path(tempdir(), "new"))
+ps_deblob_files(blobs, dir = file.path(tempdir(), "new"), ask = FALSE)
 
-ps_deblob_files(blobs, dir = dir_new)
-
-cars_new <- read_csv(file.path(dir_new, "cars.csv"), 
-                     col_types = cols(
-                       speed = col_double(),
-                       dist = col_double()
-                     ))
-
-print(cars_new)
-#> # A tibble: 50 x 2
-#>    speed  dist
-#>    <dbl> <dbl>
-#>  1     4     2
-#>  2     4    10
-#>  3     7     4
-#>  4     7    22
-#>  5     8    16
-#>  6     9    10
-#>  7    10    18
-#>  8    10    26
-#>  9    10    34
-#> 10    11    17
-#> # ... with 40 more rows
+cars_new <- read.csv(file.path(file.path(tempdir(), "new"), "cars.csv")) 
+print(head(cars_new))
+#>   speed dist
+#> 1     4    2
+#> 2     4   10
+#> 3     7    4
+#> 4     7   22
+#> 5     8   16
+#> 6     9   10
 ```
 
 ### Disconnection

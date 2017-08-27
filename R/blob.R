@@ -16,19 +16,20 @@ ps_blob_file <- function(file) {
     list() %>%
     as.blob()
 
+  names(blob) <- file
+
   blob
 }
 
 #' Blob Files
 #'
-#' Converts files in the directory into a tibble with a column File of file names
-#' and a column BLOB of blob objects.
+#' Converts files in the directory into a named vector of blob elements.
 #'
 #' @param dir A string of the directory name.
 #' @param pattern A string of the pattern to use when searching for files.
 #' @param recursive A flag indicating whether to recurse into subdirectories.
 #' @export
-ps_blob_files <- function(dir = ".", pattern = ".*", recursive = FALSE) {
+ps_blob_files <- function(dir = ".", pattern = "^[^.].*[.][^.]+$", recursive = FALSE) {
   check_string(dir)
   check_string(pattern)
   check_flag(recursive)
@@ -46,22 +47,31 @@ ps_blob_files <- function(dir = ".", pattern = ".*", recursive = FALSE) {
 
   if (!length(files)) error("there are no matching files to blob")
 
-  blob <- vapply(files, ps_blob_file, as.blob(raw(1))) %>%
+  blobs <- vapply(files, ps_blob_file, as.blob(raw(1))) %>%
     as.blob()
 
-  tibble::tibble(File = sfiles, BLOB = blob)
+  names(blobs) <- sfiles
+  blobs
 }
 
 #' Blob Object
 #'
-#' Converts an R object into a blob object.
+#' Converts an R object into a named blob scalar.
 #'
 #' @param object An R object.
+#' @param name A string of the name for the blob.
 #' @export
-ps_blob_object <- function(object) {
+ps_blob_object <- function(object, name = substitute(object)) {
+  if (!is.character(name))
+    name %<>% deparse()
+
+  check_string(name)
+
   file <-  file.path(tempdir(), "object.rds")
   saveRDS(object, file)
-  ps_blob_file(file)
+  blob <- ps_blob_file(file)
+  names(blob) <- name
+  blob
 }
 
 #' Deblob to File
