@@ -26,7 +26,7 @@ test_that("sqlite", {
   dir_new <- file.path(dir, "new")
   dir.create(dir_new)
   blobs <- blob_data_new$BLOB
-  names(blobs) <- tools::file_path_sans_ext(blob_data_new$File)
+  names(blobs) <- blob_data_new$File
 
   ps_deblob_files(blobs, dir = dir_new, ask = FALSE)
 

@@ -4,12 +4,15 @@
 \alias{ps_deblob_files}
 \title{Deblob to Files}
 \usage{
-ps_deblob_files(blobs, dir = ".", ask = getOption("poissqlite.ask", TRUE))
+ps_deblob_files(blobs, dir = ".", rm_ext = TRUE,
+  ask = getOption("poissqlite.ask", TRUE))
 }
 \arguments{
 \item{blobs}{A vector of blob objects.}
 
 \item{dir}{A string of the directory to save the files to.}
+
+\item{rm_ext}{A flag indicating whether to remove the extension from the blobs names.}
 
 \item{ask}{A flag indicating whether to ask before creating the directory or replacing a file.}
 }

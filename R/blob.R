@@ -119,18 +119,22 @@ ps_deblob_file_raw <- function(raw, file = "blob", dir = ".",
 #'
 #' @param blobs A vector of blob objects.
 #' @param dir A string of the directory to save the files to.
+#' @param rm_ext A flag indicating whether to remove the extension from the blobs names.
 #' @param ask A flag indicating whether to ask before creating the directory or replacing a file.
 #' @export
-ps_deblob_files <- function(blobs, dir = ".",
+ps_deblob_files <- function(blobs, dir = ".", rm_ext = TRUE,
                                ask = getOption("poissqlite.ask", TRUE)) {
   if (!is.blob(blobs) || length(blobs) == 0)
     error("blobs must be a non-empty blob vector")
   check_string(dir)
+  check_flag(rm_ext)
   check_flag(ask)
 
   files <- names(blobs)
 
   if (is.null(files)) files <- paste0("file", 1:length(blobs))
+
+  if(rm_ext) files %<>% tools::file_path_sans_ext()
 
   check_unique(files, x_name = "names(blobs)")
 
