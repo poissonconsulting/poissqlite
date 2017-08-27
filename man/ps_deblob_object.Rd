@@ -7,11 +7,11 @@
 ps_deblob_object(blob)
 }
 \arguments{
-\item{blob}{A raw object.}
+\item{blob}{A blob.}
 }
 \description{
-Converts a raw object into its original file format
- and if it is an .rds file reads it it as an R object. Otherwise it throws an error.
+Converts a blob into an R object. Throws an error if the object was not created using
+ps_blob_object.
 }
 \examples{
 mat <- matrix(1:9, nrow = 3)

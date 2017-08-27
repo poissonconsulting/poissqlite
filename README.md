@@ -10,15 +10,15 @@ An R package to facilitate working with SQLite databases.
 Documentation
 -------------
 
-### Connecting
+### Connection
 
-The `ps_connect_sqlite()` function can be used to connect to an sqlite3 database. By default it switches foreign keys on. The connection can be queried or closed using the functions in the `DBI` package (which is automatically loaded).
+The `ps_connect_sqlite()` function can be used to connect to an sqlite3 database. By default it switches foreign keys on. The connection can be queried using the functions in the `DBI` package (which is automatically loaded).
 
 ``` r
 library(poissqlite)
 #> Loading required package: DBI
-#> Loading required package: blob
-conn <- ps_connect_sqlite(dir = tempdir(), new = TRUE)
+dir <- tempdir()
+conn <- ps_connect_sqlite(dir = dir, new = TRUE)
 #> Warning in rsqlite_fetch(res@ptr, n = n): Don't need to call dbFetch() for
 #> statements, only for queries
 print(class(conn))
@@ -27,7 +27,7 @@ print(class(conn))
 #> [1] "RSQLite"
 ```
 
-### BLOBs
+### Working with Blobs
 
 Files and R objects can be added to SQLite databases as storage type [BLOB](https://sqlite.org/datatype3.html).
 
@@ -36,32 +36,73 @@ The `ps_blob_file()` function can be used to convert a file to a `blob` while `p
 It's important to realize that the `ps_blob` family of functions embed the original file extension in the raw data to ensure the converted files are the original format. A consequence of this is that when deblobbing, file names should not include an extension (file extensions can be removed using `tools::file_path_sans_ext()`). A second consequence is that the `ps_deblob` family of functions will only work on blobs created using the `ps_blob` functions.
 
 ``` r
-mat <- matrix(1:9, nrow = 3)
-blob <- ps_blob_object(mat)
+library(readr)
 
-print(blob)
-#> [1] blob[150 B]
+cars <- tibble::as_tibble(datasets::cars)
 
-blob_table <- tibble::tibble(BLOBBY = blob)
+print(cars)
+#> # A tibble: 50 x 2
+#>    speed  dist
+#>    <dbl> <dbl>
+#>  1     4     2
+#>  2     4    10
+#>  3     7     4
+#>  4     7    22
+#>  5     8    16
+#>  6     9    10
+#>  7    10    18
+#>  8    10    26
+#>  9    10    34
+#> 10    11    17
+#> # ... with 40 more rows
 
-print(blob_table)
-#> # A tibble: 1 x 1
-#>          BLOBBY
-#>          <blob>
-#> 1 <blob[150 B]>
+write_csv(cars, file.path(dir, "cars.csv"))
 
-dbWriteTable(conn, "BlobTable", blob_table)
-dbListTables(conn)
-#> [1] "BlobTable"
+blob_tibble <- ps_blob_files(dir, pattern = "[.]csv$")
 
-blob_table2 <- dbReadTable(conn, "BlobTable")
+print(blob_tibble)
+#> # A tibble: 1 x 2
+#>       File          BLOB
+#>      <chr>        <blob>
+#> 1 cars.csv <blob[378 B]>
 
-ps_deblob_object(blob_table2$BLOBBY)
-#>      [,1] [,2] [,3]
-#> [1,]    1    4    7
-#> [2,]    2    5    8
-#> [3,]    3    6    9
+dbWriteTable(conn, "blob_table", blob_tibble)
 
+blob_tibble_new <- dbReadTable(conn, "blob_table")
+
+dir_new <- file.path(dir, "new")
+dir.create(dir_new)
+blobs <- blob_tibble_new$BLOB
+names(blobs) <- tools::file_path_sans_ext(blob_tibble_new$File)
+
+ps_deblob_files(blobs, dir = dir_new)
+
+cars_new <- read_csv(file.path(dir_new, "cars.csv"), 
+                            col_types = cols(
+                              speed = col_double(),
+                              dist = col_double()
+                            ))
+
+print(cars_new)
+#> # A tibble: 50 x 2
+#>    speed  dist
+#>    <dbl> <dbl>
+#>  1     4     2
+#>  2     4    10
+#>  3     7     4
+#>  4     7    22
+#>  5     8    16
+#>  6     9    10
+#>  7    10    18
+#>  8    10    26
+#>  9    10    34
+#> 10    11    17
+#> # ... with 40 more rows
+```
+
+### Disconnection
+
+``` r
 dbDisconnect(conn)
 ```
 

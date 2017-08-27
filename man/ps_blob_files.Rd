@@ -4,7 +4,7 @@
 \alias{ps_blob_files}
 \title{Blob Files}
 \usage{
-ps_blob_files(dir = ".", pattern = "[.]pdf$", recursive = FALSE)
+ps_blob_files(dir = ".", pattern = ".*", recursive = FALSE)
 }
 \arguments{
 \item{dir}{A string of the directory name.}

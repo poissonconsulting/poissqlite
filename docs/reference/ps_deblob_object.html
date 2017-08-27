@@ -84,8 +84,8 @@
     </div>
 
     
-    <p>Converts a raw object into its original file format
- and if it is an .rds file reads it it as an R object. Otherwise it throws an error.</p>
+    <p>Converts a blob into an R object. Throws an error if the object was not created using
+ps_blob_object.</p>
     
 
     <pre class="usage"><span class='fu'>ps_deblob_object</span>(<span class='no'>blob</span>)</pre>
@@ -95,7 +95,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>blob</th>
-      <td><p>A raw object.</p></td>
+      <td><p>A blob.</p></td>
     </tr>
     </table>
     

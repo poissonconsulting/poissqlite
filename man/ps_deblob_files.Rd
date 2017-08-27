@@ -7,17 +7,13 @@
 ps_deblob_files(blobs, dir = ".", ask = getOption("poissqlite.ask", TRUE))
 }
 \arguments{
-\item{blobs}{A list of blob objects.}
+\item{blobs}{A vector of blob objects.}
 
 \item{dir}{A string of the directory to save the files to.}
 
 \item{ask}{A flag indicating whether to ask before creating the directory or replacing a file.}
 }
 \description{
-Converts a list of blob objects
+Converts a possibly uniquely named vector of blob objects
 back to their original file formats in the directory.
-}
-\details{
-If the elements in \code{blobs} have unique names they are used for the file names,
-otherwise the files are named file1, file2, ... by order.
 }

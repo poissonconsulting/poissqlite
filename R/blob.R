@@ -28,7 +28,7 @@ ps_blob_file <- function(file) {
 #' @param pattern A string of the pattern to use when searching for files.
 #' @param recursive A flag indicating whether to recurse into subdirectories.
 #' @export
-ps_blob_files <- function(dir = ".", pattern = "[.]pdf$", recursive = FALSE) {
+ps_blob_files <- function(dir = ".", pattern = ".*", recursive = FALSE) {
   check_string(dir)
   check_string(pattern)
   check_flag(recursive)
@@ -37,7 +37,12 @@ ps_blob_files <- function(dir = ".", pattern = "[.]pdf$", recursive = FALSE) {
     error("directory '", dir, "' does not exist")
 
   files <- list.files(dir, pattern = pattern, recursive = recursive, full.names = TRUE)
-  sfiles <- list.files(dir, pattern = pattern, recursive = recursive)
+  sfiles <- list.files(dir, pattern = pattern, recursive = recursive, full.names = FALSE)
+
+  dirs <- list.dirs(dir, recursive = recursive, full.names = TRUE)
+  is_file <- !files %in% dirs
+  files <- files[is_file]
+  sfiles <- sfiles[is_file]
 
   if (!length(files)) error("there are no matching files to blob")
 
@@ -99,13 +104,10 @@ ps_deblob_file_raw <- function(raw, file = "blob", dir = ".",
 
 #' Deblob to Files
 #'
-#' Converts a list of blob objects
+#' Converts a possibly uniquely named vector of blob objects
 #' back to their original file formats in the directory.
 #'
-#' If the elements in \code{blobs} have unique names they are used for the file names,
-#' otherwise the files are named file1, file2, ... by order.
-#'
-#' @param blobs A list of blob objects.
+#' @param blobs A vector of blob objects.
 #' @param dir A string of the directory to save the files to.
 #' @param ask A flag indicating whether to ask before creating the directory or replacing a file.
 #' @export
@@ -113,15 +115,14 @@ ps_deblob_files <- function(blobs, dir = ".",
                                ask = getOption("poissqlite.ask", TRUE)) {
   if (!is.blob(blobs) || length(blobs) == 0)
     error("blobs must be a non-empty blob vector")
-
   check_string(dir)
   check_flag(ask)
 
   files <- names(blobs)
-  names(blobs) <- NULL
 
-  if (is.null(files) || anyDuplicated(files))
-    files <- paste0("file", 1:length(blobs))
+  if (is.null(files)) files <- paste0("file", 1:length(blobs))
+
+  check_unique(files, x_name = "names(blobs)")
 
   blobs %<>% lapply(identity)
 
@@ -133,10 +134,10 @@ ps_deblob_files <- function(blobs, dir = ".",
 
 #' Deblob Object
 #'
-#' Converts a raw object into its original file format
-#'  and if it is an .rds file reads it it as an R object. Otherwise it throws an error.
+#' Converts a blob into an R object. Throws an error if the object was not created using
+#' ps_blob_object.
 #'
-#' @param blob A raw object.
+#' @param blob A blob.
 #' @examples
 #' mat <- matrix(1:9, nrow = 3)
 #' blob <- ps_blob_object(mat)

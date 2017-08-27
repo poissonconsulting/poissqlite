@@ -70,14 +70,14 @@
 <div id="documentation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#documentation" class="anchor"></a>Documentation</h2>
-<div id="connecting" class="section level3">
+<div id="connection" class="section level3">
 <h3 class="hasAnchor">
-<a href="#connecting" class="anchor"></a>Connecting</h3>
-<p>The <code><a href="reference/ps_connect_sqlite.html">ps_connect_sqlite()</a></code> function can be used to connect to an sqlite3 database. By default it switches foreign keys on. The connection can be queried or closed using the functions in the <code>DBI</code> package (which is automatically loaded).</p>
+<a href="#connection" class="anchor"></a>Connection</h3>
+<p>The <code><a href="reference/ps_connect_sqlite.html">ps_connect_sqlite()</a></code> function can be used to connect to an sqlite3 database. By default it switches foreign keys on. The connection can be queried using the functions in the <code>DBI</code> package (which is automatically loaded).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(poissqlite)
 <span class="co">#&gt; Loading required package: DBI</span>
-<span class="co">#&gt; Loading required package: blob</span>
-conn &lt;-<span class="st"> </span><span class="kw"><a href="reference/ps_connect_sqlite.html">ps_connect_sqlite</a></span>(<span class="dt">dir =</span> <span class="kw">tempdir</span>(), <span class="dt">new =</span> <span class="ot">TRUE</span>)
+dir &lt;-<span class="st"> </span><span class="kw">tempdir</span>()
+conn &lt;-<span class="st"> </span><span class="kw"><a href="reference/ps_connect_sqlite.html">ps_connect_sqlite</a></span>(<span class="dt">dir =</span> dir, <span class="dt">new =</span> <span class="ot">TRUE</span>)
 <span class="co">#&gt; Warning in rsqlite_fetch(res@ptr, n = n): Don't need to call dbFetch() for</span>
 <span class="co">#&gt; statements, only for queries</span>
 <span class="kw">print</span>(<span class="kw">class</span>(conn))
@@ -85,39 +85,79 @@ conn &lt;-<span class="st"> </span><span class="kw"><a href="reference/ps_connec
 <span class="co">#&gt; attr(,"package")</span>
 <span class="co">#&gt; [1] "RSQLite"</span></code></pre></div>
 </div>
-<div id="blobs" class="section level3">
+<div id="working-with-blobs" class="section level3">
 <h3 class="hasAnchor">
-<a href="#blobs" class="anchor"></a>BLOBs</h3>
+<a href="#working-with-blobs" class="anchor"></a>Working with Blobs</h3>
 <p>Files and R objects can be added to SQLite databases as storage type <a href="https://sqlite.org/datatype3.html">BLOB</a>.</p>
 <p>The <code><a href="reference/ps_blob_file.html">ps_blob_file()</a></code> function can be used to convert a file to a <code>blob</code> while <code><a href="reference/ps_deblob_file.html">ps_deblob_file()</a></code> performs the inverse operation, i.e., saves a blob to a file of the original format. <code><a href="reference/ps_blob_files.html">ps_blob_files()</a></code> and <code><a href="reference/ps_deblob_files.html">ps_deblob_files()</a></code> are the equivalent functions for working with multiple files. In addition, the <code><a href="reference/ps_blob_object.html">ps_blob_object()</a></code> and <code><a href="reference/ps_deblob_object.html">ps_deblob_object()</a></code> can be used to convert between an R object and a blob. This is achieved by reading or writing the object as an <code>.rds</code> file which means that <code><a href="reference/ps_deblob_file.html">ps_deblob_file()</a></code> applied to a blob created using <code><a href="reference/ps_blob_object.html">ps_blob_object()</a></code> produces the intermediate <code>.rds</code> file.</p>
 <p>It’s important to realize that the <code>ps_blob</code> family of functions embed the original file extension in the raw data to ensure the converted files are the original format. A consequence of this is that when deblobbing, file names should not include an extension (file extensions can be removed using <code><a href="http://www.rdocumentation.org/packages/tools/topics/fileutils">tools::file_path_sans_ext()</a></code>). A second consequence is that the <code>ps_deblob</code> family of functions will only work on blobs created using the <code>ps_blob</code> functions.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">9</span>, <span class="dt">nrow =</span> <span class="dv">3</span>)
-blob &lt;-<span class="st"> </span><span class="kw"><a href="reference/ps_blob_object.html">ps_blob_object</a></span>(mat)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readr)
 
-<span class="kw">print</span>(blob)
-<span class="co">#&gt; [1] blob[150 B]</span>
+cars &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/tibble/topics/as_tibble">as_tibble</a></span>(datasets<span class="op">::</span>cars)
 
-blob_table &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/tibble/topics/tibble">tibble</a></span>(<span class="dt">BLOBBY =</span> blob)
+<span class="kw">print</span>(cars)
+<span class="co">#&gt; # A tibble: 50 x 2</span>
+<span class="co">#&gt;    speed  dist</span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1     4     2</span>
+<span class="co">#&gt;  2     4    10</span>
+<span class="co">#&gt;  3     7     4</span>
+<span class="co">#&gt;  4     7    22</span>
+<span class="co">#&gt;  5     8    16</span>
+<span class="co">#&gt;  6     9    10</span>
+<span class="co">#&gt;  7    10    18</span>
+<span class="co">#&gt;  8    10    26</span>
+<span class="co">#&gt;  9    10    34</span>
+<span class="co">#&gt; 10    11    17</span>
+<span class="co">#&gt; # ... with 40 more rows</span>
 
-<span class="kw">print</span>(blob_table)
-<span class="co">#&gt; # A tibble: 1 x 1</span>
-<span class="co">#&gt;          BLOBBY</span>
-<span class="co">#&gt;          &lt;blob&gt;</span>
-<span class="co">#&gt; 1 &lt;blob[150 B]&gt;</span>
+<span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/write_delim">write_csv</a></span>(cars, <span class="kw">file.path</span>(dir, <span class="st">"cars.csv"</span>))
 
-<span class="kw">dbWriteTable</span>(conn, <span class="st">"BlobTable"</span>, blob_table)
-<span class="kw">dbListTables</span>(conn)
-<span class="co">#&gt; [1] "BlobTable"</span>
+blob_tibble &lt;-<span class="st"> </span><span class="kw"><a href="reference/ps_blob_files.html">ps_blob_files</a></span>(dir, <span class="dt">pattern =</span> <span class="st">"[.]csv$"</span>)
 
-blob_table2 &lt;-<span class="st"> </span><span class="kw">dbReadTable</span>(conn, <span class="st">"BlobTable"</span>)
+<span class="kw">print</span>(blob_tibble)
+<span class="co">#&gt; # A tibble: 1 x 2</span>
+<span class="co">#&gt;       File          BLOB</span>
+<span class="co">#&gt;      &lt;chr&gt;        &lt;blob&gt;</span>
+<span class="co">#&gt; 1 cars.csv &lt;blob[378 B]&gt;</span>
 
-<span class="kw"><a href="reference/ps_deblob_object.html">ps_deblob_object</a></span>(blob_table2<span class="op">$</span>BLOBBY)
-<span class="co">#&gt;      [,1] [,2] [,3]</span>
-<span class="co">#&gt; [1,]    1    4    7</span>
-<span class="co">#&gt; [2,]    2    5    8</span>
-<span class="co">#&gt; [3,]    3    6    9</span>
+<span class="kw">dbWriteTable</span>(conn, <span class="st">"blob_table"</span>, blob_tibble)
 
-<span class="kw">dbDisconnect</span>(conn)</code></pre></div>
+blob_tibble_new &lt;-<span class="st"> </span><span class="kw">dbReadTable</span>(conn, <span class="st">"blob_table"</span>)
+
+dir_new &lt;-<span class="st"> </span><span class="kw">file.path</span>(dir, <span class="st">"new"</span>)
+<span class="kw">dir.create</span>(dir_new)
+blobs &lt;-<span class="st"> </span>blob_tibble_new<span class="op">$</span>BLOB
+<span class="kw">names</span>(blobs) &lt;-<span class="st"> </span>tools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/tools/topics/fileutils">file_path_sans_ext</a></span>(blob_tibble_new<span class="op">$</span>File)
+
+<span class="kw"><a href="reference/ps_deblob_files.html">ps_deblob_files</a></span>(blobs, <span class="dt">dir =</span> dir_new)
+
+cars_new &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/read_delim">read_csv</a></span>(<span class="kw">file.path</span>(dir_new, <span class="st">"cars.csv"</span>), 
+                            <span class="dt">col_types =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/cols">cols</a></span>(
+                              <span class="dt">speed =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/parse_atomic">col_double</a></span>(),
+                              <span class="dt">dist =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/parse_atomic">col_double</a></span>()
+                            ))
+
+<span class="kw">print</span>(cars_new)
+<span class="co">#&gt; # A tibble: 50 x 2</span>
+<span class="co">#&gt;    speed  dist</span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1     4     2</span>
+<span class="co">#&gt;  2     4    10</span>
+<span class="co">#&gt;  3     7     4</span>
+<span class="co">#&gt;  4     7    22</span>
+<span class="co">#&gt;  5     8    16</span>
+<span class="co">#&gt;  6     9    10</span>
+<span class="co">#&gt;  7    10    18</span>
+<span class="co">#&gt;  8    10    26</span>
+<span class="co">#&gt;  9    10    34</span>
+<span class="co">#&gt; 10    11    17</span>
+<span class="co">#&gt; # ... with 40 more rows</span></code></pre></div>
+</div>
+<div id="disconnection" class="section level3">
+<h3 class="hasAnchor">
+<a href="#disconnection" class="anchor"></a>Disconnection</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dbDisconnect</span>(conn)</code></pre></div>
 </div>
 </div>
 <div id="installation" class="section level2">

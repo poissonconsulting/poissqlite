@@ -9,8 +9,9 @@
 #' @param foreign_keys A flag indicating whether to switch foreign keys on.
 #' @param ask A flag indicating whether to ask before creating a new directory.
 #' @export
-ps_connect_sqlite <- function(file = "database", dir = ".", new = NA, foreign_keys = TRUE,
-                           ask = getOption("poissqlite.ask", TRUE)) {
+ps_connect_sqlite <- function(file = "database", dir = ".", new = NA,
+                              foreign_keys = TRUE,
+                              ask = getOption("poissqlite.ask", TRUE)) {
   check_string(file)
   check_string(dir)
   check_scalar(new, c(TRUE, NA))
