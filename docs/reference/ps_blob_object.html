@@ -84,10 +84,10 @@
     </div>
 
     
-    <p>Converts an R object into a blob object.</p>
+    <p>Converts an R object into a named blob scalar.</p>
     
 
-    <pre class="usage"><span class='fu'>ps_blob_object</span>(<span class='no'>object</span>)</pre>
+    <pre class="usage"><span class='fu'>ps_blob_object</span>(<span class='no'>object</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>substitute</span>(<span class='no'>object</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -95,6 +95,10 @@
     <tr>
       <th>object</th>
       <td><p>An R object.</p></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td><p>A string of the name for the blob.</p></td>
     </tr>
     </table>
     
