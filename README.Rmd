@@ -73,6 +73,12 @@ cars_new <- read.csv(file.path(tempdir(), "new", "cars.csv"))
 print(head(cars_new))
 ```
 
+### Meta Data
+```{r metadata}
+metadata <- ps_update_metadata(conn)
+print(metadata)
+```
+
 ### Disconnection
 
 ```{r disconnect}

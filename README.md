@@ -77,6 +77,20 @@ print(head(cars_new))
 #> 6     9   10
 ```
 
+### Meta Data
+
+``` r
+metadata <- ps_update_metadata(conn)
+#> Warning in rsqlite_fetch(res@ptr, n = n): Don't need to call dbFetch() for
+#> statements, only for queries
+print(metadata)
+#> # A tibble: 2 x 4
+#>    DataTable DataColumn DataUnits DataDescription
+#>        <chr>      <chr>     <chr>           <chr>
+#> 1 blob_table       BLOB      <NA>            <NA>
+#> 2 blob_table       File      <NA>            <NA>
+```
+
 ### Disconnection
 
 ``` r

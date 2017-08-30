@@ -14,6 +14,8 @@ error <- function(..., call. = FALSE) {
   stop(..., call. = call.)
 }
 
+is_sqlite_connection <- function(x) inherits(x, "SQLiteConnection")
+
 is.blob <- function(x) inherits(x, "blob")
 
 read_bin_file <- function(x) {

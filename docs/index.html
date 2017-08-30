@@ -131,6 +131,19 @@ cars_new &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span cl
 <span class="co">#&gt; 5     8   16</span>
 <span class="co">#&gt; 6     9   10</span></code></pre></div>
 </div>
+<div id="meta-data" class="section level3">
+<h3 class="hasAnchor">
+<a href="#meta-data" class="anchor"></a>Meta Data</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">metadata &lt;-<span class="st"> </span><span class="kw"><a href="reference/ps_update_metadata.html">ps_update_metadata</a></span>(conn)
+<span class="co">#&gt; Warning in rsqlite_fetch(res@ptr, n = n): Don't need to call dbFetch() for</span>
+<span class="co">#&gt; statements, only for queries</span>
+<span class="kw">print</span>(metadata)
+<span class="co">#&gt; # A tibble: 2 x 4</span>
+<span class="co">#&gt;    DataTable DataColumn DataUnits DataDescription</span>
+<span class="co">#&gt;        &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;           &lt;chr&gt;</span>
+<span class="co">#&gt; 1 blob_table       BLOB      &lt;NA&gt;            &lt;NA&gt;</span>
+<span class="co">#&gt; 2 blob_table       File      &lt;NA&gt;            &lt;NA&gt;</span></code></pre></div>
+</div>
 <div id="disconnection" class="section level3">
 <h3 class="hasAnchor">
 <a href="#disconnection" class="anchor"></a>Disconnection</h3>
