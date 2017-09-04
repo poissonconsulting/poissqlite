@@ -40,6 +40,21 @@ test_that("metadata", {
   dbWriteTable(conn, "MetaData", metadata, overwrite = TRUE)
   metadata2 <- ps_update_metadata(conn)
   expect_identical(metadata, metadata2)
+
+  more_data <- tibble::tibble(StartDateTime = ISOdate(2001, 6:7, 4, tz = "PST8PDT"),
+                              Sample = 1:2)
+
+  dbGetQuery(conn,
+             "CREATE TABLE MoreData (
+                StartDateTime TEXT NOT NULL,
+                Sample INT)")
+
+  ps_write_table(more_data, "MoreData", conn = conn)
+
+  metadata <- ps_update_metadata(conn)
+
+  expect_identical(metadata$DataUnits, c(NA, "kg", NA, "PST8PDT"))
+
   dbRemoveTable(conn, "chickwts")
   metadata2 <- ps_update_metadata(conn, rm_missing = FALSE)
   expect_identical(metadata, metadata2)
@@ -47,5 +62,5 @@ test_that("metadata", {
   metadata2 <- ps_update_metadata(conn)
   expect_is(metadata2, "tbl_df")
   expect_identical(colnames(metadata2), c("DataTable", "DataColumn", "DataUnits", "DataDescription"))
-  expect_identical(nrow(metadata2), 0L)
+  expect_identical(nrow(metadata2), 2L)
 })

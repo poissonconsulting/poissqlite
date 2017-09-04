@@ -7,7 +7,7 @@
 ps_update_metadata(conn, rm_missing = TRUE)
 }
 \arguments{
-\item{conn}{A SQLiteConnection object.}
+\item{conn}{An SQLiteConnection object.}
 
 \item{rm_missing}{A flag indicating whether to remove rows that no longer correspond to a column in a table.}
 }

@@ -14,6 +14,12 @@ error <- function(..., call. = FALSE) {
   stop(..., call. = call.)
 }
 
+is_units_fun <- function(x) {
+  is.POSIXt(x)
+}
+
+is.POSIXt <- function (x) inherits(x, "POSIXt")
+
 is_sqlite_connection <- function(x) inherits(x, "SQLiteConnection")
 
 is.blob <- function(x) inherits(x, "blob")
@@ -24,6 +30,11 @@ read_bin_file <- function(x) {
 
   n <- file.info(x)$size
   readBin(x, what = "integer", n = n, endian = "little")
+}
+
+units_fun <- function(x) {
+  if (is.POSIXt(x)) return(lubridate::tz)
+  stop("units function is undefined")
 }
 
 warning <- function(..., call. = FALSE) {
