@@ -51,9 +51,14 @@ test_that("metadata", {
 
   ps_write_table(more_data, "MoreData", conn = conn)
 
+  more_data2 <- ps_read_table("MoreData", conn = conn)
+
+  expect_identical(more_data2, more_data)
+  expect_identical(lubridate::tz(more_data2$StartDateTime), "PST8PDT")
+
   metadata <- ps_update_metadata(conn)
 
-  expect_identical(metadata$DataUnits, c(NA, "kg", NA, "PST8PDT"))
+  expect_identical(sort(metadata$DataUnits), sort(c(NA, "kg", NA, "PST8PDT")))
 
   dbRemoveTable(conn, "chickwts")
   metadata2 <- ps_update_metadata(conn, rm_missing = FALSE)

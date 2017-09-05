@@ -25,7 +25,7 @@ ps_update_metadata_units <- function(x, conn, table_name) {
 
   column_name <- colnames(x)
   units <- magrittr::extract2(x, 1) %>%
-    units_fun(.)()
+    get_units()
 
   wch <- which(metadata$DataTable == table_name & metadata$DataColumn == column_name)
 
@@ -92,6 +92,7 @@ ps_update_metadata <- function(conn, rm_missing = TRUE) {
     metadata %<>% merge(metadata_table, all.x = TRUE, all.y = !rm_missing,
                         by = c("DataTable", "DataColumn"))
   }
+
   dbWriteTable(conn, name = "MetaData", value = metadata,
                overwrite = TRUE, row.names = FALSE)
 

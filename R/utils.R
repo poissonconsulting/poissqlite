@@ -14,11 +14,34 @@ error <- function(..., call. = FALSE) {
   stop(..., call. = call.)
 }
 
-is_units_fun <- function(x) {
-  is.POSIXt(x)
+get_units <- function(x) {
+  if (is.POSIXct(x)) {
+    x %<>% lubridate::tz()
+    if (!is_tz(x))
+      error("'", x, "' is not an OlsonNames() time zone")
+    return(x)
+  }
+  NA_character_
 }
 
-is.POSIXt <- function (x) inherits(x, "POSIXt")
+set_units <- function(x, units) {
+  if (is_tz(units)) {
+    x %<>% as.POSIXct() %>%
+      lubridate::force_tz(units)
+    return(x)
+  }
+  stop()
+}
+
+has_units <- function(x) {
+  !is.na(get_units(x))
+}
+
+is_units <- function(x)  is_tz(x)
+
+is_tz <- function(x) x %in% OlsonNames()
+
+is.POSIXct <- function(x) inherits(x, "POSIXct")
 
 is_sqlite_connection <- function(x) inherits(x, "SQLiteConnection")
 
@@ -30,11 +53,6 @@ read_bin_file <- function(x) {
 
   n <- file.info(x)$size
   readBin(x, what = "integer", n = n, endian = "little")
-}
-
-units_fun <- function(x) {
-  if (is.POSIXt(x)) return(lubridate::tz)
-  stop("units function is undefined")
 }
 
 warning <- function(..., call. = FALSE) {

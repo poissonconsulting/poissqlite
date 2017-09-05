@@ -14,7 +14,8 @@ ps_write_table <- function(x, table_name, conn) {
   tables <- dbListTables(conn)
   if (!table_name %in% tables) error("'", table_name, "' is not an existing table")
 
-  x[] %<>% purrr::lmap_if(is_units_fun, ps_update_metadata_units, conn = conn, table_name = table_name)
+  x[] %<>% purrr::lmap_if(has_units, ps_update_metadata_units,
+                          conn = conn, table_name = table_name)
 
   dbWriteTable(conn, name = table_name, value = x, row.names = FALSE, append = TRUE)
 }
