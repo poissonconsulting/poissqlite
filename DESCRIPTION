@@ -15,6 +15,8 @@ Imports: blob,
          datacheckr,
          lubridate,
          magrittr,
+         poisspatial,
+         poisutils,
          purrr,
          RSQLite,
          tibble,
@@ -22,6 +24,8 @@ Imports: blob,
 Suggests: datasets,
           testthat,
           covr
+Remote: poissonconsulting/poisspatial,
+        poissonconsultiing/poisutils
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1

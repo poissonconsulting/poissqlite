@@ -10,10 +10,6 @@ ask_replace_file <- function(file, ask) {
   TRUE
 }
 
-error <- function(..., call. = FALSE) {
-  stop(..., call. = call.)
-}
-
 get_units <- function(x) {
   if (is.POSIXct(x)) {
     x %<>% lubridate::tz()
@@ -37,7 +33,7 @@ has_units <- function(x) {
   !is.na(get_units(x))
 }
 
-is_units <- function(x)  is_tz(x)
+is_units <- function(x)  is_tz(x) | poisspatial::is_crs(x)
 
 is_tz <- function(x) x %in% OlsonNames()
 
