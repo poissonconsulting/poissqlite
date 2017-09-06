@@ -28,9 +28,7 @@ ps_connect_sqlite <- function(file = "database", dir = ".", new = NA,
   if (identical(new, TRUE) && file.exists(file))
     file.remove(file)
 
-  if (!ask_create_dir(dir, ask)) error("dir '", dir, "' does not exist")
-
-  if (!dir.exists(dir)) dir.create(dir, recursive = TRUE)
+  if (!poisutils::ps_create_dir(dir, ask)) error("dir '", dir, "' does not exist")
 
   conn <- DBI::dbConnect(RSQLite::SQLite(), file)
   if (foreign_keys) DBI::dbGetQuery(conn, "PRAGMA foreign_keys = ON;")

@@ -1,9 +1,3 @@
-ask_create_dir <- function(dir, ask) {
-  if (!dir.exists(dir) && ask && !yesno("Create directory '", dir, "'?"))
-    return(FALSE)
-  TRUE
-}
-
 ask_replace_file <- function(file, ask) {
   if (file.exists(file) && ask && !yesno("Replace file '", file, "'?"))
     return(FALSE)
@@ -58,8 +52,7 @@ warning <- function(..., call. = FALSE) {
 write_bin_file <- function(x, file, ask) {
   dir <- dirname(file)
 
-  if (!ask_create_dir(dir, ask))
-    error("dir '", dir, "' does not exist")
+  if (!poisutils::ps_create_dir(dir, ask)) error("dir '", dir, "' does not exist")
 
   if (!ask_replace_file(file, ask))
     error("file '", file, "' already exists")
