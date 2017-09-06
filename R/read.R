@@ -27,5 +27,10 @@ ps_read_table <- function(table_name, conn) {
   for (i in seq_along(units)) {
     table[[names(units[i])]] %<>% set_units(units[i])
   }
+  wchgeo <- which(poisspatial::is_crs(units))
+  if (length(wchgeo)) {
+    if (length(wchgeo) != 1) ps_error("table has more than one geometry")
+    table %<>% sf::st_sf(geometry = table[[names(units[wchgeo])]])
+  }
  table
 }

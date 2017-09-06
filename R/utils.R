@@ -9,18 +9,25 @@ get_units <- function(x) {
     x %<>% lubridate::tz()
     if (!is_tz(x))
       error("'", x, "' is not an OlsonNames() time zone")
-    return(x)
-  }
-  NA_character_
+  } else if (poisspatial::is.sfc(x)) {
+    x %<>%
+      poisspatial::ps_get_epsg() %>%
+      paste0("+init=epsg:", .)
+  } else
+    x <- NA_character_
+  x
 }
 
 set_units <- function(x, units) {
   if (is_tz(units)) {
-    x %<>% as.POSIXct() %>%
+    x %<>%
+      as.POSIXct() %>%
       lubridate::force_tz(units)
-    return(x)
-  }
-  stop()
+  } else if (poisspatial::is_crs(units)) {
+    x %<>% sf::st_as_sfc(crs = units)
+  } else
+    stop()
+  x
 }
 
 has_units <- function(x) {

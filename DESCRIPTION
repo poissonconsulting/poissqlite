@@ -19,6 +19,7 @@ Imports: blob,
          poisutils,
          purrr,
          RSQLite,
+         sf,
          tibble,
          yesno
 Suggests: datasets,
