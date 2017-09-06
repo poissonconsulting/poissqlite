@@ -24,7 +24,7 @@ Imports: blob,
 Suggests: datasets,
           testthat,
           covr
-Remote: poissonconsulting/poisspatial,
+Remotes: poissonconsulting/poisspatial,
         poissonconsultiing/poisutils
 Encoding: UTF-8
 LazyData: true
