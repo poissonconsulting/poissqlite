@@ -26,7 +26,7 @@ Suggests: datasets,
           testthat,
           covr
 Remotes: poissonconsulting/poisspatial,
-        poissonconsultiing/poisutils
+        poissonconsulting/poisutils
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
