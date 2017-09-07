@@ -5,8 +5,12 @@
 #' More importantly it saves the time zone for POSIXct columns
 #' in the metadata table and converts the column to a character vector
 #' of format `YYYY-mm-dd HH:MM:SS`.
-#' \code{\link{ps_read_table}} looks up the time zone and
-#' converts the column back to a POSIXct vector with the original timezone.
+#' It also saves the projection and converts the geometry column to a character
+#' vector for sfc columns.
+#'
+#' \code{\link{ps_read_table}} looks up the time zone and projection and
+#' converts the column back to a POSIXct vector with the original timezone
+#' or sfc column with projection.
 #'
 #'
 #' @param x The data frame.
@@ -20,6 +24,10 @@ ps_write_table <- function(x, table_name, conn) {
 
   tables <- dbListTables(conn)
   if (!table_name %in% tables) error("'", table_name, "' is not an existing table")
+
+
+  if (poisspatial::is.sf(x))
+    x %<>% as.data.frame()
 
   x[] %<>% purrr::lmap_if(has_units, ps_update_metadata_units,
                           conn = conn, table_name = table_name)

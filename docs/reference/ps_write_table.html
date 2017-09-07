@@ -89,8 +89,8 @@ without row names.
 More importantly it saves the time zone for POSIXct columns
 in the metadata table and converts the column to a character vector
 of format `YYYY-mm-dd HH:MM:SS`.
-<code><a href='ps_read_table.html'>ps_read_table</a></code> looks up the time zone and
-converts the column back to a POSIXct vector with the original timezone.</p>
+It also saves the projection and converts the geometry column to a character
+vector for sfc columns.</p>
     
 
     <pre class="usage"><span class='fu'>ps_write_table</span>(<span class='no'>x</span>, <span class='no'>table_name</span>, <span class='no'>conn</span>)</pre>
@@ -112,13 +112,21 @@ converts the column back to a POSIXct vector with the original timezone.</p>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p><code><a href='ps_read_table.html'>ps_read_table</a></code> looks up the time zone and projection and
+converts the column back to a POSIXct vector with the original timezone
+or sfc column with projection.</p>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#details">Details</a></li>
+          </ul>
 
   </div>
 </div>

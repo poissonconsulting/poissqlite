@@ -19,18 +19,19 @@ ps_read_table <- function(table_name, conn) {
   metadata <- ps_update_metadata(conn, rm_missing = FALSE)
   metadata <- metadata[metadata$DataTable == table_name,]
   metadata <- metadata[!is.na(metadata$DataUnits),]
+  metadata <- metadata[vapply(metadata$DataUnits, is_units, TRUE),]
 
   units <- metadata$DataUnits
   names(units) <- metadata$DataColumn
 
-  units <- units[is_units(units)]
   for (i in seq_along(units)) {
     table[[names(units[i])]] %<>% set_units(units[i])
   }
-  wchgeo <- which(poisspatial::is_crs(units))
-  if (length(wchgeo)) {
-    if (length(wchgeo) != 1) ps_error("table has more than one geometry")
-    table %<>% sf::st_sf(geometry = table[[names(units[wchgeo])]])
-  }
+  wchcrs <- which(vapply(units, poisspatial::is_crs, TRUE))
+  if (length(wchcrs)) {
+    table %<>% sf::st_sf(geometry = table[[names(units[wchcrs])]])
+    class(table) <- c("sf", "tbl_df", "tbl", "data.frame")
+  } else
+    table %<>% tibble::as_tibble()
  table
 }

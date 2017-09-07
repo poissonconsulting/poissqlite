@@ -51,14 +51,37 @@ test_that("metadata", {
 
   ps_write_table(more_data, "MoreData", conn = conn)
 
+  dbGetQuery(conn,
+             "CREATE TABLE OtherData (
+                StartDateTime TEXT NOT NULL,
+                Sample INT,
+                geometry TEXT NOT NULL)")
+
+  other_data <- more_data
+  other_data$X <- c(1,10)
+  other_data$Y <- c(10,1)
+
+  other_data <-  sf::st_as_sf(other_data, coords = c("X", "Y"), crs = 28992)
+
+  ps_write_table(other_data, "OtherData", conn = conn)
+
   more_data2 <- ps_read_table("MoreData", conn = conn)
 
   expect_identical(more_data2, more_data)
   expect_identical(lubridate::tz(more_data2$StartDateTime), "PST8PDT")
 
+  other_data2 <- ps_read_table("OtherData", conn = conn)
+
+  expect_equivalent(other_data2, other_data)
+
+  expect_identical(class(other_data2), class(other_data))
+  expect_identical(lubridate::tz(other_data2$StartDateTime), "PST8PDT")
+  expect_identical(sf::st_crs(other_data2)$epsg, 28992L)
+
   metadata <- ps_update_metadata(conn)
 
-  expect_identical(sort(metadata$DataUnits), sort(c(NA, "kg", NA, "PST8PDT")))
+  expect_identical(sort(metadata$DataUnits), sort(c(NA, "kg", NA, "PST8PDT",
+                                                    "+init=epsg:28992", NA, "PST8PDT")))
 
   dbRemoveTable(conn, "chickwts")
   metadata2 <- ps_update_metadata(conn, rm_missing = FALSE)
@@ -67,5 +90,5 @@ test_that("metadata", {
   metadata2 <- ps_update_metadata(conn)
   expect_is(metadata2, "tbl_df")
   expect_identical(colnames(metadata2), c("DataTable", "DataColumn", "DataUnits", "DataDescription"))
-  expect_identical(nrow(metadata2), 2L)
+  expect_identical(nrow(metadata2), 5L)
 })
