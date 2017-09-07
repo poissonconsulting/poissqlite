@@ -67,7 +67,7 @@ test_that("metadata", {
 
   more_data2 <- ps_read_table("MoreData", conn = conn)
 
-  expect_identical(more_data2, more_data)
+  expect_equal(more_data2, more_data)
   expect_identical(lubridate::tz(more_data2$StartDateTime), "PST8PDT")
 
   other_data2 <- ps_read_table("OtherData", conn = conn)
