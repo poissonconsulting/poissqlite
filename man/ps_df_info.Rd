@@ -11,5 +11,8 @@ ps_df_info(df)
 }
 \description{
 Returns a list containing information about dataframe columns relevant
-to SQLite database creation.
+to SQLite database creation. If column is numeric, integer or POSIXct,
+function returns number of missing values, class, minimum and maximum values.
+If column is character, function returns number of missing values, class, and
+all unique values.
 }

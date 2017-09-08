@@ -14,12 +14,16 @@ ps_df_info <- function(df){
   if(inherits(df, "sf")) {
     st_geometry(df) <- NULL
   }
+
   lapply(df, function(x){
     if(inherits(x, "numeric") || inherits(x, "integer")  || inherits(x, "POSIXct")){
       list(missing = length(which(is.na(x))),
            class = class(x),
            min = min(x, na.rm = T),
-           max = max(x, na.rm = T))} else {
+           max = max(x, na.rm = T))} else if(inherits(x, "blob")){
+             list(missing = length(which(is.na(x))),
+                  class = class(x))
+           } else {
              list(missing = length(which(is.na(x))),
                   class = class(x),
                   unique = unique(x))
