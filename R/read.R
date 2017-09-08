@@ -35,3 +35,26 @@ ps_read_table <- function(table_name, conn) {
     table %<>% tibble::as_tibble()
  table
 }
+
+#' Read Tables
+#'
+#' Assigns tables in an SQLite database to global environment
+#' as tibble or sf objects.
+#'
+#' @param conn An SQLiteConnection object.
+#' @param rename A function to alter the SQLite database table names.
+#' @export
+ps_read_tables <- function(conn, rename = identity) {
+  check_sqlite_connection(conn)
+
+  tablenames <- DBI::dbListTables(conn)
+
+  invisible(lapply(tablenames, function(x){
+    assign(rename(x), ps_read_table(x, conn), envir = globalenv())
+  }))
+}
+
+
+
+
+

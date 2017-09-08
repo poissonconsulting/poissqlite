@@ -1,7 +1,7 @@
 Package: poissqlite
 Title: Work with SQLite Databases
-Version: 0.0.0.9007
-Date: 2017-09-06
+Version: 0.0.0.9008
+Date: 2017-09-08
 Authors@R: c(
     person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre")),
     person("Seb", "Dalgarno", role = "aut"))
