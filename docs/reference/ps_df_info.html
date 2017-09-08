@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read Tables — ps_read_tables • poissqlite</title>
+<title>Quick dataframe info — ps_df_info • poissqlite</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -80,26 +80,22 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read Tables</h1>
+    <h1>Quick dataframe info</h1>
     </div>
 
     
-    <p>Assigns tables in an SQLite database to global environment
-as tibble or sf objects.</p>
+    <p>Returns a list containing information about dataframe columns relevant
+to SQLite database creation.</p>
     
 
-    <pre class="usage"><span class='fu'>ps_read_tables</span>(<span class='no'>conn</span>, <span class='kw'>rename</span> <span class='kw'>=</span> <span class='no'>identity</span>)</pre>
+    <pre class="usage"><span class='fu'>ps_df_info</span>(<span class='no'>df</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>conn</th>
-      <td><p>An SQLiteConnection object.</p></td>
-    </tr>
-    <tr>
-      <th>rename</th>
-      <td><p>A function to alter the SQLite database table names.</p></td>
+      <th>df</th>
+      <td><p>A data.frame object.</p></td>
     </tr>
     </table>
     
