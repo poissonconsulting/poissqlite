@@ -78,6 +78,13 @@ test_that("metadata", {
   expect_identical(lubridate::tz(other_data2$StartDateTime), "PST8PDT")
   expect_identical(sf::st_crs(other_data2)$epsg, 28992L)
 
+  expect_false(exists("MoreData"))
+  tabs <- ps_read_tables(conn)
+  expect_true(exists("MoreData"))
+
+  expect_identical(tabs, sort(c("chickwts", "MetaData", "MoreData", "OtherData")))
+
+
   metadata <- ps_update_metadata(conn)
 
   expect_identical(sort(metadata$DataUnits), sort(c(NA, "kg", NA, "PST8PDT",

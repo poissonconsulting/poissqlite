@@ -4,14 +4,19 @@
 \alias{ps_read_tables}
 \title{Read Tables}
 \usage{
-ps_read_tables(conn, rename = identity)
+ps_read_tables(conn, rename = identity, envir = parent.frame())
 }
 \arguments{
 \item{conn}{An SQLiteConnection object.}
 
 \item{rename}{A function to alter the SQLite database table names.}
+
+\item{envir}{The environment to assign the tables to.}
+}
+\value{
+An invisible vector of table names.
 }
 \description{
-Assigns tables in an SQLite database to global environment
-as tibble or sf objects.
+Assigns tables in an SQLite database to environment
+as tibble or sf objects (if geometry column).
 }

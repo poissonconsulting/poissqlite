@@ -20,6 +20,7 @@ Imports: blob,
          purrr,
          RSQLite,
          sf,
+         stats,
          tibble,
          yesno
 Suggests: datasets,

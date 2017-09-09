@@ -12,7 +12,7 @@ ps_df_info <- function(df){
   check_data_frame(df)
 
   if(inherits(df, "sf")) {
-    st_geometry(df) <- NULL
+    sf::st_geometry(df) <- NULL
   }
 
   lapply(df, function(x){

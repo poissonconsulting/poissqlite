@@ -38,23 +38,24 @@ ps_read_table <- function(table_name, conn) {
 
 #' Read Tables
 #'
-#' Assigns tables in an SQLite database to global environment
-#' as tibble or sf objects.
+#' Assigns tables in an SQLite database to environment
+#' as tibble or sf objects (if geometry column).
 #'
 #' @param conn An SQLiteConnection object.
 #' @param rename A function to alter the SQLite database table names.
+#' @param envir The environment to assign the tables to.
+#' @return An invisible vector of table names.
 #' @export
-ps_read_tables <- function(conn, rename = identity) {
+ps_read_tables <- function(conn, rename = identity, envir = parent.frame()) {
   check_sqlite_connection(conn)
 
-  tablenames <- DBI::dbListTables(conn)
+  tables <- DBI::dbListTables(conn) %>%
+    sort()
 
-  invisible(lapply(tablenames, function(x){
-    assign(rename(x), ps_read_table(x, conn), envir = globalenv())
-  }))
+  tables %>%
+    stats::setNames(., rename(.)) %>%
+    purrr::map(ps_read_table, conn = conn) %>%
+    purrr::imap(function(x, name) assign(name, x, envir = envir))
+
+  invisible(tables)
 }
-
-
-
-
-
