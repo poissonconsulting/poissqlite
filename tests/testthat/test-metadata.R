@@ -49,7 +49,7 @@ test_that("metadata", {
                 StartDateTime TEXT NOT NULL,
                 Sample INT)")
 
-  ps_write_table(more_data, "MoreData", conn = conn)
+  ps_write_table(more_data[c("Sample", "StartDateTime")], "MoreData", conn = conn)
 
   dbGetQuery(conn,
              "CREATE TABLE OtherData (

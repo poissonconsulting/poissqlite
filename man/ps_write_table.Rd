@@ -4,7 +4,7 @@
 \alias{ps_write_table}
 \title{Write Table}
 \usage{
-ps_write_table(x, table_name, conn)
+ps_write_table(x, table_name, conn, rename = identity)
 }
 \arguments{
 \item{x}{The data frame.}
@@ -12,6 +12,8 @@ ps_write_table(x, table_name, conn)
 \item{table_name}{A string of the name of the table.}
 
 \item{conn}{An SQLiteConnection object.}
+
+\item{rename}{A function to rename column names in x.}
 }
 \description{
 Appends a data frame to an existing table in an SQLite database
@@ -26,4 +28,6 @@ vector for sfc columns.
 \code{\link{ps_read_table}} looks up the time zone and projection and
 converts the column back to a POSIXct vector with the original timezone
 or sfc column with projection.
+
+The function is also agnostic as to the order of the columns.
 }
