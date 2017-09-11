@@ -9,3 +9,7 @@ as_character.sfc <- function(x, ...) {
 as_character.POSIXt <- function(x, ...) {
   format(x, "%Y-%m-%d %H:%M:%S")
 }
+
+as_character.factor <- function(x, ...) {
+  as.character(x)
+}

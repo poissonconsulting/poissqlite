@@ -13,6 +13,11 @@ get_units <- function(x) {
     x %<>%
       poisspatial::ps_get_epsg() %>%
       paste0("+init=epsg:", .)
+  } else if (is.factor(x)) {
+    x %<>% levels() %>%
+      paste0("'", ., "'") %>%
+      paste0(collapse = ", ") %>%
+      paste0("c(", ., ")")
   } else
     x <- NA_character_
   x
@@ -25,18 +30,25 @@ set_units <- function(x, units) {
       lubridate::force_tz(units)
   } else if (poisspatial::is_crs(units)) {
     x %<>% sf::st_as_sfc(crs = units)
+  } else if (is_levels(units)) {
+    x %<>% factor(levels = get_levels(units))
   } else
     stop()
   x
 }
 
-has_units <- function(x) {
-  !is.na(get_units(x))
-}
-
-is_units <- function(x)  is_tz(x) | poisspatial::is_crs(x)
+is_units <- function(x) is_levels(x) || is_tz(x) || poisspatial::is_crs(x)
 
 is_tz <- function(x) x %in% OlsonNames()
+
+is_levels <- function(x) grepl("^\\s*c[(]", x)
+
+get_levels <- function(x) {
+  x %<>%
+    parse(text = .) %>%
+    eval()
+  x
+}
 
 is.POSIXct <- function(x) inherits(x, "POSIXct")
 

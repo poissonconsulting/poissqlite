@@ -37,7 +37,7 @@ ps_write_table <- function(x, table_name, conn, rename = identity) {
   if (!identical(sort(colnames(x)), sort(column_names)))
     error("non-matching column names")
 
-  x[] %<>% purrr::lmap_if(has_units, ps_update_metadata_units,
+  x[] %<>% purrr::lmap_if(is_units, ps_update_metadata_units,
                           conn = conn, table_name = table_name)
 
   x <- x[column_names]

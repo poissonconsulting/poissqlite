@@ -42,19 +42,19 @@ test_that("metadata", {
   expect_identical(metadata, metadata2)
 
   more_data <- tibble::tibble(StartDateTime = ISOdate(2001, 6:7, 4, tz = "PST8PDT"),
-                              Sample = 1:2)
+                              Sample = factor(c("a", "b"), levels = c("b", "a", "c")))
 
   dbGetQuery(conn,
              "CREATE TABLE MoreData (
                 StartDateTime TEXT NOT NULL,
-                Sample INT)")
+                Sample TEXT)")
 
   ps_write_table(more_data[c("Sample", "StartDateTime")], "MoreData", conn = conn)
 
   dbGetQuery(conn,
              "CREATE TABLE OtherData (
                 StartDateTime TEXT NOT NULL,
-                Sample INT,
+                Sample TEXT,
                 geometry TEXT NOT NULL)")
 
   other_data <- more_data
@@ -84,11 +84,10 @@ test_that("metadata", {
 
   expect_identical(tabs, sort(c("chickwts", "MetaData", "MoreData", "OtherData")))
 
-
   metadata <- ps_update_metadata(conn)
 
-  expect_identical(sort(metadata$DataUnits), sort(c(NA, "kg", NA, "PST8PDT",
-                                                    "+init=epsg:28992", NA, "PST8PDT")))
+  expect_identical(sort(metadata$DataUnits), sort(c(NA, "kg", "c('b', 'a', 'c')", "PST8PDT",
+                                                    "+init=epsg:28992", "c('b', 'a', 'c')", "PST8PDT")))
 
   dbRemoveTable(conn, "chickwts")
   metadata2 <- ps_update_metadata(conn, rm_missing = FALSE)
