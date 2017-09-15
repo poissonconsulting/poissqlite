@@ -37,6 +37,10 @@ set_units <- function(x, units) {
   x
 }
 
+has_units <- function(x) {
+  is.POSIXct(x) || is.factor(x) || poisspatial::is.sfc(x)
+}
+
 is_units <- function(x) is_levels(x) || is_tz(x) || poisspatial::is_crs(x)
 
 is_tz <- function(x) x %in% OlsonNames()

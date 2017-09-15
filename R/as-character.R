@@ -2,6 +2,10 @@ as_character <- function(x, ...) {
   UseMethod("as_character", x)
 }
 
+as_character.character <- function(x, ...) {
+  x
+}
+
 as_character.sfc <- function(x, ...) {
   sf::st_as_text(x)
 }
