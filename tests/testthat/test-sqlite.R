@@ -141,7 +141,7 @@ test_that("sqlite", {
 
   expect_identical(class(other_data2), class(other_data))
   expect_identical(lubridate::tz(other_data2$StartDateTime), "PST8PDT")
-  expect_identical(poisspatial::ps_get_proj4string(other_data2), poisspatial::ps_get_proj4string(other_data))
+  expect_true(is_crs(poisspatial::ps_get_proj4string(other_data2)))
 
   expect_false(exists("MoreData"))
   tabs <- ps_read_tables(conn)
