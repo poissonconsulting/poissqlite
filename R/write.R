@@ -34,8 +34,11 @@ ps_write_table <- function(x, table_name, conn, rename = identity) {
 
   column_names <- dbListFields(conn, table_name)
 
-  if (!identical(sort(colnames(x)), sort(column_names)))
-    error("non-matching column names")
+  missing <- setdiff(column_names, colnames(x))
+  if (length(missing)) ps_error("missing column names")
+
+  extra <- setdiff(colnames(x), column_names)
+  if (length(extra)) ps_warning("extra column names")
 
   x[] %<>% purrr::lmap_if(has_units, ps_update_metadata_units,
                           conn = conn, table_name = table_name)
