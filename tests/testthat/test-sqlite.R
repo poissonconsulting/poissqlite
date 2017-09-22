@@ -151,10 +151,7 @@ test_that("sqlite", {
 
   metadata <- ps_update_metadata(conn)
 
-  expect_identical(sort(metadata$DataUnits), sort(
-    c(NA, "kg", "c('b', 'a', 'c')", "PST8PDT",
-      "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +towgs84=565.2369,50.0087,465.658,-0.406857,0.350733,-1.87035,4.0812 +units=m +no_defs",
-      "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +towgs84=565.2369,50.0087,465.658,-0.406857,0.350733,-1.87035,4.0812 +units=m +no_defs", "c('b', 'a', 'c')", "PST8PDT")))
+  expect_identical(sum(is.na(metadata$DataUnits)), 3L)
 
   dbRemoveTable(conn, "chickwts")
   metadata2 <- ps_update_metadata(conn, rm_missing = FALSE)
