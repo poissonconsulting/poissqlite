@@ -141,7 +141,7 @@ test_that("sqlite", {
 
   expect_identical(class(other_data2), class(other_data))
   expect_identical(lubridate::tz(other_data2$StartDateTime), "PST8PDT")
-  expect_identical(sf::st_crs(other_data2)$epsg, 28992L)
+  expect_identical(poisspatial::ps_get_proj4string(other_data2), poisspatial::ps_get_proj4string(other_data))
 
   expect_false(exists("MoreData"))
   tabs <- ps_read_tables(conn)
@@ -151,8 +151,10 @@ test_that("sqlite", {
 
   metadata <- ps_update_metadata(conn)
 
-  expect_identical(sort(metadata$DataUnits), sort(c(NA, "kg", "c('b', 'a', 'c')", "PST8PDT",
-                                                    "+init=epsg:28992", "+init=epsg:28992", "c('b', 'a', 'c')", "PST8PDT")))
+  expect_identical(sort(metadata$DataUnits), sort(
+    c(NA, "kg", "c('b', 'a', 'c')", "PST8PDT",
+      "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +towgs84=565.2369,50.0087,465.658,-0.406857,0.350733,-1.87035,4.0812 +units=m +no_defs",
+      "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +towgs84=565.2369,50.0087,465.658,-0.406857,0.350733,-1.87035,4.0812 +units=m +no_defs", "c('b', 'a', 'c')", "PST8PDT")))
 
   dbRemoveTable(conn, "chickwts")
   metadata2 <- ps_update_metadata(conn, rm_missing = FALSE)

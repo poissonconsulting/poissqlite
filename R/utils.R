@@ -11,13 +11,14 @@ get_units <- function(x) {
       error("'", x, "' is not an OlsonNames() time zone")
   } else if (poisspatial::is.sfc(x)) {
     x %<>%
-      poisspatial::ps_get_epsg() %>%
-      paste0("+init=epsg:", .)
+      poisspatial::ps_get_proj4string()
+    stopifnot(poisspatial::is_crs(x))
   } else if (is.factor(x)) {
     x %<>% levels() %>%
       paste0("'", ., "'") %>%
       paste0(collapse = ", ") %>%
       paste0("c(", ., ")")
+    stopifnot(is_levels(x))
   } else
     x <- NA_character_
   x
