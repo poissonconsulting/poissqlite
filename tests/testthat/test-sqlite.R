@@ -114,14 +114,19 @@ test_that("sqlite", {
              "CREATE TABLE OtherData (
                 StartDateTime TEXT NOT NULL,
                 Sample TEXT,
-                Blob BLOB,
-                geometry TEXT NOT NULL)")
+                ALocation TEXT NOT NULL,
+                Location TEXT NOT NULL,
+                Blob BLOB
+                )")
 
   other_data <- more_data
   other_data$X <- c(1,10)
   other_data$Y <- c(10,1)
 
-  other_data <-  sf::st_as_sf(other_data, coords = c("X", "Y"), crs = 28992)
+  other_data <-  poisspatial::ps_coords_to_sfc(other_data, crs = 28992, new_name = "Location") %>%
+    poisspatial::ps_set_sf("Location")
+
+  other_data$ALocation <- other_data$Location
 
   ps_write_table(other_data, "OtherData", conn = conn)
 
@@ -147,7 +152,7 @@ test_that("sqlite", {
   metadata <- ps_update_metadata(conn)
 
   expect_identical(sort(metadata$DataUnits), sort(c(NA, "kg", "c('b', 'a', 'c')", "PST8PDT",
-                                                    "+init=epsg:28992", "c('b', 'a', 'c')", "PST8PDT")))
+                                                    "+init=epsg:28992", "+init=epsg:28992", "c('b', 'a', 'c')", "PST8PDT")))
 
   dbRemoveTable(conn, "chickwts")
   metadata2 <- ps_update_metadata(conn, rm_missing = FALSE)
@@ -156,5 +161,5 @@ test_that("sqlite", {
   metadata2 <- ps_update_metadata(conn)
   expect_is(metadata2, "tbl_df")
   expect_identical(colnames(metadata2), c("DataTable", "DataColumn", "DataUnits", "DataDescription"))
-  expect_identical(nrow(metadata2), 7L)
+  expect_identical(nrow(metadata2), 8L)
 })

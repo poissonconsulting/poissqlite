@@ -18,6 +18,9 @@ ps_read_table <- function(table_name, conn) {
 
   metadata <- ps_update_metadata(conn, rm_missing = FALSE)
   metadata <- metadata[metadata$DataTable == table_name,]
+  metadata %<>% as.data.frame()
+  rownames(metadata) <- metadata$DataColumn
+  metadata <- metadata[colnames(table),]
   metadata <- metadata[!is.na(metadata$DataUnits),]
   metadata <- metadata[vapply(metadata$DataUnits, is_units, TRUE),]
 
@@ -27,12 +30,12 @@ ps_read_table <- function(table_name, conn) {
   for (i in seq_along(units)) {
     table[[names(units[i])]] %<>% set_units(units[i])
   }
+
   wchcrs <- which(vapply(units, poisspatial::is_crs, TRUE))
   if (length(wchcrs)) {
-    table %<>% sf::st_sf(geometry = table[[names(units[wchcrs])]])
-    class(table) <- c("sf", "tbl_df", "tbl", "data.frame")
-  } else
-    table %<>% tibble::as_tibble()
+    table %<>% poisspatial::ps_set_sf(sfc_column = names(units[wchcrs[length(wchcrs)]]))
+  }
+
  table
 }
 
