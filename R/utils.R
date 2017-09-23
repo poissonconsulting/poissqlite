@@ -19,6 +19,9 @@ get_units <- function(x) {
       paste0(collapse = ", ") %>%
       paste0("c(", ., ")")
     stopifnot(is_levels(x))
+  } else if (is.logical(x)) {
+    x <- "c(FALSE,TRUE)"
+    stopifnot(is_logical(x))
   } else
     x <- NA_character_
   x
@@ -33,20 +36,24 @@ set_units <- function(x, units) {
     x %<>% sf::st_as_sfc(crs = units)
   } else if (is_levels(units)) {
     x %<>% factor(levels = get_levels(units))
+  } else if (is_logical(units)) {
+    x %<>% as.logical()
   } else
     stop()
   x
 }
 
 has_units <- function(x) {
-  is.POSIXct(x) || is.factor(x) || poisspatial::is.sfc(x)
+  is.POSIXct(x) || is.factor(x) || poisspatial::is.sfc(x) || is.logical(x)
 }
 
-is_units <- function(x) is_levels(x) || is_tz(x) || poisspatial::is_crs(x)
+is_units <- function(x) is_levels(x) || is_tz(x) || poisspatial::is_crs(x) || is_logical(x)
 
 is_tz <- function(x) x %in% OlsonNames()
 
-is_levels <- function(x) grepl("^\\s*c[(]", x)
+is_levels <- function(x) grepl("^c[(]'", x)
+
+is_logical <- function(x) grepl("^c[(]FALSE,TRUE[)]", x)
 
 get_levels <- function(x) {
   x %<>%

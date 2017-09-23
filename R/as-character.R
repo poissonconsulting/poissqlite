@@ -2,8 +2,8 @@ as_character <- function(x, ...) {
   UseMethod("as_character", x)
 }
 
-as_character.character <- function(x, ...) {
-  x
+as_character.default <- function(x, ...) {
+  as.character(x)
 }
 
 as_character.sfc <- function(x, ...) {
@@ -12,8 +12,4 @@ as_character.sfc <- function(x, ...) {
 
 as_character.POSIXt <- function(x, ...) {
   format(x, "%Y-%m-%d %H:%M:%S")
-}
-
-as_character.factor <- function(x, ...) {
-  as.character(x)
 }

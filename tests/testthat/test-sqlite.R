@@ -100,15 +100,18 @@ test_that("sqlite", {
 
   more_data <- tibble::tibble(StartDateTime = ISOdate(2001, 6:7, 4, tz = "PST8PDT"),
                               Sample = factor(c("a", "b"), levels = c("b", "a", "c")),
+                              AName = c(TRUE, NA),
+                              Random = 1:2,
                               Blob = blobs)
 
   dbGetQuery(conn,
              "CREATE TABLE MoreData (
                 StartDateTime TEXT NOT NULL,
                 Sample TEXT,
+                AName BOOLEAN,
                 Blob BLOB)")
 
-  ps_write_table(more_data[c("Sample", "StartDateTime", "Blob")], "MoreData", conn = conn)
+  ps_write_table(more_data[c("Sample", "StartDateTime", "Blob", "AName")], "MoreData", conn = conn)
 
   dbGetQuery(conn,
              "CREATE TABLE OtherData (
@@ -128,16 +131,16 @@ test_that("sqlite", {
 
   other_data$ALocation <- other_data$Location
 
-  ps_write_table(other_data, "OtherData", conn = conn)
+  suppressWarnings(ps_write_table(other_data, "OtherData", conn = conn))
 
   more_data2 <- ps_read_table("MoreData", conn = conn)
 
-  expect_equivalent(more_data2, more_data)
+  expect_equivalent(more_data2, more_data[colnames(more_data2)])
   expect_identical(lubridate::tz(more_data2$StartDateTime), "PST8PDT")
 
   other_data2 <- ps_read_table("OtherData", conn = conn)
 
-  expect_equivalent(other_data2, other_data)
+  expect_equivalent(other_data2, other_data[colnames(other_data2)])
 
   expect_identical(class(other_data2), class(other_data))
   expect_identical(lubridate::tz(other_data2$StartDateTime), "PST8PDT")
@@ -160,5 +163,5 @@ test_that("sqlite", {
   metadata2 <- ps_update_metadata(conn)
   expect_is(metadata2, "tbl_df")
   expect_identical(colnames(metadata2), c("DataTable", "DataColumn", "DataUnits", "DataDescription"))
-  expect_identical(nrow(metadata2), 8L)
+  expect_identical(nrow(metadata2), 9L)
 })
