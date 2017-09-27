@@ -33,7 +33,7 @@ ps_read_table <- function(table_name, conn) {
 
   wchcrs <- which(vapply(units, poisspatial::is_crs, TRUE))
   if (length(wchcrs)) {
-    table %<>% poisspatial::ps_set_sf(sfc_column = names(units[wchcrs[length(wchcrs)]]))
+    table %<>% poisspatial::ps_activate_sfc(sfc_name = names(units[wchcrs[length(wchcrs)]]))
   }
 
  table

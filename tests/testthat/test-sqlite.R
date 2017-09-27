@@ -126,8 +126,8 @@ test_that("sqlite", {
   other_data$X <- c(1,10)
   other_data$Y <- c(10,1)
 
-  other_data <-  poisspatial::ps_coords_to_sfc(other_data, crs = 28992, new_name = "Location") %>%
-    poisspatial::ps_set_sf("Location")
+  other_data <-  poisspatial::ps_coords_to_sfc(other_data, crs = 28992, sfc_name = "Location") %>%
+    poisspatial::ps_activate_sfc("Location")
 
   other_data$ALocation <- other_data$Location
 
