@@ -20,13 +20,15 @@ ps_df_info <- function(df){
       list(missing = length(which(is.na(x))),
            class = class(x),
            min = min(x, na.rm = T),
-           max = max(x, na.rm = T))} else if(inherits(x, "blob")){
+           max = max(x, na.rm = T),
+           key = length(unique(x)) == length(x))} else if(inherits(x, "blob")){
              list(missing = length(which(is.na(x))),
                   class = class(x))
            } else {
              list(missing = length(which(is.na(x))),
                   class = class(x),
-                  unique = unique(x))
+                  unique = unique(x),
+                  key = length(unique(x)) == length(x))
            }
 
   })
