@@ -1,7 +1,7 @@
 Package: poissqlite
 Title: Work with SQLite Databases
-Version: 0.0.0.9013
-Date: 2017-10-02
+Version: 0.0.0.9014
+Date: 2017-10-06
 Authors@R: c(
     person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre")),
     person("Seb", "Dalgarno", role = "aut"))
@@ -22,6 +22,7 @@ Imports: blob,
          sf,
          stats,
          tibble,
+         units,
          yesno
 Suggests: datasets,
           testthat,

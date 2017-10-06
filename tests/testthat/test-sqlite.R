@@ -102,16 +102,18 @@ test_that("sqlite", {
                               Sample = factor(c("a", "b"), levels = c("b", "a", "c")),
                               AName = c(TRUE, NA),
                               Random = 1:2,
+                              Distance = units::set_units(c(0.1, 0.5), "m"),
                               Blob = blobs)
 
   dbGetQuery(conn,
              "CREATE TABLE MoreData (
                 StartDateTime TEXT NOT NULL,
                 Sample TEXT,
+                Distance REAL,
                 AName BOOLEAN,
                 Blob BLOB)")
 
-  ps_write_table(more_data[c("Sample", "StartDateTime", "Blob", "AName")], "MoreData", conn = conn)
+  ps_write_table(more_data[c("Sample", "StartDateTime", "Blob", "AName", "Distance")], "MoreData", conn = conn)
 
   dbGetQuery(conn,
              "CREATE TABLE OtherData (
@@ -163,11 +165,11 @@ test_that("sqlite", {
   metadata2 <- ps_update_metadata(conn)
   expect_is(metadata2, "tbl_df")
   expect_identical(colnames(metadata2), c("DataTable", "DataColumn", "DataUnits", "DataDescription"))
-  expect_identical(nrow(metadata2), 9L)
+  expect_identical(nrow(metadata2), 10L)
 
   info <- ps_df_info(more_data)
   expect_is(info, "list")
-  expect_true(length(info) == 5L)
+  expect_true(length(info) == 6L)
   expect_identical(info$StartDateTime$class[1], "POSIXct")
   expect_identical(info$Blob$class, "blob")
   expect_true(info$StartDateTime$missing == 0L)
