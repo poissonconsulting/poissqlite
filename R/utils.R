@@ -20,10 +20,13 @@ get_units <- function(x) {
       paste0("c(", ., ")")
     stopifnot(is_levels(x))
   } else if (is.logical(x)) {
-    x <- "c(FALSE,TRUE)"
+    x <- "logical"
     stopifnot(is_boolean(x))
   } else if (has_measurement_units(x)) {
     x %<>% deparse_measurement_units()
+  } else if (is.Date(x)){
+    x <- "Date"
+    stopifnot(is_date(x))
   } else
     x <- NA_character_
   x
@@ -42,22 +45,27 @@ set_units <- function(x, units) {
     x %<>% as.logical()
   } else if (is_measurement_units(units)) {
     x %<>% units::set_units(parse_measurement_units(units))
+  } else if (is_date(units)) {
+    x %<>% as.Date()
   } else
     stop()
   x
 }
 
 has_units <- function(x) {
-  is.POSIXct(x) || is.factor(x) || poisspatial::is.sfc(x) || is.logical(x) || has_measurement_units(x)
+  is.POSIXct(x) || is.factor(x) || poisspatial::is.sfc(x) || is.logical(x) || has_measurement_units(x) || is.Date(x)
 }
 
-is_units <- function(x) is_levels(x) || is_tz(x) || poisspatial::is_crs(x) || is_boolean(x) || is_measurement_units(x)
+is.Date <- function(x) inherits(x, "Date")
+
+is_units <- function(x) is_levels(x) || is_tz(x) || poisspatial::is_crs(x) || is_boolean(x) || is_measurement_units(x) || is_date(x)
 
 is_tz <- function(x) x %in% OlsonNames()
 
 is_levels <- function(x) grepl("^c[(]'", x)
 
-is_boolean <- function(x) grepl("^c[(]FALSE,TRUE[)]", x)
+is_boolean <- function(x) grepl("^logical$", x) || grepl("^c[(]FALSE,TRUE[)]", x)
+is_date <- function(x) grepl("^Date$", x)
 
 has_measurement_units <- function(x) inherits(x, "units")
 
