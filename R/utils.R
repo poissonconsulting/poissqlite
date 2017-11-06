@@ -106,7 +106,7 @@ get_levels <- function(x) {
 
 is.POSIXct <- function(x) inherits(x, "POSIXct")
 
-is_sqlite_connection <- function(x = getOption("mb.conn")) inherits(x, "SQLiteConnection")
+is_sqlite_connection <- function(x = getOption("ps.conn")) inherits(x, "SQLiteConnection")
 
 is.blob <- function(x) inherits(x, "blob")
 

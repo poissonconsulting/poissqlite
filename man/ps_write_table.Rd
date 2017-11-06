@@ -4,7 +4,7 @@
 \alias{ps_write_table}
 \title{Write Table}
 \usage{
-ps_write_table(x, table_name, conn = getOption("mb.conn"),
+ps_write_table(x, table_name, conn = getOption("ps.conn"),
   rename = identity)
 }
 \arguments{

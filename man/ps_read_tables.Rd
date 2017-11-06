@@ -4,7 +4,7 @@
 \alias{ps_read_tables}
 \title{Read Tables}
 \usage{
-ps_read_tables(conn = getOption("mb.conn"), rename = identity,
+ps_read_tables(conn = getOption("ps.conn"), rename = identity,
   envir = parent.frame())
 }
 \arguments{

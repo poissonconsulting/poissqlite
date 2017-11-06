@@ -19,7 +19,7 @@
 #' @param conn An SQLiteConnection object.
 #' @param rename A function to rename column names in x.
 #' @export
-ps_write_table <- function(x, table_name, conn = getOption("mb.conn"), rename = identity) {
+ps_write_table <- function(x, table_name, conn = getOption("ps.conn"), rename = identity) {
   if (!is.data.frame(x)) error("x must be a data frame")
   check_string(table_name)
   check_sqlite_connection(conn)

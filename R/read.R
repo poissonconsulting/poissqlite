@@ -5,7 +5,7 @@
 #' @param table_name A string of the name of the table.
 #' @param conn An SQLiteConnection object.
 #' @export
-ps_read_table <- function(table_name, conn = getOption("mb.conn")) {
+ps_read_table <- function(table_name, conn = getOption("ps.conn")) {
   check_string(table_name)
   check_sqlite_connection(conn)
 
@@ -49,7 +49,7 @@ ps_read_table <- function(table_name, conn = getOption("mb.conn")) {
 #' @param envir The environment to assign the tables to.
 #' @return An invisible vector of table names.
 #' @export
-ps_read_tables <- function(conn = getOption("mb.conn"), rename = identity, envir = parent.frame()) {
+ps_read_tables <- function(conn = getOption("ps.conn"), rename = identity, envir = parent.frame()) {
   check_sqlite_connection(conn)
 
   tables <- DBI::dbListTables(conn) %>%
