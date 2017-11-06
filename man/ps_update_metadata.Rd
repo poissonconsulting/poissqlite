@@ -4,7 +4,7 @@
 \alias{ps_update_metadata}
 \title{Update MetaData Table}
 \usage{
-ps_update_metadata(conn, rm_missing = TRUE)
+ps_update_metadata(conn = getOption("mb.conn"), rm_missing = TRUE)
 }
 \arguments{
 \item{conn}{An SQLiteConnection object.}
