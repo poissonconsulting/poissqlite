@@ -1,7 +1,7 @@
 Package: poissqlite
 Title: Work with SQLite Databases
-Version: 0.0.0.9017
-Date: 2017-11-06
+Version: 0.0.0.9018
+Date: 2017-11-07
 Authors@R: c(
     person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre")),
     person("Seb", "Dalgarno", role = "aut"))
@@ -13,6 +13,7 @@ Depends: R (>= 3.4.1),
          DBI,
 Imports: blob,
          datacheckr,
+         dplyr,
          lubridate,
          magrittr,
          poisspatial (>= 0.0.0.9010),
