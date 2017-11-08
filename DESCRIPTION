@@ -23,6 +23,7 @@ Imports: blob,
          sf,
          stats,
          tibble,
+         tools,
          units,
          yesno
 Suggests: datasets,
