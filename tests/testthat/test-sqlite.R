@@ -151,7 +151,7 @@ test_that("sqlite", {
   expect_true(poisspatial::is_crs(poisspatial::ps_get_proj4string(other_data2)))
 
   expect_false(exists("MoreData"))
-  tabs <- ps_read_tables(conn)
+  tabs <- ps_load_tables(conn)
   expect_true(exists("MoreData"))
 
   expect_identical(tabs, sort(c("chickwts", "MetaData", "MoreData", "OtherData")))
