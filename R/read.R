@@ -43,9 +43,9 @@ ps_read_table <- function(table_name, conn = getOption("ps.conn")) {
 #' @inheritParams ps_load_tables
 #' @export
 ps_read_tables <- function(conn = getOption("ps.conn"), rename = identity, envir = parent.frame()) {
-  .Deprecated("ps_load_tables")
+  .Deprecated("ps_load_tables") # 2017-11-14
 
-  ps_load_tables()
+  ps_load_tables(conn = conn, rename = rename, envir = envir)
 }
 
 #' Load Tables
