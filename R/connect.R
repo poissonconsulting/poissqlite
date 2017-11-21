@@ -36,3 +36,13 @@ ps_connect_sqlite <- function(file = "database", dir = ".", new = NA,
   if (foreign_keys) DBI::dbGetQuery(conn, "PRAGMA foreign_keys = ON;")
   conn
 }
+
+#' Close a connection to an sqlite database.
+#'
+#' A wrapper on DBI::dbDisconnect.
+#'
+#' @param conn The connection to close.
+#' @export
+ps_disconnect_sqlite <- function(conn) {
+  DBI::dbDisconnect(conn)
+}

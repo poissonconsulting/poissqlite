@@ -62,8 +62,8 @@ test_that("sqlite", {
 
   expect_identical(sort(dbListTables(conn2)), sort(c("blob_table", "MetaData")))
 
-  dbDisconnect(conn)
-  dbDisconnect(conn2)
+  ps_disconnect_sqlite(conn)
+  ps_disconnect_sqlite(conn2)
 
   conn <- ps_connect_sqlite(dir = dir, new = TRUE, ask = FALSE)
 
