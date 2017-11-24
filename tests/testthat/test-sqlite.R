@@ -171,8 +171,6 @@ test_that("sqlite", {
 
   # check adding extra columns
   extra_data <- other_data
-  extra_data$Extra <- "a"
-  extra_data$Extra2 <- 10
 
   dbGetQuery(conn,
              "CREATE TABLE ExtraData (
