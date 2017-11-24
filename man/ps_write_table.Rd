@@ -4,7 +4,8 @@
 \alias{ps_write_table}
 \title{Write Table}
 \usage{
-ps_write_table(x, table_name, conn, rename = identity, add_columns = FALSE)
+ps_write_table(x, table_name, conn = getOption("ps.conn"),
+  rename = identity, add_columns = FALSE)
 }
 \arguments{
 \item{x}{The data frame.}

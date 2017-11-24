@@ -4,7 +4,7 @@
 \alias{ps_read_table}
 \title{Read Table}
 \usage{
-ps_read_table(table_name, conn)
+ps_read_table(table_name, conn = getOption("ps.conn"))
 }
 \arguments{
 \item{table_name}{A string of the name of the table.}

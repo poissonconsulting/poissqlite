@@ -62,8 +62,8 @@ test_that("sqlite", {
 
   expect_identical(sort(dbListTables(conn2)), sort(c("blob_table", "MetaData")))
 
-  dbDisconnect(conn)
-  dbDisconnect(conn2)
+  ps_disconnect_sqlite(conn)
+  ps_disconnect_sqlite(conn2)
 
   conn <- ps_connect_sqlite(dir = dir, new = TRUE, ask = FALSE)
 
@@ -102,16 +102,20 @@ test_that("sqlite", {
                               Sample = factor(c("a", "b"), levels = c("b", "a", "c")),
                               AName = c(TRUE, NA),
                               Random = 1:2,
-                              Blob = blobs)
+                              Distance = units::set_units(c(0.1, 0.5), "m"),
+                              Blob = blobs,
+                              Dayte = as.Date(c("2001-01-02", "2002-02-03")))
 
   dbGetQuery(conn,
              "CREATE TABLE MoreData (
                 StartDateTime TEXT NOT NULL,
                 Sample TEXT,
+                Distance REAL,
+                Dayte TEXT,
                 AName BOOLEAN,
                 Blob BLOB)")
 
-  ps_write_table(more_data[c("Sample", "StartDateTime", "Blob", "AName")], "MoreData", conn = conn)
+  ps_write_table(more_data[c("Sample", "StartDateTime", "Blob", "AName", "Distance", "Dayte")], "MoreData", conn = conn)
 
   dbGetQuery(conn,
              "CREATE TABLE OtherData (
@@ -147,7 +151,7 @@ test_that("sqlite", {
   expect_true(poisspatial::is_crs(poisspatial::ps_get_proj4string(other_data2)))
 
   expect_false(exists("MoreData"))
-  tabs <- ps_read_tables(conn)
+  tabs <- ps_load_tables(conn)
   expect_true(exists("MoreData"))
 
   expect_identical(tabs, sort(c("chickwts", "MetaData", "MoreData", "OtherData")))
@@ -163,17 +167,7 @@ test_that("sqlite", {
   metadata2 <- ps_update_metadata(conn)
   expect_is(metadata2, "tbl_df")
   expect_identical(colnames(metadata2), c("DataTable", "DataColumn", "DataUnits", "DataDescription"))
-  expect_identical(nrow(metadata2), 9L)
-
-  info <- ps_df_info(more_data)
-  expect_is(info, "list")
-  expect_true(length(info) == 5L)
-  expect_identical(info$StartDateTime$class[1], "POSIXct")
-  expect_identical(info$Blob$class, "blob")
-  expect_true(info$StartDateTime$missing == 0L)
-  expect_true(info$AName$missing == 1L)
-  expect_true(length(info$Blob) == 2L)
-  expect_identical(info$Sample$key, TRUE)
+  expect_identical(nrow(metadata2), 11L)
 
   # check adding extra columns
   extra_data <- other_data
@@ -200,5 +194,24 @@ test_that("sqlite", {
   extra <- setdiff(colnames(extra_data2), colnames(extra_data))
   expect_identical(length(extra), 0L)
   expect_true(is.na(extra_data3$Extra[1]))
+
+  rm(extra_data, extra, extra_data2, extra_data3)
+
+  #
+  info <- ps_df_info(more_data)
+  expect_is(info, "list")
+  expect_identical(length(info), 7L)
+  expect_identical(info$StartDateTime$class[1], "POSIXct")
+  expect_identical(info$Blob$class, "blob")
+  expect_true(info$StartDateTime$missing == 0L)
+  expect_true(info$AName$missing == 1L)
+  expect_true(length(info$Blob) == 2L)
+  expect_identical(info$Sample$key, TRUE)
+
+  expect_identical(length(ls()), 21L)
+  expect_identical(length(ps_names_data()), 14L)
+  expect_identical(length(ps_strip_columns("Blob")), 6L)
+
+  expect_identical(colnames(more_data), c("StartDateTime", "Sample", "AName", "Random", "Distance", "Dayte"))
 
 })

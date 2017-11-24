@@ -57,7 +57,7 @@ ps_update_metadata_units <- function(x, conn, table_name) {
 #' @param rm_missing A flag indicating whether to remove rows that no longer correspond to a column in a table.
 #' @return An invisible tibble of the new MetaData table.
 #' @export
-ps_update_metadata <- function(conn, rm_missing = TRUE) {
+ps_update_metadata <- function(conn = getOption("ps.conn"), rm_missing = TRUE) {
   check_sqlite_connection(conn)
   check_flag(rm_missing)
 

@@ -9,19 +9,28 @@ get_units <- function(x) {
     x %<>% lubridate::tz()
     if (!is_tz(x))
       error("'", x, "' is not an OlsonNames() time zone")
+    x %<>% paste("tz:", .)
+    stopifnot(is_tz(x))
   } else if (poisspatial::is.sfc(x)) {
     x %<>%
       poisspatial::ps_get_proj4string()
+    x %<>% paste("proj:", .)
     stopifnot(poisspatial::is_crs(x))
   } else if (is.factor(x)) {
     x %<>% levels() %>%
       paste0("'", ., "'") %>%
       paste0(collapse = ", ") %>%
-      paste0("c(", ., ")")
+      paste0("c(", ., ")") %>%
+      paste("levels:", .)
     stopifnot(is_levels(x))
   } else if (is.logical(x)) {
-    x <- "c(FALSE,TRUE)"
+    x <- "class: logical"
     stopifnot(is_boolean(x))
+  } else if (has_measurement_units(x)) {
+    x %<>% deparse_measurement_units()
+  } else if (is.Date(x)){
+    x <- "class: Date"
+    stopifnot(is_date(x))
   } else
     x <- NA_character_
   x
@@ -29,31 +38,64 @@ get_units <- function(x) {
 
 set_units <- function(x, units) {
   if (is_tz(units)) {
+    if (grepl("^tz:\\s*", units))
+      units %<>% sub("^tz:\\s*", "", .)
     x %<>%
       as.POSIXct() %>%
       lubridate::force_tz(units)
   } else if (poisspatial::is_crs(units)) {
+    if (grepl("^proj:\\s*", units))
+      units %<>% sub("^proj:\\s*", "", .)
     x %<>% sf::st_as_sfc(crs = units)
   } else if (is_levels(units)) {
+    if(grepl("^levels:\\s*", units))
+      units %<>% sub("^levels:\\s*", "", .)
     x %<>% factor(levels = get_levels(units))
   } else if (is_boolean(units)) {
     x %<>% as.logical()
+  } else if (is_measurement_units(units)) {
+    x %<>% units::set_units(parse_measurement_units(units))
+  } else if (is_date(units)) {
+    x %<>% as.Date()
   } else
     stop()
   x
 }
 
 has_units <- function(x) {
-  is.POSIXct(x) || is.factor(x) || poisspatial::is.sfc(x) || is.logical(x)
+  is.POSIXct(x) || is.factor(x) || poisspatial::is.sfc(x) || is.logical(x) || has_measurement_units(x) || is.Date(x)
 }
 
-is_units <- function(x) is_levels(x) || is_tz(x) || poisspatial::is_crs(x) || is_boolean(x)
+is.Date <- function(x) inherits(x, "Date")
 
-is_tz <- function(x) x %in% OlsonNames()
+is_units <- function(x) is_levels(x) || is_tz(x) || is_crs(x) || is_boolean(x) || is_measurement_units(x) || is_date(x)
 
-is_levels <- function(x) grepl("^c[(]'", x)
+is_tz <- function(x) {
+  if(grepl("^tz:\\s*", x))
+    x %<>% sub("^tz:\\s*", "", .)
+  x %in% OlsonNames()
+}
+is_levels <- function(x) grepl("^c[(]'", x) || grepl("^levels:\\s*c[(]'", x)
 
-is_boolean <- function(x) grepl("^c[(]FALSE,TRUE[)]", x)
+is_crs <- function(x) {
+  if(grepl("^proj:\\s*", x))
+    x %<>% sub("^proj:\\s*", "", .)
+  poisspatial::is_crs(x)
+}
+is_boolean <- function(x) grepl("^class:\\s*logical$", x) || grepl("^logical$", x) || grepl("^c[(]FALSE,TRUE[)]", x)
+
+is_date <- function(x) grepl("^class:\\s*Date$", x) || grepl("^Date$", x)
+
+has_measurement_units <- function(x) inherits(x, "units")
+
+deparse_measurement_units <- function(x)   paste0("unit: ", units::deparse_unit(x))
+
+is_measurement_units <- function(x) grepl("^unit:", x)
+
+parse_measurement_units <- function(x)  {
+  x %<>% sub("^unit:\\s*", "", .)
+  units::parse_unit(x)
+}
 
 get_levels <- function(x) {
   x %<>%
@@ -64,7 +106,7 @@ get_levels <- function(x) {
 
 is.POSIXct <- function(x) inherits(x, "POSIXct")
 
-is_sqlite_connection <- function(x) inherits(x, "SQLiteConnection")
+is_sqlite_connection <- function(x = getOption("ps.conn")) inherits(x, "SQLiteConnection")
 
 is.blob <- function(x) inherits(x, "blob")
 

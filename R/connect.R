@@ -19,8 +19,10 @@ ps_connect_sqlite <- function(file = "database", dir = ".", new = NA,
   check_flag(ask)
 
   file %<>%
-    file.path(dir, .) %>%
-    paste0(".sqlite")
+    file.path(dir, .)
+
+  if(identical(tools::file_ext(file), ""))
+    file %<>% paste0(".sqlite")
 
   if (identical(new, FALSE) && !file.exists(file))
     error("database `", file, "` does not exist")
@@ -33,4 +35,14 @@ ps_connect_sqlite <- function(file = "database", dir = ".", new = NA,
   conn <- DBI::dbConnect(RSQLite::SQLite(), file)
   if (foreign_keys) DBI::dbGetQuery(conn, "PRAGMA foreign_keys = ON;")
   conn
+}
+
+#' Close a connection to an sqlite database.
+#'
+#' A wrapper on DBI::dbDisconnect.
+#'
+#' @param conn The connection to close.
+#' @export
+ps_disconnect_sqlite <- function(conn) {
+  DBI::dbDisconnect(conn)
 }

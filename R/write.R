@@ -20,7 +20,7 @@
 #' @param rename A function to rename column names in x.
 #' @param add_columns Flag indicating whether to add new columns to table.
 #' @export
-ps_write_table <- function(x, table_name, conn, rename = identity, add_columns = FALSE) {
+ps_write_table <- function(x, table_name, conn = getOption("ps.conn"), rename = identity, add_columns = FALSE) {
   if (!is.data.frame(x)) error("x must be a data frame")
   check_string(table_name)
   check_sqlite_connection(conn)
@@ -42,6 +42,9 @@ ps_write_table <- function(x, table_name, conn, rename = identity, add_columns =
   add_extra <- length(extra) && add_columns
   rm_extra <- length(extra) && !add_columns
 
+  x[] %<>% purrr::lmap_if(has_units, ps_update_metadata_units,
+                          conn = conn, table_name = table_name)
+
   x <- x[c(column_names, extra)]
 
   if(add_extra){
@@ -54,14 +57,7 @@ ps_write_table <- function(x, table_name, conn, rename = identity, add_columns =
       ps_warning("extra column names not added to database.")
   }
 
-
-  x[] %<>% purrr::lmap_if(has_units, ps_update_metadata_units,
-                          conn = conn, table_name = table_name)
-
   dbWriteTable(conn, name = table_name, value = x, row.names = FALSE, append = TRUE)
   invisible(x)
 }
 
-# x <- other_data
-# table_name = "OtherData"
-# add_columns = FALSE

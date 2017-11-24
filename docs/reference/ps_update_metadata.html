@@ -89,7 +89,7 @@ Creates a new one if absent. The MetaData and Log tables are ignored.
 Existing DataUnits and DataDescription values are preserved.</p>
     
 
-    <pre class="usage"><span class='fu'>ps_update_metadata</span>(<span class='no'>conn</span>, <span class='kw'>rm_missing</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>ps_update_metadata</span>(<span class='kw'>conn</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"ps.conn"</span>), <span class='kw'>rm_missing</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
