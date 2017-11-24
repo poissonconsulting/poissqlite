@@ -174,4 +174,31 @@ test_that("sqlite", {
   expect_true(info$AName$missing == 1L)
   expect_true(length(info$Blob) == 2L)
   expect_identical(info$Sample$key, TRUE)
+
+  # check adding extra columns
+  extra_data <- other_data
+  extra_data$Extra <- "a"
+  extra_data$Extra2 <- 10
+
+  dbGetQuery(conn,
+             "CREATE TABLE ExtraData (
+             StartDateTime TEXT NOT NULL,
+             Sample TEXT,
+             ALocation TEXT NOT NULL,
+             Location TEXT NOT NULL,
+             Blob BLOB
+  )")
+
+  ps_write_table(extra_data, "ExtraData", conn = conn, add_columns = TRUE)
+
+  extra_data2 <- ps_read_table("ExtraData", conn = conn)
+  extra <- setdiff(colnames(extra_data2), colnames(extra_data))
+  expect_identical(length(extra), 0L)
+
+  ps_write_table(extra_data, "OtherData", conn = conn, add_columns = TRUE)
+  extra_data3 <- ps_read_table("OtherData", conn = conn)
+  extra <- setdiff(colnames(extra_data2), colnames(extra_data))
+  expect_identical(length(extra), 0L)
+  expect_true(is.na(extra_data3$Extra[1]))
+
 })

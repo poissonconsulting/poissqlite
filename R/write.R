@@ -18,8 +18,9 @@
 #' @param table_name A string of the name of the table.
 #' @param conn An SQLiteConnection object.
 #' @param rename A function to rename column names in x.
+#' @param add_columns Flag indicating whether to add new columns to table.
 #' @export
-ps_write_table <- function(x, table_name, conn, rename = identity) {
+ps_write_table <- function(x, table_name, conn, rename = identity, add_columns = FALSE) {
   if (!is.data.frame(x)) error("x must be a data frame")
   check_string(table_name)
   check_sqlite_connection(conn)
@@ -38,13 +39,29 @@ ps_write_table <- function(x, table_name, conn, rename = identity) {
   if (length(missing)) ps_error("missing column names")
 
   extra <- setdiff(colnames(x), column_names)
-  if (length(extra)) ps_warning("extra column names")
+  add_extra <- length(extra) && add_columns
+  rm_extra <- length(extra) && !add_columns
+
+  x <- x[c(column_names, extra)]
+
+  if(add_extra){
+    purrr::map(extra, ~ DBI::dbGetQuery(conn, paste("ALTER TABLE", table_name, "ADD COLUMN", ., "TEXT")))
+      ps_message("extra column names added to database.")
+  }
+
+  if(rm_extra) {
+    x <- x[column_names]
+      ps_warning("extra column names not added to database.")
+  }
+
 
   x[] %<>% purrr::lmap_if(has_units, ps_update_metadata_units,
                           conn = conn, table_name = table_name)
 
-  x <- x[column_names]
-
   dbWriteTable(conn, name = table_name, value = x, row.names = FALSE, append = TRUE)
   invisible(x)
 }
+
+# x <- other_data
+# table_name = "OtherData"
+# add_columns = FALSE
