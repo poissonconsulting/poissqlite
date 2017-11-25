@@ -44,7 +44,7 @@ ps_write_table <- function(x, table_name, conn = getOption("ps.conn"), rename = 
     if(!add_columns) {
       ps_warning("extra column names not added to database.")
     } else {
-      ps_message("extra column names added to database.")
+      ps_message("extra columns added to database: ", extra)
       purrr::map(extra, ~ DBI::dbGetQuery(conn, paste("ALTER TABLE", table_name, "ADD COLUMN", ., "TEXT")))
       x[extra] %<>% purrr::map(as.character)
       column_names %<>% c(extra)
@@ -52,7 +52,6 @@ ps_write_table <- function(x, table_name, conn = getOption("ps.conn"), rename = 
   }
 
   x <- x[column_names]
-
 
   x[] %<>% purrr::lmap_if(has_units, ps_update_metadata_units,
                           conn = conn, table_name = table_name)
