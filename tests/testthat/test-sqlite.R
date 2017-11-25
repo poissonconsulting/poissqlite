@@ -184,16 +184,11 @@ test_that("sqlite", {
   ps_write_table(extra_data, "ExtraData", conn = conn, add_columns = TRUE)
 
   extra_data2 <- ps_read_table("ExtraData", conn = conn)
-  extra <- setdiff(colnames(extra_data2), colnames(extra_data))
-  expect_identical(length(extra), 0L)
+  expect_identical(sort(colnames(extra_data2)), sort(colnames(extra_data)))
 
   ps_write_table(extra_data, "OtherData", conn = conn, add_columns = TRUE)
   extra_data3 <- ps_read_table("OtherData", conn = conn)
-  extra <- setdiff(colnames(extra_data2), colnames(extra_data))
-  expect_identical(length(extra), 0L)
-  expect_true(is.na(extra_data3$Extra[1]))
-
-  rm(extra_data, extra, extra_data2, extra_data3)
+  expect_identical(sort(colnames(extra_data3)), sort(colnames(extra_data)))
 
   #
   info <- ps_df_info(more_data)
@@ -206,10 +201,9 @@ test_that("sqlite", {
   expect_true(length(info$Blob) == 2L)
   expect_identical(info$Sample$key, TRUE)
 
-  expect_identical(length(ls()), 21L)
-  expect_identical(length(ps_names_data()), 14L)
-  expect_identical(length(ps_strip_columns("Blob")), 6L)
+  expect_identical(length(ls()), 24L)
+  expect_identical(length(ps_names_data()), 17L)
+  expect_identical(length(ps_strip_columns("Blob")), 9L)
 
   expect_identical(colnames(more_data), c("StartDateTime", "Sample", "AName", "Random", "Distance", "Dayte"))
-
 })
