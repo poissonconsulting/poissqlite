@@ -29,8 +29,8 @@ test_that("sqlite", {
 
   dbGetQuery(conn,
              "CREATE TABLE blob_table (
-                File TEXT NOT NULL,
-                BLOB BLOB NOT NULL)")
+             File TEXT NOT NULL,
+             BLOB BLOB NOT NULL)")
 
   ps_write_table(blob_data, "blob_table", conn)
 
@@ -108,23 +108,23 @@ test_that("sqlite", {
 
   dbGetQuery(conn,
              "CREATE TABLE MoreData (
-                StartDateTime TEXT NOT NULL,
-                Sample TEXT,
-                Distance REAL,
-                Dayte TEXT,
-                AName BOOLEAN,
-                Blob BLOB)")
+             StartDateTime TEXT NOT NULL,
+             Sample TEXT,
+             Distance REAL,
+             Dayte TEXT,
+             AName BOOLEAN,
+             Blob BLOB)")
 
   ps_write_table(more_data[c("Sample", "StartDateTime", "Blob", "AName", "Distance", "Dayte")], "MoreData", conn = conn)
 
   dbGetQuery(conn,
              "CREATE TABLE OtherData (
-                StartDateTime TEXT NOT NULL,
-                Sample TEXT,
-                ALocation TEXT NOT NULL,
-                Location TEXT NOT NULL,
-                Blob BLOB
-                )")
+             StartDateTime TEXT NOT NULL,
+             Sample TEXT,
+             ALocation TEXT NOT NULL,
+             Location TEXT NOT NULL,
+             Blob BLOB
+  )")
 
   other_data <- more_data
   other_data$X <- c(1,10)
@@ -169,28 +169,6 @@ test_that("sqlite", {
   expect_identical(colnames(metadata2), c("DataTable", "DataColumn", "DataUnits", "DataDescription"))
   expect_identical(nrow(metadata2), 11L)
 
-  # check adding extra columns
-  extra_data <- other_data
-
-  dbGetQuery(conn,
-             "CREATE TABLE ExtraData (
-             StartDateTime TEXT NOT NULL,
-             Sample TEXT,
-             ALocation TEXT NOT NULL,
-             Location TEXT NOT NULL,
-             Blob BLOB
-  )")
-
-  ps_write_table(extra_data, "ExtraData", conn = conn, add_columns = TRUE)
-
-  extra_data2 <- ps_read_table("ExtraData", conn = conn)
-  expect_identical(sort(colnames(extra_data2)), sort(colnames(extra_data)))
-
-  ps_write_table(extra_data, "OtherData", conn = conn, add_columns = TRUE)
-  extra_data3 <- ps_read_table("OtherData", conn = conn)
-  expect_identical(sort(colnames(extra_data3)), sort(colnames(extra_data)))
-
-  #
   info <- ps_df_info(more_data)
   expect_is(info, "list")
   expect_identical(length(info), 7L)
@@ -201,9 +179,9 @@ test_that("sqlite", {
   expect_true(length(info$Blob) == 2L)
   expect_identical(info$Sample$key, TRUE)
 
-  expect_identical(length(ls()), 24L)
-  expect_identical(length(ps_names_data()), 17L)
-  expect_identical(length(ps_strip_columns("Blob")), 9L)
+  expect_identical(length(ls()), 21L)
+  expect_identical(length(ps_names_data()), 14L)
+  expect_identical(length(ps_strip_columns("Blob")), 6L)
 
   expect_identical(colnames(more_data), c("StartDateTime", "Sample", "AName", "Random", "Distance", "Dayte"))
 })

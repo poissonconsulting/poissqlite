@@ -5,7 +5,7 @@
 \title{Write Table}
 \usage{
 ps_write_table(x, table_name, conn = getOption("ps.conn"),
-  rename = identity, add_columns = FALSE)
+  rename = identity)
 }
 \arguments{
 \item{x}{The data frame.}
@@ -15,8 +15,6 @@ ps_write_table(x, table_name, conn = getOption("ps.conn"),
 \item{conn}{An SQLiteConnection object.}
 
 \item{rename}{A function to rename column names in x.}
-
-\item{add_columns}{Flag indicating whether to add new columns to table.}
 }
 \description{
 Appends a data frame to an existing table in an SQLite database
