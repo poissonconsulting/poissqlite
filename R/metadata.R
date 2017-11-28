@@ -81,10 +81,11 @@ ps_update_metadata <- function(conn = getOption("ps.conn"), rm_missing = TRUE) {
   } else {
     metadata_table <- dbReadTable(conn, "MetaData")
 
-    check_cols(metadata_table, c("DataTable", "DataColumn", "DataUnits", "DataDescription"),
-               exclusive = TRUE, ordered = TRUE, data_name = "MetaData table")
+    check_colnames(metadata_table, c("DataTable", "DataColumn", "DataUnits", "DataDescription"),
+               exclusive = TRUE, order = TRUE, x_name = "MetaData table")
 
-    check_data1(metadata_table, values = list(DataTable = "", DataColumn = "",
+    check_data(metadata_table, values = list(DataTable = "",
+                                              DataColumn = "",
                                               DataUnits = c("", NA),
                                               DataDescription = c("", NA)))
 

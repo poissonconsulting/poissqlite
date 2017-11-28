@@ -9,7 +9,7 @@
 #' @param df A data.frame object.
 #' @export
 ps_df_info <- function(df){
-  check_data_frame(df)
+  check_data(df)
 
   if(inherits(df, "sf")) {
     sf::st_geometry(df) <- NULL

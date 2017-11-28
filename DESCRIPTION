@@ -1,7 +1,7 @@
 Package: poissqlite
 Title: Work with SQLite Databases
-Version: 0.0.0.9020
-Date: 2017-11-20
+Version: 0.0.0.9021
+Date: 2017-11-28
 Authors@R: c(
     person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre")),
     person("Seb", "Dalgarno", role = "aut"))
@@ -12,7 +12,7 @@ BugReports: https://github.com/poissonconsulting/poissqlite/issues
 Depends: R (>= 3.4.1),
          DBI,
 Imports: blob,
-         datacheckr,
+         checkr,
          dplyr,
          lubridate,
          magrittr,
@@ -29,7 +29,8 @@ Imports: blob,
 Suggests: datasets,
           testthat,
           covr
-Remotes: poissonconsulting/poisspatial,
+Remotes: poissonconsulting/checkr,
+        poissonconsulting/poisspatial,
         poissonconsulting/poisutils
 Encoding: UTF-8
 LazyData: true
