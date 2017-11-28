@@ -4,7 +4,7 @@
 \alias{ps_write_table}
 \title{Write Table}
 \usage{
-ps_write_table(x, table_name, conn = getOption("ps.conn"),
+ps_write_table(x, table_name, conn = getOption("ps.conn"), append = TRUE,
   rename = identity)
 }
 \arguments{
@@ -13,6 +13,8 @@ ps_write_table(x, table_name, conn = getOption("ps.conn"),
 \item{table_name}{A string of the name of the table.}
 
 \item{conn}{An SQLiteConnection object.}
+
+\item{append}{A flag indicating whether to append the data to any existing rows (the default) or delete any existing rows first (\code{append = FALSE}).}
 
 \item{rename}{A function to rename column names in x.}
 }
