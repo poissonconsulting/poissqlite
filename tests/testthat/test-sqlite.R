@@ -117,6 +117,12 @@ test_that("sqlite", {
 
   ps_write_table(more_data[c("Sample", "StartDateTime", "Blob", "AName", "Distance", "Dayte")], "MoreData", conn = conn)
 
+  ps_delete_data("MoreData", conn = conn)
+
+  ps_write_table(more_data[c("Sample", "StartDateTime", "Blob", "AName", "Distance", "Dayte")], "MoreData", conn = conn)
+
+  ps_write_table(more_data[c("Sample", "StartDateTime", "Blob", "AName", "Distance", "Dayte")], "MoreData", conn = conn, delete = TRUE)
+
   dbGetQuery(conn,
              "CREATE TABLE OtherData (
              StartDateTime TEXT NOT NULL,

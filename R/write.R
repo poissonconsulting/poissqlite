@@ -17,13 +17,13 @@
 #' @param x The data frame.
 #' @param table_name A string of the name of the table.
 #' @param conn An SQLiteConnection object.
-#' @param append A flag indicating whether to append the data to any existing rows (the default) or delete any existing rows first (\code{append = FALSE}).
+#' @param delete A flag indicating whether to delete the existing data before appending the data.
 #' @param rename A function to rename column names in x.
 #' @export
-ps_write_table <- function(x, table_name, conn = getOption("ps.conn"), append = TRUE, rename = identity) {
+ps_write_table <- function(x, table_name, conn = getOption("ps.conn"), delete = FALSE, rename = identity) {
   if (!is.data.frame(x)) error("x must be a data frame")
   check_string(table_name)
-  check_flag(append)
+  check_flag(delete)
   check_sqlite_connection(conn)
 
   tables <- dbListTables(conn)
@@ -47,6 +47,8 @@ ps_write_table <- function(x, table_name, conn = getOption("ps.conn"), append = 
 
   x <- x[column_names]
 
-  dbWriteTable(conn, name = table_name, value = x, row.names = FALSE, append = append)
+  if(delete) ps_delete_data(table_name, conn = conn)
+
+  dbWriteTable(conn, name = table_name, value = x, row.names = FALSE, append = TRUE)
   invisible(x)
 }
