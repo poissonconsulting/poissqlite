@@ -16,6 +16,13 @@ get_units <- function(x) {
       poisspatial::ps_get_proj4string()
     x %<>% paste("proj:", .)
     stopifnot(poisspatial::is_crs(x))
+  } else if (is.ordered(x)) {
+    x %<>% levels() %>%
+      paste0("'", ., "'") %>%
+      paste0(collapse = ", ") %>%
+      paste0("c(", ., ")") %>%
+      paste("ordered:", .)
+    stopifnot(is_ordered(x))
   } else if (is.factor(x)) {
     x %<>% levels() %>%
       paste0("'", ., "'") %>%
@@ -47,6 +54,9 @@ set_units <- function(x, units) {
     if (grepl("^proj:\\s*", units))
       units %<>% sub("^proj:\\s*", "", .)
     x %<>% sf::st_as_sfc(crs = units)
+  } else if (is_ordered(units)) {
+    units %<>% sub("^ordered:\\s*", "", .)
+    x %<>% ordered(levels = get_levels(units))
   } else if (is_levels(units)) {
     if(grepl("^levels:\\s*", units))
       units %<>% sub("^levels:\\s*", "", .)
@@ -68,7 +78,7 @@ has_units <- function(x) {
 
 is.Date <- function(x) inherits(x, "Date")
 
-is_units <- function(x) is_levels(x) || is_tz(x) || is_crs(x) || is_boolean(x) || is_measurement_units(x) || is_date(x)
+is_units <- function(x) is_levels(x) || is_ordered(x) || is_tz(x) || is_crs(x) || is_boolean(x) || is_measurement_units(x) || is_date(x)
 
 is_tz <- function(x) {
   if(grepl("^tz:\\s*", x))
@@ -76,6 +86,8 @@ is_tz <- function(x) {
   x %in% OlsonNames()
 }
 is_levels <- function(x) grepl("^c[(]'", x) || grepl("^levels:\\s*c[(]'", x)
+
+is_ordered <- function(x) grepl("^ordered:\\s*c[(]'", x)
 
 is_crs <- function(x) {
   if(grepl("^proj:\\s*", x))
