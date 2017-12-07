@@ -16,6 +16,7 @@ Imports: blob,
          dplyr,
          lubridate,
          magrittr,
+         poisdata,
          poisspatial (>= 0.0.0.9010),
          poisutils,
          purrr,
@@ -30,6 +31,7 @@ Suggests: datasets,
           testthat,
           covr
 Remotes: poissonconsulting/checkr,
+        poissonconsulting/poisdata,
         poissonconsulting/poisspatial,
         poissonconsulting/poisutils
 Encoding: UTF-8

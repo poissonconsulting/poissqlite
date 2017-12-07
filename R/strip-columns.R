@@ -22,7 +22,7 @@ ps_strip_columns <- function(columns, envir = parent.frame()) {
 
   check_vector(columns, "")
 
-  names <- ps_names_data(envir = envir)
+  names <- poisdata::ps_names_datas(envir = envir)
 
   if(!length(data)) return(invisible(character(0)))
 

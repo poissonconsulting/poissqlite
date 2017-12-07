@@ -186,7 +186,7 @@ test_that("sqlite", {
   expect_identical(info$Sample$key, TRUE)
 
   expect_identical(length(ls()), 21L)
-  expect_identical(length(ps_names_data()), 14L)
+  expect_identical(length(poisdata::ps_names_datas()), 14L)
   expect_identical(length(ps_strip_columns("Blob")), 6L)
 
   expect_identical(colnames(more_data), c("StartDateTime", "Sample", "AName", "Random", "Distance", "Dayte"))
