@@ -18,18 +18,21 @@ ps_connect_sqlite <- function(file = "database", dir = ".", new = NA,
   check_flag(foreign_keys)
   check_flag(ask)
 
-  file %<>%
-    file.path(dir, .)
+  if(dir != ".") {
+    file %<>% file.path(dir, .)
+  }
 
   if(identical(tools::file_ext(file), ""))
     file %<>% paste0(".sqlite")
 
   if (identical(new, FALSE) && !file.exists(file))
-    error("database `", file, "` does not exist")
+    ps_error("file '", file, "' does not exist")
 
-  if (identical(new, TRUE) && file.exists(file))
+  if (identical(new, TRUE) && file.exists(file)) {
+    if(ask && !yesno::yesno("Delete existing file '", file, "'"))
+      ps_error("file '", file, "' already exists")
     file.remove(file)
-
+  }
   if (!poisutils::ps_create_dir(dir, ask)) error("dir '", dir, "' does not exist")
 
   conn <- DBI::dbConnect(RSQLite::SQLite(), file)
