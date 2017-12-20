@@ -29,6 +29,9 @@ loaded).
 library(poissqlite)
 #> Loading required package: DBI
 conn <- ps_connect_sqlite(dir = tempdir(), new = TRUE)
+#> Warning: 'check_scalar' is deprecated.
+#> Use 'check_length1()' instead.
+#> See help("Deprecated")
 #> Warning in rsqlite_fetch(res@ptr, n = n): Don't need to call dbFetch() for
 #> statements, only for queries
 print(class(conn))

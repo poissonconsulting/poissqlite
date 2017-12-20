@@ -162,6 +162,10 @@ test_that("sqlite", {
   tabs <- ps_load_tables(conn)
   expect_true(exists("MoreData"))
 
+  csvs <- ps_write_tables_csvs(conn, dir = dir)
+  expect_identical(tabs, csvs)
+  expect_true(all(paste0(csvs, ".csv") %in% list.files(dir)))
+
   expect_identical(tabs, sort(c("chickwts", "MetaData", "MoreData", "OtherData")))
 
   metadata <- ps_update_metadata(conn)
@@ -187,7 +191,7 @@ test_that("sqlite", {
   expect_true(length(info$Blob) == 2L)
   expect_identical(info$Sample$key, TRUE)
 
-  expect_identical(length(ls()), 21L)
+  expect_identical(length(ls()), 22L)
   expect_identical(length(poisdata::ps_names_datas()), 14L)
   expect_identical(length(ps_strip_columns("Blob")), 6L)
 

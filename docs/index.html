@@ -29,7 +29,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="/index.html">
+  <a href="index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -72,13 +72,16 @@
 <span class="kw">library</span>(poissqlite)</div>
 <div class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; Loading required package: DBI</span></div>
 <div class="sourceLine" id="cb1-3" data-line-number="3">conn &lt;-<span class="st"> </span><span class="kw"><a href="reference/ps_connect_sqlite.html">ps_connect_sqlite</a></span>(<span class="dt">dir =</span> <span class="kw">tempdir</span>(), <span class="dt">new =</span> <span class="ot">TRUE</span>)</div>
-<div class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; Warning in rsqlite_fetch(res@ptr, n = n): Don't need to call dbFetch() for</span></div>
-<div class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; statements, only for queries</span></div>
-<div class="sourceLine" id="cb1-6" data-line-number="6">
+<div class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; Warning: 'check_scalar' is deprecated.</span></div>
+<div class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; Use 'check_length1()' instead.</span></div>
+<div class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; See help("Deprecated")</span></div>
+<div class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; Warning in rsqlite_fetch(res@ptr, n = n): Don't need to call dbFetch() for</span></div>
+<div class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; statements, only for queries</span></div>
+<div class="sourceLine" id="cb1-9" data-line-number="9">
 <span class="kw">print</span>(<span class="kw">class</span>(conn))</div>
-<div class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; [1] "SQLiteConnection"</span></div>
-<div class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; attr(,"package")</span></div>
-<div class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; [1] "RSQLite"</span></div></code></pre>
+<div class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; [1] "SQLiteConnection"</span></div>
+<div class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; attr(,"package")</span></div>
+<div class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; [1] "RSQLite"</span></div></code></pre>
 </section><section id="working-with-blobs" class="level3"><h3>Working with Blobs</h3>
 <p>Files and R objects can be added to SQLite databases as storage type <a href="https://sqlite.org/datatype3.html">BLOB</a>.</p>
 <p>The <code><a href="reference/ps_blob_file.html">ps_blob_file()</a></code> function can be used to convert a file to a <code>blob</code> while <code><a href="reference/ps_deblob_file.html">ps_deblob_file()</a></code> performs the inverse operation, i.e., saves a blob to a file of the original format. <code><a href="reference/ps_blob_files.html">ps_blob_files()</a></code> and <code><a href="reference/ps_deblob_files.html">ps_deblob_files()</a></code> are the equivalent functions for working with multiple files. In addition, the <code><a href="reference/ps_blob_object.html">ps_blob_object()</a></code> and <code><a href="reference/ps_deblob_object.html">ps_deblob_object()</a></code> can be used to convert between an R object and a blob. This is achieved by reading or writing the object as an <code>.rds</code> file which means that <code><a href="reference/ps_deblob_file.html">ps_deblob_file()</a></code> applied to a blob created using <code><a href="reference/ps_blob_object.html">ps_blob_object()</a></code> produces the intermediate <code>.rds</code> file.</p>
