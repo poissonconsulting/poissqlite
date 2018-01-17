@@ -106,7 +106,7 @@ is_measurement_units <- function(x) grepl("^unit:", x)
 
 parse_measurement_units <- function(x)  {
   x %<>% sub("^unit:\\s*", "", .)
-  units::parse_unit(x)
+  units::as_units(x)
 }
 
 get_levels <- function(x) {
