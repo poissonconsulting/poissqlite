@@ -64,7 +64,7 @@ set_units <- function(x, units) {
   } else if (is_boolean(units)) {
     x %<>% as.logical()
   } else if (is_measurement_units(units)) {
-    x %<>% units::set_units(parse_measurement_units(units))
+    x %<>% units::set_units(parse_measurement_units(units), mode = "standard")
   } else if (is_date(units)) {
     x %<>% as.Date()
   } else
