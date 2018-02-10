@@ -15,6 +15,7 @@ ps_connect_sqlite <- function(file = "database", dir = ".", new = NA,
   check_string(file)
   check_string(dir)
   check_length1(new, c(TRUE, NA))
+  check_vector(new, c(TRUE, NA))
   check_flag(foreign_keys)
   check_flag(ask)
 

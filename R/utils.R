@@ -64,7 +64,7 @@ set_units <- function(x, units) {
   } else if (is_boolean(units)) {
     x %<>% as.logical()
   } else if (is_measurement_units(units)) {
-    x %<>% units::set_units(parse_measurement_units(units))
+    x %<>% units::set_units(parse_measurement_units(units), mode = "standard")
   } else if (is_date(units)) {
     x %<>% as.Date()
   } else
@@ -106,7 +106,7 @@ is_measurement_units <- function(x) grepl("^unit:", x)
 
 parse_measurement_units <- function(x)  {
   x %<>% sub("^unit:\\s*", "", .)
-  units::parse_unit(x)
+  units::as_units(x)
 }
 
 get_levels <- function(x) {
