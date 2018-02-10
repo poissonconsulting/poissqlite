@@ -63,101 +63,107 @@
 <div class="contents">
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<section id="poissqlite" class="level1"><div class="page-header"><h1>poissqlite</h1></div>
+<div id="poissqlite" class="section level1">
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#poissqlite" class="anchor"></a>poissqlite</h1></div>
 <p>An R package to facilitate working with SQLite databases.</p>
-<section id="documentation" class="level2"><h2>Documentation</h2>
-<section id="connection" class="level3"><h3>Connection</h3>
+<div id="documentation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#documentation" class="anchor"></a>Documentation</h2>
+<div id="connection" class="section level3">
+<h3 class="hasAnchor">
+<a href="#connection" class="anchor"></a>Connection</h3>
 <p>The <code><a href="reference/ps_connect_sqlite.html">ps_connect_sqlite()</a></code> function can be used to connect to an sqlite3 database. By default it switches foreign keys on. The connection can be queried using the functions in the <code>DBI</code> package (which is automatically loaded).</p>
-<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><div class="sourceLine" id="cb1-1" data-line-number="1">
-<span class="kw">library</span>(poissqlite)</div>
-<div class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; Loading required package: DBI</span></div>
-<div class="sourceLine" id="cb1-3" data-line-number="3">conn &lt;-<span class="st"> </span><span class="kw"><a href="reference/ps_connect_sqlite.html">ps_connect_sqlite</a></span>(<span class="dt">dir =</span> <span class="kw">tempdir</span>(), <span class="dt">new =</span> <span class="ot">TRUE</span>)</div>
-<div class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; Warning: 'check_scalar' is deprecated.</span></div>
-<div class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; Use 'check_length1()' instead.</span></div>
-<div class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; See help("Deprecated")</span></div>
-<div class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; Warning in rsqlite_fetch(res@ptr, n = n): Don't need to call dbFetch() for</span></div>
-<div class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; statements, only for queries</span></div>
-<div class="sourceLine" id="cb1-9" data-line-number="9">
-<span class="kw">print</span>(<span class="kw">class</span>(conn))</div>
-<div class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; [1] "SQLiteConnection"</span></div>
-<div class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; attr(,"package")</span></div>
-<div class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; [1] "RSQLite"</span></div></code></pre>
-</section><section id="working-with-blobs" class="level3"><h3>Working with Blobs</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(poissqlite)
+<span class="co">#&gt; Loading required package: DBI</span>
+conn &lt;-<span class="st"> </span><span class="kw"><a href="reference/ps_connect_sqlite.html">ps_connect_sqlite</a></span>(<span class="dt">dir =</span> <span class="kw">tempdir</span>(), <span class="dt">new =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; Warning in rsqlite_fetch(res@ptr, n = n): Don't need to call dbFetch() for</span>
+<span class="co">#&gt; statements, only for queries</span>
+<span class="kw">print</span>(<span class="kw">class</span>(conn))
+<span class="co">#&gt; [1] "SQLiteConnection"</span>
+<span class="co">#&gt; attr(,"package")</span>
+<span class="co">#&gt; [1] "RSQLite"</span></code></pre></div>
+</div>
+<div id="working-with-blobs" class="section level3">
+<h3 class="hasAnchor">
+<a href="#working-with-blobs" class="anchor"></a>Working with Blobs</h3>
 <p>Files and R objects can be added to SQLite databases as storage type <a href="https://sqlite.org/datatype3.html">BLOB</a>.</p>
 <p>The <code><a href="reference/ps_blob_file.html">ps_blob_file()</a></code> function can be used to convert a file to a <code>blob</code> while <code><a href="reference/ps_deblob_file.html">ps_deblob_file()</a></code> performs the inverse operation, i.e., saves a blob to a file of the original format. <code><a href="reference/ps_blob_files.html">ps_blob_files()</a></code> and <code><a href="reference/ps_deblob_files.html">ps_deblob_files()</a></code> are the equivalent functions for working with multiple files. In addition, the <code><a href="reference/ps_blob_object.html">ps_blob_object()</a></code> and <code><a href="reference/ps_deblob_object.html">ps_deblob_object()</a></code> can be used to convert between an R object and a blob. This is achieved by reading or writing the object as an <code>.rds</code> file which means that <code><a href="reference/ps_deblob_file.html">ps_deblob_file()</a></code> applied to a blob created using <code><a href="reference/ps_blob_object.html">ps_blob_object()</a></code> produces the intermediate <code>.rds</code> file.</p>
 <p>It’s important to realize that the <code>ps_blob</code> family of functions embed the original file extension in the raw data to ensure the converted files are the original format. A consequence is that the <code>ps_deblob</code> family of functions will only work on blobs created using the <code>ps_blob</code> functions.</p>
-<pre class="sourceCode r" id="cb2"><code class="sourceCode r"><div class="sourceLine" id="cb2-1" data-line-number="1">
-<span class="kw">print</span>(<span class="kw">head</span>(datasets<span class="op">::</span>cars))</div>
-<div class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt;   speed dist</span></div>
-<div class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; 1     4    2</span></div>
-<div class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; 2     4   10</span></div>
-<div class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; 3     7    4</span></div>
-<div class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; 4     7   22</span></div>
-<div class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; 5     8   16</span></div>
-<div class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; 6     9   10</span></div>
-<div class="sourceLine" id="cb2-9" data-line-number="9"></div>
-<div class="sourceLine" id="cb2-10" data-line-number="10">
-<span class="kw">write.csv</span>(datasets<span class="op">::</span>cars, <span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">"cars.csv"</span>), <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</div>
-<div class="sourceLine" id="cb2-11" data-line-number="11">
-<span class="kw">dir.create</span>(<span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">"sub"</span>))</div>
-<div class="sourceLine" id="cb2-12" data-line-number="12">
-<span class="kw">write.csv</span>(datasets<span class="op">::</span>chickwts, <span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">"sub/chickwts.csv"</span>), <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</div>
-<div class="sourceLine" id="cb2-13" data-line-number="13"></div>
-<div class="sourceLine" id="cb2-14" data-line-number="14">blobs &lt;-<span class="st"> </span><span class="kw"><a href="reference/ps_blob_files.html">ps_blob_files</a></span>(<span class="kw">tempdir</span>(), <span class="dt">pattern =</span> <span class="st">"[.]csv$"</span>, <span class="dt">recursive =</span> <span class="ot">TRUE</span>)</div>
-<div class="sourceLine" id="cb2-15" data-line-number="15"></div>
-<div class="sourceLine" id="cb2-16" data-line-number="16">
-<span class="kw">print</span>(blobs)</div>
-<div class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt;         cars.csv sub/chickwts.csv </span></div>
-<div class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt;      blob[382 B]    blob[1,130 B]</span></div>
-<div class="sourceLine" id="cb2-19" data-line-number="19"></div>
-<div class="sourceLine" id="cb2-20" data-line-number="20">blob_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">File =</span> <span class="kw">names</span>(blobs), <span class="dt">BLOB =</span> blobs)</div>
-<div class="sourceLine" id="cb2-21" data-line-number="21"></div>
-<div class="sourceLine" id="cb2-22" data-line-number="22">
-<span class="kw">dbWriteTable</span>(conn, <span class="st">"blob_table"</span>, blob_data)</div>
-<div class="sourceLine" id="cb2-23" data-line-number="23"></div>
-<div class="sourceLine" id="cb2-24" data-line-number="24">blob_data_new &lt;-<span class="st"> </span><span class="kw">dbReadTable</span>(conn, <span class="st">"blob_table"</span>)</div>
-<div class="sourceLine" id="cb2-25" data-line-number="25"></div>
-<div class="sourceLine" id="cb2-26" data-line-number="26">blobs &lt;-<span class="st"> </span>blob_data_new<span class="op">$</span>BLOB</div>
-<div class="sourceLine" id="cb2-27" data-line-number="27">
-<span class="kw">names</span>(blobs) &lt;-<span class="st"> </span>blob_data_new<span class="op">$</span>File </div>
-<div class="sourceLine" id="cb2-28" data-line-number="28"></div>
-<div class="sourceLine" id="cb2-29" data-line-number="29">
-<span class="kw">dir.create</span>(<span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">"new"</span>))</div>
-<div class="sourceLine" id="cb2-30" data-line-number="30">
-<span class="kw"><a href="reference/ps_deblob_files.html">ps_deblob_files</a></span>(blobs, <span class="dt">dir =</span> <span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">"new"</span>), <span class="dt">ask =</span> <span class="ot">FALSE</span>)</div>
-<div class="sourceLine" id="cb2-31" data-line-number="31"></div>
-<div class="sourceLine" id="cb2-32" data-line-number="32">cars_new &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">"new"</span>, <span class="st">"cars.csv"</span>)) </div>
-<div class="sourceLine" id="cb2-33" data-line-number="33">
-<span class="kw">print</span>(<span class="kw">head</span>(cars_new))</div>
-<div class="sourceLine" id="cb2-34" data-line-number="34"><span class="co">#&gt;   speed dist</span></div>
-<div class="sourceLine" id="cb2-35" data-line-number="35"><span class="co">#&gt; 1     4    2</span></div>
-<div class="sourceLine" id="cb2-36" data-line-number="36"><span class="co">#&gt; 2     4   10</span></div>
-<div class="sourceLine" id="cb2-37" data-line-number="37"><span class="co">#&gt; 3     7    4</span></div>
-<div class="sourceLine" id="cb2-38" data-line-number="38"><span class="co">#&gt; 4     7   22</span></div>
-<div class="sourceLine" id="cb2-39" data-line-number="39"><span class="co">#&gt; 5     8   16</span></div>
-<div class="sourceLine" id="cb2-40" data-line-number="40"><span class="co">#&gt; 6     9   10</span></div></code></pre>
-</section><section id="meta-data" class="level3"><h3>Meta Data</h3>
-<pre class="sourceCode r" id="cb3"><code class="sourceCode r"><div class="sourceLine" id="cb3-1" data-line-number="1">metadata &lt;-<span class="st"> </span><span class="kw"><a href="reference/ps_update_metadata.html">ps_update_metadata</a></span>(conn)</div>
-<div class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; Warning in rsqlite_fetch(res@ptr, n = n): Don't need to call dbFetch() for</span></div>
-<div class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; statements, only for queries</span></div>
-<div class="sourceLine" id="cb3-4" data-line-number="4">
-<span class="kw">print</span>(metadata)</div>
-<div class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; # A tibble: 2 x 4</span></div>
-<div class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt;    DataTable DataColumn DataUnits DataDescription</span></div>
-<div class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt;        &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;           &lt;chr&gt;</span></div>
-<div class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; 1 blob_table       BLOB      &lt;NA&gt;            &lt;NA&gt;</span></div>
-<div class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; 2 blob_table       File      &lt;NA&gt;            &lt;NA&gt;</span></div></code></pre>
-</section><section id="disconnection" class="level3"><h3>Disconnection</h3>
-<pre class="sourceCode r" id="cb4"><code class="sourceCode r"><div class="sourceLine" id="cb4-1" data-line-number="1">
-<span class="kw">dbDisconnect</span>(conn)</div></code></pre>
-</section></section><section id="installation" class="level2"><h2>Installation</h2>
-<pre class="sourceCode r" id="cb5"><code class="sourceCode r"><div class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># install.packages("devtools")</span></div>
-<div class="sourceLine" id="cb5-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"poissonconsulting/poissqlite"</span>)</div></code></pre>
-</section><section id="contribution" class="level2"><h2>Contribution</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">head</span>(datasets<span class="op">::</span>cars))
+<span class="co">#&gt;   speed dist</span>
+<span class="co">#&gt; 1     4    2</span>
+<span class="co">#&gt; 2     4   10</span>
+<span class="co">#&gt; 3     7    4</span>
+<span class="co">#&gt; 4     7   22</span>
+<span class="co">#&gt; 5     8   16</span>
+<span class="co">#&gt; 6     9   10</span>
+
+<span class="kw">write.csv</span>(datasets<span class="op">::</span>cars, <span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">"cars.csv"</span>), <span class="dt">row.names =</span> <span class="ot">FALSE</span>)
+<span class="kw">dir.create</span>(<span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">"sub"</span>))
+<span class="kw">write.csv</span>(datasets<span class="op">::</span>chickwts, <span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">"sub/chickwts.csv"</span>), <span class="dt">row.names =</span> <span class="ot">FALSE</span>)
+
+blobs &lt;-<span class="st"> </span><span class="kw"><a href="reference/ps_blob_files.html">ps_blob_files</a></span>(<span class="kw">tempdir</span>(), <span class="dt">pattern =</span> <span class="st">"[.]csv$"</span>, <span class="dt">recursive =</span> <span class="ot">TRUE</span>)
+
+<span class="kw">print</span>(blobs)
+<span class="co">#&gt;         cars.csv sub/chickwts.csv </span>
+<span class="co">#&gt;      blob[382 B]    blob[1,130 B]</span>
+
+blob_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">File =</span> <span class="kw">names</span>(blobs), <span class="dt">BLOB =</span> blobs)
+
+<span class="kw">dbWriteTable</span>(conn, <span class="st">"blob_table"</span>, blob_data)
+
+blob_data_new &lt;-<span class="st"> </span><span class="kw">dbReadTable</span>(conn, <span class="st">"blob_table"</span>)
+
+blobs &lt;-<span class="st"> </span>blob_data_new<span class="op">$</span>BLOB
+<span class="kw">names</span>(blobs) &lt;-<span class="st"> </span>blob_data_new<span class="op">$</span>File 
+
+<span class="kw">dir.create</span>(<span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">"new"</span>))
+<span class="kw"><a href="reference/ps_deblob_files.html">ps_deblob_files</a></span>(blobs, <span class="dt">dir =</span> <span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">"new"</span>), <span class="dt">ask =</span> <span class="ot">FALSE</span>)
+
+cars_new &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">"new"</span>, <span class="st">"cars.csv"</span>)) 
+<span class="kw">print</span>(<span class="kw">head</span>(cars_new))
+<span class="co">#&gt;   speed dist</span>
+<span class="co">#&gt; 1     4    2</span>
+<span class="co">#&gt; 2     4   10</span>
+<span class="co">#&gt; 3     7    4</span>
+<span class="co">#&gt; 4     7   22</span>
+<span class="co">#&gt; 5     8   16</span>
+<span class="co">#&gt; 6     9   10</span></code></pre></div>
+</div>
+<div id="meta-data" class="section level3">
+<h3 class="hasAnchor">
+<a href="#meta-data" class="anchor"></a>Meta Data</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">metadata &lt;-<span class="st"> </span><span class="kw"><a href="reference/ps_update_metadata.html">ps_update_metadata</a></span>(conn)
+<span class="co">#&gt; Warning in rsqlite_fetch(res@ptr, n = n): Don't need to call dbFetch() for</span>
+<span class="co">#&gt; statements, only for queries</span>
+<span class="kw">print</span>(metadata)
+<span class="co">#&gt; # A tibble: 2 x 4</span>
+<span class="co">#&gt;    DataTable DataColumn DataUnits DataDescription</span>
+<span class="co">#&gt;        &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;           &lt;chr&gt;</span>
+<span class="co">#&gt; 1 blob_table       BLOB      &lt;NA&gt;            &lt;NA&gt;</span>
+<span class="co">#&gt; 2 blob_table       File      &lt;NA&gt;            &lt;NA&gt;</span></code></pre></div>
+</div>
+<div id="disconnection" class="section level3">
+<h3 class="hasAnchor">
+<a href="#disconnection" class="anchor"></a>Disconnection</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dbDisconnect</span>(conn)</code></pre></div>
+</div>
+</div>
+<div id="installation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("devtools")</span>
+devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"poissonconsulting/poissqlite"</span>)</code></pre></div>
+</div>
+<div id="contribution" class="section level2">
+<h2 class="hasAnchor">
+<a href="#contribution" class="anchor"></a>Contribution</h2>
 <p>Please report any <a href="https://github.com/poissonconsulting/poissqlite/issues">issues</a>.</p>
 <p><a href="https://github.com/poissonconsulting/poissqlite/pulls">Pull requests</a> are always welcome.</p>
 <p>Please note that this project is released with a <a href="https://github.com/poissonconsulting/poissqlite/blob/master/CONDUCT.md">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
-</section></section>
+</div>
+</div>
 </div>
   </div>
 
