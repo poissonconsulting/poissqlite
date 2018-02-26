@@ -37,19 +37,6 @@ translate_checks <- function(x, name){
     return(paste0(name, " IN ('0', '1') "))
 }
 
-translate_key <- function(x, name){
-  if(!any(duplicated(x)))
-    return(paste0("PRIMARY KEY (", name, ")"))
-  "PRIMARY KEY ()"
-}
-
-translate_key2 <- function(x, name){
-
-  if(!any(duplicated(x)))
-    return(paste0("PRIMARY KEY (", name, ")"))
-  "PRIMARY KEY ()"
-}
-
 translate_unique <- function(x, name){
   if(!any(duplicated(x)))
     return(paste0("UNIQUE (", name, "),\n"))
