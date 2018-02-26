@@ -43,7 +43,7 @@ translate_unique <- function(x, name){
 }
 
 format_sql <- function(data, fun, collapse = ",\n"){
-  sql <- map2(data, names(data), function(x, y) fun(x, y)) %>%
+  sql <- mapply(function(x, y) fun(x, y), data, names(data)) %>%
     compact
   if(!length(sql))
     sql <- NULL
@@ -89,9 +89,9 @@ ps_create_sql_script <- function(x, path = 'create-database.R', db_name = '', lo
                  "conn <- open_db('", db_name, "', new = TRUE)\n\n",
                  "set_sub('", load, "')\nload_datas()\n")
 
-  sql <- pmap_chr(list(x, name, title), function(a, b, c){
+  sql <- mapply(function(a, b, c){
     ps_df_to_sql(a, data_name = b, table_name = c)
-  }) %>% paste(collapse = "")
+  }, x, name, title) %>% paste(collapse = "")
 
   write(paste(head, sql), file = path)
 }
