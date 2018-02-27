@@ -73,11 +73,15 @@ translate_key <- function(data) {
 #' Draws information from a data.frame to provide code to write an sql table.
 #'
 #' @param data A data.frame.
-#' @param data_name A character string of the name of the data.frame.
-#' @param table_name A character string of the name of the sql table.
-#' @return A character string.
+#' @param data_name A string of the name of the data.frame.
+#' @param table_name A string of the name of the sql table.
+#' @return A string.
 #' @export
 ps_df_to_sql  <- function(data, data_name = deparse(substitute(data)), table_name = tools::toTitleCase(data_name)) {
+
+  check_data(data)
+  check_string(data_name)
+  check_string(table_name)
 
   class <- translate_sql(data, translate_class)
   check <- translate_sql(data, translate_checks, collapse = "AND\n")
@@ -98,8 +102,8 @@ ps_df_to_sql  <- function(data, data_name = deparse(substitute(data)), table_nam
 
 #' Create sql database
 #'
-#' Extracts information from a list of data.frames to create code to write an sql database.
-#' Tables are added to the script in the same order as the named list
+#' Creates a script to write a sql database from a list of data.frames.
+#' Tables are added to the script in the same order as the named list. Foreign keys are not
 #'
 #' @param x A named list of data.frames.
 #' @param db_name A character string of the name of the database.
@@ -108,6 +112,12 @@ ps_df_to_sql  <- function(data, data_name = deparse(substitute(data)), table_nam
 #' @return A R script to create a sql database.
 #' @export
 ps_create_sql_script <- function(x, db_name = '', load = 'prepare', path = 'create-database.R'){
+
+  check_list(x, named = TRUE)
+  lapply(x, check_data)
+  check_string(db_name)
+  check_string(load)
+  check_string(path)
 
   name <- names(x)
   title <- tools::toTitleCase(name)
@@ -121,5 +131,4 @@ ps_create_sql_script <- function(x, db_name = '', load = 'prepare', path = 'crea
 
   write(paste(head, sql), file = path)
 }
-
 
