@@ -55,6 +55,8 @@ translate_sql <- function(data, fun, collapse = ",\n"){
 #' @return A vector of column names
 #' @export
 ps_find_key <- function(data) {
+  check_data(data)
+
   for (i in seq_along(data)) {
     y <- data[1:i]
     if (!anyDuplicated(y)) {
