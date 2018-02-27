@@ -1,14 +1,10 @@
-library(purrr)
-library(lubridate)
-df1 <- readRDS('inst/sqldf.rds')
-df2 <- df1[1:3]
-df3 <- df1[5:9]
-
 is.blob <- function(x) inherits(x, "blob")
+is.POSIXct <- function(x) inherits(x, "POSIXct")
+is.Date <- function(x) inherits(x, "Date")
 
 get_class <- function(x){
-  if(inherits(x, 'Date')) return("TEXT")
-  if(inherits(x, 'POSIXct')) return("TEXT")
+  if(is.Date(x)) return("TEXT")
+  if(is.POSIXct(x)) return("TEXT")
   if(is.integer(x)) return("INTEGER")
   if(is.double(x)) return("REAL")
   if(is.logical(x)) return("BOOLEAN")
@@ -42,45 +38,76 @@ translate_unique <- function(x, name){
     return(paste0("UNIQUE (", name, "),\n"))
 }
 
-format_sql <- function(data, fun, collapse = ",\n"){
-  sql <- mapply(function(x, y) fun(x, y), data, names(data)) %>%
-    compact
+translate_sql <- function(data, fun, collapse = ",\n"){
+  sql <- mapply(function(x, y) fun(x, y), data, names(data))
+  sql <- setNames(sql, seq_along(sql))
+  sql <- Filter(Negate(is.null), setNames(sql, seq_along(sql)))
   if(!length(sql))
     sql <- NULL
   sql %>% paste0(collapse = collapse)
 }
 
-get_key <- function(data) {
+#' Find primary key
+#'
+#' Uses a simple algorithm to search for a likely primary key.
+#'
+#' @param data A data.frame.
+#' @return A vector of column names
+#' @export
+ps_find_key <- function(data) {
   for (i in seq_along(data)) {
     y <- data[1:i]
     if (!anyDuplicated(y)) {
-      return(paste0("PRIMARY KEY (", paste(names(y), collapse = ", "), ")"))
+      return(names(y))
     }
   }
-  return("PRIMARY KEY ()")
+  return(character(0))
 }
 
+translate_key <- function(data) {
+  paste0("PRIMARY KEY (", paste(ps_find_key(data), collapse = ", "), ")")
+}
+
+#' Data.frame to sql
+#'
+#' Draws information from a data.frame to provide code to write an sql table.
+#'
+#' @param data A data.frame.
+#' @param data_name A character string of the name of the data.frame.
+#' @param table_name A character string of the name of the sql table.
+#' @return A character string.
+#' @export
 ps_df_to_sql  <- function(data, data_name = deparse(substitute(data)), table_name = tools::toTitleCase(data_name)) {
 
-  class <- format_sql(data, translate_class)
-  check <- format_sql(data, translate_checks, collapse = "AND\n")
-  foreign <- "FOREIGN KEY() REFERENCES ()"
-  key <- get_key(data)
-  unique <- format_sql(data, translate_unique, collapse = "")
-  comment <- paste("\n\n# ---", table_name, "\n")
+  class <- translate_sql(data, translate_class)
+  check <- translate_sql(data, translate_checks, collapse = "AND\n")
+  key <- translate_key(data)
+  unique <- translate_sql(data, translate_unique, collapse = "")
+  comment <- paste("\n# ---", table_name, "\n")
 
   table <- paste0(comment,
-                 "DBI::dbGetQuery(conn,\n \"CREATE TABLE ", table_name, " (\n",
-                 class, ",\n",
-                 "CHECK(\n", check,  "\n),\n",
-                 foreign, ",\n",
-                 unique,
-                 key, ")\")\n\n",
-                 "ps_write_table(", data_name, ", '", table_name, "', ", "conn = conn)\n\n", collapse = "")
+                  "DBI::dbGetQuery(conn,\n \"CREATE TABLE ", table_name, " (\n",
+                  class, ",\n",
+                  "CHECK(\n", check,  "\n),\n",
+                  "FOREIGN KEY() REFERENCES ()\n",
+                  unique,
+                  key, ")\")\n\n",
+                  "ps_write_table(", data_name, ", '", table_name, "', ", "conn = conn)\n", collapse = "")
   table
 }
 
-ps_create_sql_script <- function(x, path = 'create-database.R', db_name = '', load = 'prepare'){
+#' Create sql database
+#'
+#' Extracts information from a list of data.frames to create code to write an sql database.
+#' Tables are added to the script in the same order as the named list
+#'
+#' @param x A named list of data.frames.
+#' @param db_name A character string of the name of the database.
+#' @param load A character string indicating subfolder to load data from.
+#' @param path A character string indicating path and file name of the script.
+#' @return A R script to create a sql database.
+#' @export
+ps_create_sql_script <- function(x, db_name = '', load = 'prepare', path = 'create-database.R'){
 
   name <- names(x)
   title <- tools::toTitleCase(name)
@@ -89,9 +116,8 @@ ps_create_sql_script <- function(x, path = 'create-database.R', db_name = '', lo
                  "conn <- open_db('", db_name, "', new = TRUE)\n\n",
                  "set_sub('", load, "')\nload_datas()\n")
 
-  sql <- mapply(function(a, b, c){
-    ps_df_to_sql(a, data_name = b, table_name = c)
-  }, x, name, title) %>% paste(collapse = "")
+  sql <- paste(mapply(function(a, b, c) {ps_df_to_sql(a, data_name = b, table_name = c)},
+                      x, name, title), collapse = "")
 
   write(paste(head, sql), file = path)
 }
