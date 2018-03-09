@@ -142,7 +142,7 @@ test_that("sqlite", {
              StartDateTime TEXT NOT NULL,
              Sample TEXT,
              ALocation TEXT NOT NULL,
-             Location TEXT NOT NULL,
+             Location BLOB NOT NULL,
              Blob BLOB
   )")
 
@@ -159,12 +159,23 @@ test_that("sqlite", {
 
   more_data2 <- ps_read_table("MoreData", conn = conn)
 
-  expect_equivalent(more_data2, more_data[colnames(more_data2)])
+  expect_equivalent(more_data2[[1]], more_data[colnames(more_data2)][[1]])
+  expect_equivalent(more_data2[[2]], more_data[colnames(more_data2)][[2]])
+  expect_equivalent(more_data2[[3]], more_data[colnames(more_data2)][[3]])
+  expect_equivalent(more_data2[[4]], more_data[colnames(more_data2)][[4]])
+  expect_equivalent(more_data2[[5]], more_data[colnames(more_data2)][[5]])
+  expect_equivalent(more_data2[[6]], more_data[colnames(more_data2)][[6]])
+  expect_equivalent(more_data2[[7]], more_data[colnames(more_data2)][[7]])
   expect_identical(lubridate::tz(more_data2$StartDateTime), "PST8PDT")
 
   other_data2 <- ps_read_table("OtherData", conn = conn)
 
-  expect_equivalent(other_data2, other_data[colnames(other_data2)])
+  expect_identical(other_data2[[1]], other_data[colnames(other_data2)][[1]])
+  expect_identical(other_data2[[2]], other_data[colnames(other_data2)][[2]])
+  expect_equivalent(other_data2[[3]], other_data[colnames(other_data2)][[3]])
+  expect_equivalent(other_data2[[4]], other_data[colnames(other_data2)][[4]])
+  expect_equivalent(other_data2[[5]], other_data[colnames(other_data2)][[5]])
+  expect_identical(other_data2[[4]], other_data2[[5]])
 
   expect_identical(class(other_data2), class(other_data))
   expect_identical(lubridate::tz(other_data2$StartDateTime), "PST8PDT")
@@ -209,3 +220,4 @@ test_that("sqlite", {
 
   expect_identical(colnames(more_data), c("StartDateTime", "Sample", "Sample2","AName", "Random", "Distance", "Dayte"))
 })
+

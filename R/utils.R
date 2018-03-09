@@ -53,7 +53,8 @@ set_units <- function(x, units) {
   } else if (poisspatial::is_crs(units)) {
     if (grepl("^proj:\\s*", units))
       units %<>% sub("^proj:\\s*", "", .)
-    x %<>% sf::st_as_sfc(crs = units)
+    x %<>% sf::st_as_sfc()
+    x %<>% sf::st_set_crs(units)
   } else if (is_ordered(units)) {
     units %<>% sub("^ordered:\\s*", "", .)
     x %<>% ordered(levels = get_levels(units))

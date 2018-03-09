@@ -42,7 +42,11 @@ ps_update_metadata_units <- function(x, conn, table_name) {
   dbWriteTable(conn, name = "MetaData", value = metadata,
                overwrite = TRUE, row.names = FALSE)
 
-  x[[1]] %<>% convert_column()
+  info <- ps_column_info(table_name, conn)
+
+  type <- info$type[info$name == column_name]
+
+  x[[1]] %<>% convert_column(type = type)
   x
 }
 
