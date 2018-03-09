@@ -10,12 +10,12 @@ ps_df_to_sql(data, data_name = deparse(substitute(data)),
 \arguments{
 \item{data}{A data.frame.}
 
-\item{data_name}{A character string of the name of the data.frame.}
+\item{data_name}{A string of the name of the data.frame.}
 
-\item{table_name}{A character string of the name of the sql table.}
+\item{table_name}{A string of the name of the sql table.}
 }
 \value{
-A character string.
+A string.
 }
 \description{
 Draws information from a data.frame to provide code to write an sql table.

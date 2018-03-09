@@ -20,6 +20,6 @@ ps_create_sql_script(x, db_name = "", load = "prepare",
 A R script to create a sql database.
 }
 \description{
-Extracts information from a list of data.frames to create code to write an sql database.
-Tables are added to the script in the same order as the named list
+Creates a script to write a sql database from a list of data.frames.
+Tables are added to the script in the same order as the named list. Foreign keys are not
 }

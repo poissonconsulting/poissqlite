@@ -26,8 +26,8 @@ ps_write_table <- function(x, table_name, conn = getOption("ps.conn"), delete = 
   check_flag(delete)
   check_sqlite_connection(conn)
 
-  tables <- dbListTables(conn)
-  if (!table_name %in% tables) error("'", table_name, "' is not an existing table")
+  if (!dbExistsTable(conn, table_name))
+    error("'", table_name, "' is not an existing table")
 
   if (poisspatial::is.sf(x))
     x %<>% as.data.frame()

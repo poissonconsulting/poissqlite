@@ -33,3 +33,23 @@ ps_df_info <- function(df){
 
   })
 }
+
+#' SQL column info
+#'
+#' @param table_name A string of the name of the table.
+#' @param conn An SQLiteConnection object.
+#'
+#' @return A data frame with the name of the column and the type.
+#' @export
+ps_column_info <- function(table_name, conn = getOption("ps.conn")) {
+  check_string(table_name)
+  check_sqlite_connection(conn)
+
+  if (!dbExistsTable(conn, table_name))
+    error("'", table_name, "' is not an existing table")
+
+  result <- dbSendQuery(conn, paste0("SELECT * FROM ", table_name," LIMIT 1"))
+  info <- dbColumnInfo(result)
+  dbClearResult(result)
+  info
+}

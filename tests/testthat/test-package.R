@@ -34,6 +34,9 @@ test_that("sqlite", {
 
   ps_write_table(blob_data, "blob_table", conn)
 
+  expect_identical(ps_table_definition("blob_table", conn),
+                   "CREATE TABLE blob_table ( File TEXT NOT NULL, BLOB BLOB NOT NULL)")
+
   metadata <- ps_update_metadata(conn)
 
   expect_is(metadata, "tbl_df")
@@ -116,6 +119,15 @@ test_that("sqlite", {
              Dayte TEXT,
              AName BOOLEAN,
              Blob BLOB)")
+
+  expect_identical(ps_column_info("MoreData", conn),
+                   structure(list(
+                     name = c("StartDateTime", "Sample", "Sample2",
+                              "Distance", "Dayte", "AName", "Blob"),
+                     type = c("character", "character", "character", "double",
+                              "character", "double", "list"
+                     )), row.names = c(NA, -7L), class = "data.frame",
+                     .Names = c("name", "type")))
 
   ps_write_table(more_data[c("Sample", "Sample2", "StartDateTime", "Blob", "AName", "Distance", "Dayte")], "MoreData", conn = conn)
 
