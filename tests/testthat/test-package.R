@@ -101,7 +101,7 @@ test_that("sqlite", {
   metadata2 <- ps_update_metadata(conn)
   expect_identical(metadata, metadata2)
 
-  more_data <- tibble::tibble(StartDateTime = ISOdate(2001, 6:7, 4, tz = "PST8PDT"),
+  more_data <- tibble::tibble(StartDateTime = ISOdate(2018, 3, 11, c(1,3), tz = "PST8PDT"),
                               Sample = factor(c("a", "b"), levels = c("b", "a", "c")),
                               Sample2 = ordered(c("a", "b"), levels = c("b", "a", "c")),
                               AName = c(TRUE, NA),

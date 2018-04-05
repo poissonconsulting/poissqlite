@@ -76,7 +76,7 @@ blobs <- ps_blob_files(tempdir(), pattern = "[.]csv$", recursive = TRUE)
 
 print(blobs)
 #>         cars.csv sub/chickwts.csv 
-#>      blob[382 B]    blob[1,130 B]
+#>   blob[382.00 B]  blob[  1.13 kB]
 
 blob_data <- data.frame(File = names(blobs), BLOB = blobs)
 

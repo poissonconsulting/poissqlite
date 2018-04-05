@@ -9,16 +9,16 @@
   "name": "poissqlite: Work with SQLite Databases",
   "codeRepository": "https://github.com/poissonconsulting/poissqlite",
   "issueTracker": "https://github.com/poissonconsulting/poissqlite/issues",
-  "datePublished": "2017-03-09",
+  "datePublished": "2017-04-05",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.0.0.9026",
+  "version": "0.0.0.9027",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
-    "version": "3.4.3",
+    "version": "3.4.4",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 3.4.3 Patched (2017-12-05 r73849)",
+  "runtimePlatform": "R version 3.4.4 (2018-03-15)",
   "author": [
     {
       "@type": "Person",
@@ -236,5 +236,5 @@
   ],
   "contIntegration": "https://travis-ci.org/poissonconsulting/poissqlite",
   "readme": "https://github.com/poissonconsulting/poissqlite/blob/master/README.md",
-  "fileSize": "17.86KB"
+  "fileSize": "17.876KB"
 }
