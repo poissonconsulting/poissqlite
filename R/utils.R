@@ -48,7 +48,7 @@ set_units <- function(x, units) {
     if (grepl("^tz:\\s*", units))
       units %<>% sub("^tz:\\s*", "", .)
     x %<>%
-      as.POSIXct() %>%
+      as.POSIXct(tz = "UTC") %>%
       lubridate::force_tz(units)
   } else if (poisspatial::is_crs(units)) {
     if (grepl("^proj:\\s*", units))

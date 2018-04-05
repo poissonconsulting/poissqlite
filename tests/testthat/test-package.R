@@ -101,7 +101,7 @@ test_that("sqlite", {
   metadata2 <- ps_update_metadata(conn)
   expect_identical(metadata, metadata2)
 
-  more_data <- tibble::tibble(StartDateTime = ISOdate(2018, 3, 11, c(1,3), tz = "PST8PDT"),
+  more_data <- tibble::tibble(StartDateTime = ISOdate(2017, 3, 12, c(2,3), 8, tz = "Etc/GMT+8"),
                               Sample = factor(c("a", "b"), levels = c("b", "a", "c")),
                               Sample2 = ordered(c("a", "b"), levels = c("b", "a", "c")),
                               AName = c(TRUE, NA),
@@ -166,7 +166,7 @@ test_that("sqlite", {
   expect_equivalent(more_data2[[5]], more_data[colnames(more_data2)][[5]])
   expect_equivalent(more_data2[[6]], more_data[colnames(more_data2)][[6]])
   expect_equivalent(more_data2[[7]], more_data[colnames(more_data2)][[7]])
-  expect_identical(lubridate::tz(more_data2$StartDateTime), "PST8PDT")
+  expect_identical(lubridate::tz(more_data2$StartDateTime), "Etc/GMT+8")
 
   other_data2 <- ps_read_table("OtherData", conn = conn)
 
@@ -178,7 +178,7 @@ test_that("sqlite", {
   expect_identical(other_data2[[4]], other_data2[[5]])
 
   expect_identical(class(other_data2), class(other_data))
-  expect_identical(lubridate::tz(other_data2$StartDateTime), "PST8PDT")
+  expect_identical(lubridate::tz(other_data2$StartDateTime), "Etc/GMT+8")
   expect_true(poisspatial::is_crs(poisspatial::ps_get_proj4string(other_data2)))
 
   expect_false(exists("MoreData"))

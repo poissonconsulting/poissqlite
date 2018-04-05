@@ -11,7 +11,7 @@
   "issueTracker": "https://github.com/poissonconsulting/poissqlite/issues",
   "datePublished": "2017-04-05",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.0.0.9027",
+  "version": "0.0.0.9028",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -236,5 +236,5 @@
   ],
   "contIntegration": "https://travis-ci.org/poissonconsulting/poissqlite",
   "readme": "https://github.com/poissonconsulting/poissqlite/blob/master/README.md",
-  "fileSize": "17.876KB"
+  "fileSize": "18.208KB"
 }
