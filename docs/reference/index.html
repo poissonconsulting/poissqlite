@@ -25,7 +25,12 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Function reference" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -48,8 +53,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">poissqlite</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">poissqlite</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.0.9029</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -71,6 +80,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -78,172 +88,167 @@
       
       </header>
 
-      <div class="row">
-  <div class="col-md-9">
+<div class="row">
+  <div class="contents col-md-9">
     <div class="page-header">
-      <h1>
-        Reference
-        <small>version&nbsp;0.0.0.9028</small>
-      </h1>
+      <h1>Reference</h1>
     </div>
 
-    <div class="contents">
-      <table class="ref-index">
+    <table class="ref-index">
 
-      <colgroup>
-        <col class="alias" />
-        <col class="title" />
-      </colgroup>
+    <colgroup>
+      <col class="alias" />
+      <col class="title" />
+    </colgroup>
 
-      <tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_blob_file.html">ps_blob_file()</a></code> </p>
-          </td>
-          <td><p>Blob File</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_blob_files.html">ps_blob_files()</a></code> </p>
-          </td>
-          <td><p>Blob Files</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_blob_object.html">ps_blob_object()</a></code> </p>
-          </td>
-          <td><p>Blob Object</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_column_info.html">ps_column_info()</a></code> </p>
-          </td>
-          <td><p>SQL column info</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_connect_sqlite.html">ps_connect_sqlite()</a></code> </p>
-          </td>
-          <td><p>Opens a connection to an sqlite database.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_create_sql_script.html">ps_create_sql_script()</a></code> </p>
-          </td>
-          <td><p>Create sql database</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_deblob_file.html">ps_deblob_file()</a></code> </p>
-          </td>
-          <td><p>Deblob to File</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_deblob_files.html">ps_deblob_files()</a></code> </p>
-          </td>
-          <td><p>Deblob to Files</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_deblob_object.html">ps_deblob_object()</a></code> </p>
-          </td>
-          <td><p>Deblob Object</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_delete_data.html">ps_delete_data()</a></code> </p>
-          </td>
-          <td><p>Delete Data</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_df_info.html">ps_df_info()</a></code> </p>
-          </td>
-          <td><p>Quick dataframe info</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_df_to_sql.html">ps_df_to_sql()</a></code> </p>
-          </td>
-          <td><p>Data.frame to sql</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_disconnect_sqlite.html">ps_disconnect_sqlite()</a></code> </p>
-          </td>
-          <td><p>Close a connection to an sqlite database.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_find_key.html">ps_find_key()</a></code> </p>
-          </td>
-          <td><p>Find primary key</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_load_tables.html">ps_load_tables()</a></code> </p>
-          </td>
-          <td><p>Load Tables</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_names_data.html">ps_names_data()</a></code> </p>
-          </td>
-          <td><p>Names Data Frames</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_read_table.html">ps_read_table()</a></code> </p>
-          </td>
-          <td><p>Read Table</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_read_tables.html">ps_read_tables()</a></code> </p>
-          </td>
-          <td><p>Read Tables</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_strip_columns.html">ps_strip_columns()</a></code> </p>
-          </td>
-          <td><p>Strip Columns</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_table_definition.html">ps_table_definition()</a></code> </p>
-          </td>
-          <td><p>Table Definition</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_update_metadata.html">ps_update_metadata()</a></code> </p>
-          </td>
-          <td><p>Update MetaData Table</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_write_table.html">ps_write_table()</a></code> </p>
-          </td>
-          <td><p>Write Table</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ps_write_tables_csvs.html">ps_write_tables_csvs()</a></code> </p>
-          </td>
-          <td><p>Write Tables</p></td>
-        </tr>
-      </tbody>
-      </table>
-    </div>
+    <tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ps_blob_file.html">ps_blob_file()</a></code> </p>
+        </td>
+        <td><p>Blob File</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ps_blob_files.html">ps_blob_files()</a></code> </p>
+        </td>
+        <td><p>Blob Files</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ps_blob_object.html">ps_blob_object()</a></code> </p>
+        </td>
+        <td><p>Blob Object</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ps_column_info.html">ps_column_info()</a></code> </p>
+        </td>
+        <td><p>SQL column info</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ps_connect_sqlite.html">ps_connect_sqlite()</a></code> </p>
+        </td>
+        <td><p>Opens a connection to an sqlite database.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ps_create_sql_script.html">ps_create_sql_script()</a></code> </p>
+        </td>
+        <td><p>Create sql database</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ps_deblob_file.html">ps_deblob_file()</a></code> </p>
+        </td>
+        <td><p>Deblob to File</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ps_deblob_files.html">ps_deblob_files()</a></code> </p>
+        </td>
+        <td><p>Deblob to Files</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ps_deblob_object.html">ps_deblob_object()</a></code> </p>
+        </td>
+        <td><p>Deblob Object</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ps_delete_data.html">ps_delete_data()</a></code> </p>
+        </td>
+        <td><p>Delete Data</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ps_df_info.html">ps_df_info()</a></code> </p>
+        </td>
+        <td><p>Quick dataframe info</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ps_df_to_sql.html">ps_df_to_sql()</a></code> </p>
+        </td>
+        <td><p>Data.frame to sql</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ps_disconnect_sqlite.html">ps_disconnect_sqlite()</a></code> </p>
+        </td>
+        <td><p>Close a connection to an sqlite database.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ps_find_key.html">ps_find_key()</a></code> </p>
+        </td>
+        <td><p>Find primary key</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ps_load_tables.html">ps_load_tables()</a></code> </p>
+        </td>
+        <td><p>Load Tables</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ps_names_data.html">ps_names_data()</a></code> </p>
+        </td>
+        <td><p>Names Data Frames</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ps_read_table.html">ps_read_table()</a></code> </p>
+        </td>
+        <td><p>Read Table</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ps_read_tables.html">ps_read_tables()</a></code> </p>
+        </td>
+        <td><p>Read Tables</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ps_strip_columns.html">ps_strip_columns()</a></code> </p>
+        </td>
+        <td><p>Strip Columns</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ps_table_definition.html">ps_table_definition()</a></code> </p>
+        </td>
+        <td><p>Table Definition</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ps_update_metadata.html">ps_update_metadata()</a></code> </p>
+        </td>
+        <td><p>Update MetaData Table</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ps_write_table.html">ps_write_table()</a></code> </p>
+        </td>
+        <td><p>Write Table</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ps_write_tables_csvs.html">ps_write_tables_csvs()</a></code> </p>
+        </td>
+        <td><p>Write Tables</p></td>
+      </tr>
+    </tbody>
+    </table>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -265,6 +270,8 @@
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>

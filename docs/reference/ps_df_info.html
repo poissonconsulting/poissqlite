@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Quick dataframe info — ps_df_info" />
 
 <meta property="og:description" content="Returns a list containing information about dataframe columns relevant
@@ -33,6 +36,8 @@ function returns number of missing values, class, minimum and maximum values.
 If column is character, function returns number of missing values, class, and
 all unique values." />
 <meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -55,8 +60,12 @@ all unique values." />
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">poissqlite</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">poissqlite</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.0.9029</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -78,6 +87,7 @@ all unique values." />
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -85,13 +95,15 @@ all unique values." />
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Quick dataframe info</h1>
-    <small>Source: <a href='https:/github.com/poissonconsulting/poissqlite/blob/master/R/info.R'><code>R/info.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/poissonconsulting/poissqlite/blob/master/R/info.R'><code>R/info.R</code></a></small>
+    <div class="hidden name"><code>ps_df_info.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Returns a list containing information about dataframe columns relevant
 to SQLite database creation. If column is numeric, integer or POSIXct,
@@ -99,10 +111,11 @@ function returns number of missing values, class, minimum and maximum values.
 If column is character, function returns number of missing values, class, and
 all unique values.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>ps_df_info</span>(<span class='no'>df</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -133,6 +146,8 @@ all unique values.</p>
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>
