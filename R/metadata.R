@@ -63,7 +63,7 @@ ps_update_metadata_units <- function(x, conn, table_name, overwrite) {
   x
 }
 
-ps_update_metadata_description <- function(x, conn, table_name) {
+ps_update_metadata_description <- function(x, conn, table_name, overwrite) {
 
   metadata <- ps_update_metadata(conn, rm_missing = FALSE)
 
@@ -74,7 +74,20 @@ ps_update_metadata_description <- function(x, conn, table_name) {
   wch <- which(metadata$DataTable == table_name & metadata$DataColumn == column_name)
 
   if (length(wch)) {
-    metadata$DataDescription[wch] <- description
+    if(is.na(metadata$DataDescription[wch])) {
+      metadata$DataDescription[wch] <- description
+    } else if(!identical(description, metadata$DataDescription[wch])) {
+      if(overwrite) {
+        warning("new description '", description, "' in column '", column_name,
+                "' in table '", table_name , "' replacing existing description '",
+                metadata$DataDescription[wch], "'", call. = FALSE)
+           metadata$DataDescription[wch] <- description
+        } else {
+        stop("new description '", description, "' in column '", column_name,
+             "' in table '", table_name , "' is not identical to existing description '",
+             metadata$DataDescription[wch], "'", call. = FALSE)
+      }
+    }
   } else {
     new <- tibble::tibble(DataTable = table_name, DataColumn = column_name,
                           DataUnits = NA_character_, DataDescription = description)

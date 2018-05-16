@@ -29,7 +29,6 @@ test_that("package", {
 
   comment(blob_data$File) <- "file stuff"
   comment(blob_data$BLOB) <- "blobby stuff"
-#  comment(blob_data$BLOB) <- NULL
 
   dbGetQuery(conn,
              "CREATE TABLE blob_table (
@@ -149,7 +148,13 @@ test_that("package", {
 
   expect_warning(ps_write_table(more_data[c("Sample", "Sample2", "StartDateTime", "Blob", "AName", "Distance", "Dayte")], "MoreData", conn = conn, overwrite_units = TRUE), "new units 'km' in column 'Distance' in table 'MoreData' replacing existing units 'm'")
 
-  ps_write_table(more_data[c("Sample", "Sample2", "StartDateTime", "Blob", "AName", "Distance", "Dayte")], "MoreData", conn = conn, delete = TRUE)
+  comment(more_data$Sample) <- paste0(comment(more_data$Sample), "2")
+
+  expect_error(ps_write_table(more_data[c("Sample", "Sample2", "StartDateTime", "Blob", "AName", "Distance", "Dayte")], "MoreData", conn = conn, delete = TRUE), "new description 'sample stuff2' in column 'Sample' in table 'MoreData' is not identical to existing description 'sample stuff'")
+
+  expect_warning(ps_write_table(more_data[c("Sample", "Sample2", "StartDateTime", "Blob", "AName", "Distance", "Dayte")], "MoreData", conn = conn, delete = TRUE, overwrite_descriptions = TRUE), "new description 'sample stuff2' in column 'Sample' in table 'MoreData' replacing existing description 'sample stuff'")
+
+  ps_write_table(more_data[c("Sample", "Sample2", "StartDateTime", "Blob", "AName", "Distance", "Dayte")], "MoreData", conn = conn, delete = TRUE, overwrite_descriptions = TRUE)
 
   dbGetQuery(conn,
              "CREATE TABLE OtherData (
@@ -184,7 +189,7 @@ test_that("package", {
 
   expect_identical(comment(more_data2$AName), NULL)
   expect_identical(comment(more_data2$Blob), "blobby stuff")
-  expect_identical(comment(more_data2$Sample), "sample stuff")
+  expect_identical(comment(more_data2$Sample), "sample stuff2")
 
   other_data2 <- ps_read_table("OtherData", conn = conn)
 

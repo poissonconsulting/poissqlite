@@ -251,7 +251,7 @@
   ],
   "contIntegration": "https://travis-ci.org/poissonconsulting/poissqlite",
   "readme": "https://github.com/poissonconsulting/poissqlite/blob/master/README.md",
-  "fileSize": "18.945KB",
+  "fileSize": "19.138KB",
   "keywords": [
     "r",
     "sqlite"

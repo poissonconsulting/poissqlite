@@ -5,7 +5,8 @@
 \title{Write Table}
 \usage{
 ps_write_table(x, table_name, conn = getOption("ps.conn"), delete = FALSE,
-  overwrite_units = FALSE, rename = identity)
+  overwrite_units = FALSE, overwrite_descriptions = FALSE,
+  rename = identity)
 }
 \arguments{
 \item{x}{The data frame.}
@@ -17,6 +18,8 @@ ps_write_table(x, table_name, conn = getOption("ps.conn"), delete = FALSE,
 \item{delete}{A flag indicating whether to delete the existing data before appending the data.}
 
 \item{overwrite_units}{A flag indicating whether to overwrite existing units.}
+
+\item{overwrite_descriptions}{A flag indicating whether to overwrite existing descriptions.}
 
 \item{rename}{A function to rename column names in x.}
 }
