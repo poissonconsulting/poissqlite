@@ -19,7 +19,7 @@ create_metadata <- function(conn, tables) {
   metadata
 }
 
-ps_update_metadata_units <- function(x, conn, table_name) {
+ps_update_metadata_units <- function(x, conn, table_name, overwrite) {
 
   metadata <- ps_update_metadata(conn, rm_missing = FALSE)
 
@@ -30,7 +30,20 @@ ps_update_metadata_units <- function(x, conn, table_name) {
   wch <- which(metadata$DataTable == table_name & metadata$DataColumn == column_name)
 
   if (length(wch)) {
-    metadata$DataUnits[wch] <- units
+    if(is.na(metadata$DataUnits[wch])) {
+      metadata$DataUnits[wch] <- units
+    } else if(!identical(units, metadata$DataUnits[wch])) {
+      if(overwrite) {
+        warning("new units '", sub("unit:\\s*", "", units), "' in column '", column_name,
+                "' in table '", table_name , "' replacing existing units '",
+                sub("unit:\\s*", "", metadata$DataUnits[wch]), "'", call. = FALSE)
+        metadata$DataUnits[wch] <- units
+      } else {
+        stop("new units '", sub("unit:\\s*", "", units), "' in column '", column_name,
+             "' in table '", table_name , "' are not identical to existing units '",
+             sub("unit:\\s*", "", metadata$DataUnits[wch]), "'", call. = FALSE)
+      }
+    }
   } else {
     new <- tibble::tibble(DataTable = table_name, DataColumn = column_name,
                           DataUnits = units, DataDescription = NA_character_)
@@ -111,12 +124,12 @@ ps_update_metadata <- function(conn = getOption("ps.conn"), rm_missing = TRUE) {
     metadata_table <- dbReadTable(conn, "MetaData")
 
     check_colnames(metadata_table, c("DataTable", "DataColumn", "DataUnits", "DataDescription"),
-               exclusive = TRUE, order = TRUE, x_name = "MetaData table")
+                   exclusive = TRUE, order = TRUE, x_name = "MetaData table")
 
     check_data(metadata_table, values = list(DataTable = "",
-                                              DataColumn = "",
-                                              DataUnits = c("", NA),
-                                              DataDescription = c("", NA)))
+                                             DataColumn = "",
+                                             DataUnits = c("", NA),
+                                             DataDescription = c("", NA)))
 
     metadata$DataUnits <- NULL
     metadata$DataDescription <- NULL

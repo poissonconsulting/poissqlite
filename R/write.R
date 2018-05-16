@@ -19,12 +19,14 @@
 #' @param table_name A string of the name of the table.
 #' @param conn An SQLiteConnection object.
 #' @param delete A flag indicating whether to delete the existing data before appending the data.
+#' @param overwrite_units A flag indicating whether to overwrite existing units.
 #' @param rename A function to rename column names in x.
 #' @export
-ps_write_table <- function(x, table_name, conn = getOption("ps.conn"), delete = FALSE, rename = identity) {
+ps_write_table <- function(x, table_name, conn = getOption("ps.conn"), delete = FALSE, overwrite_units = FALSE, rename = identity) {
   if (!is.data.frame(x)) error("x must be a data frame")
   check_string(table_name)
   check_flag(delete)
+  check_flag(overwrite_units)
   check_sqlite_connection(conn)
 
   if (!dbExistsTable(conn, table_name))
@@ -47,7 +49,7 @@ ps_write_table <- function(x, table_name, conn = getOption("ps.conn"), delete = 
                           conn = conn, table_name = table_name)
 
   x[] %<>% purrr::lmap_if(has_units, ps_update_metadata_units,
-                          conn = conn, table_name = table_name)
+                          conn = conn, table_name = table_name, overwrite = overwrite_units)
 
   x <- x[column_names]
 

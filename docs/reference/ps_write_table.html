@@ -120,7 +120,7 @@ entry in the metadata table.</p>
     </div>
 
     <pre class="usage"><span class='fu'>ps_write_table</span>(<span class='no'>x</span>, <span class='no'>table_name</span>, <span class='kw'>conn</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"ps.conn"</span>), <span class='kw'>delete</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>rename</span> <span class='kw'>=</span> <span class='no'>identity</span>)</pre>
+  <span class='kw'>overwrite_units</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>rename</span> <span class='kw'>=</span> <span class='no'>identity</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -140,6 +140,10 @@ entry in the metadata table.</p>
     <tr>
       <th>delete</th>
       <td><p>A flag indicating whether to delete the existing data before appending the data.</p></td>
+    </tr>
+    <tr>
+      <th>overwrite_units</th>
+      <td><p>A flag indicating whether to overwrite existing units.</p></td>
     </tr>
     <tr>
       <th>rename</th>

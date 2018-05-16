@@ -143,7 +143,11 @@ test_that("package", {
 
   ps_delete_data("MoreData", conn = conn)
 
-  ps_write_table(more_data[c("Sample", "Sample2", "StartDateTime", "Blob", "AName", "Distance", "Dayte")], "MoreData", conn = conn)
+  more_data$Distance <- units::set_units(more_data$Distance, "km")
+
+  expect_error(ps_write_table(more_data[c("Sample", "Sample2", "StartDateTime", "Blob", "AName", "Distance", "Dayte")], "MoreData", conn = conn), "new units 'km' in column 'Distance' in table 'MoreData' are not identical to existing units 'm'")
+
+  expect_warning(ps_write_table(more_data[c("Sample", "Sample2", "StartDateTime", "Blob", "AName", "Distance", "Dayte")], "MoreData", conn = conn, overwrite_units = TRUE), "new units 'km' in column 'Distance' in table 'MoreData' replacing existing units 'm'")
 
   ps_write_table(more_data[c("Sample", "Sample2", "StartDateTime", "Blob", "AName", "Distance", "Dayte")], "MoreData", conn = conn, delete = TRUE)
 
