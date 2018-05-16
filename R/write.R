@@ -6,7 +6,8 @@
 #' in the metadata table and converts the column to a character vector
 #' of format `YYYY-mm-dd HH:MM:SS`.
 #' It also saves the projection and converts the geometry column to a character
-#' vector for sfc columns.
+#' vector for sfc columns. And saves any column comments to the DataDescription
+#' entry in the metadata table.
 #'
 #' \code{\link{ps_read_table}} looks up the time zone and projection and
 #' converts the column back to a POSIXct vector with the original timezone
@@ -41,6 +42,9 @@ ps_write_table <- function(x, table_name, conn = getOption("ps.conn"), delete = 
 
   extra <- setdiff(colnames(x), column_names)
   if (length(extra)) ps_warning("extra column names")
+
+  x[] %<>% purrr::lmap_if(has_comment, ps_update_metadata_description,
+                          conn = conn, table_name = table_name)
 
   x[] %<>% purrr::lmap_if(has_units, ps_update_metadata_units,
                           conn = conn, table_name = table_name)

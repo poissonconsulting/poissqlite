@@ -1,6 +1,6 @@
-context("sqlite")
+context("package")
 
-test_that("sqlite", {
+test_that("package", {
   dir <- tempdir()
   conn <- ps_connect_sqlite(dir = dir, new = TRUE, ask = FALSE)
   expect_is(conn, "SQLiteConnection")
@@ -27,6 +27,10 @@ test_that("sqlite", {
 
   blob_data <- data.frame(File = names(blobs), BLOB = blobs, stringsAsFactors = FALSE)
 
+  comment(blob_data$File) <- "file stuff"
+  comment(blob_data$BLOB) <- "blobby stuff"
+#  comment(blob_data$BLOB) <- NULL
+
   dbGetQuery(conn,
              "CREATE TABLE blob_table (
              File TEXT NOT NULL,
@@ -44,6 +48,9 @@ test_that("sqlite", {
   expect_identical(sort(metadata$DataColumn), sort(colnames(blob_data)))
 
   blob_data_new <- ps_read_table("blob_table", conn)
+
+  expect_identical(comment(blob_data_new$File), "file stuff")
+  expect_identical(comment(blob_data_new$BLOB), "blobby stuff")
 
   expect_equivalent(blob_data, blob_data_new)
 
@@ -96,6 +103,7 @@ test_that("sqlite", {
   expect_identical(metadata$DataColumn, sort(colnames(datasets::chickwts)))
 
   metadata$DataUnits[2] <- "kg"
+  metadata$DataDescription[2] <- "The weight of feed"
 
   dbWriteTable(conn, "MetaData", metadata, overwrite = TRUE)
   metadata2 <- ps_update_metadata(conn)
@@ -109,6 +117,8 @@ test_that("sqlite", {
                               Distance = units::set_units(c(0.1, 0.5), "m"),
                               Blob = blobs,
                               Dayte = as.Date(c("2001-01-02", "2002-02-03")))
+
+  more_data$Sample <- set_comment(more_data$Sample, "sample stuff")
 
   dbGetQuery(conn,
              "CREATE TABLE MoreData (
@@ -167,6 +177,10 @@ test_that("sqlite", {
   expect_equivalent(more_data2[[6]], more_data[colnames(more_data2)][[6]])
   expect_equivalent(more_data2[[7]], more_data[colnames(more_data2)][[7]])
   expect_identical(lubridate::tz(more_data2$StartDateTime), "Etc/GMT+8")
+
+  expect_identical(comment(more_data2$AName), NULL)
+  expect_identical(comment(more_data2$Blob), "blobby stuff")
+  expect_identical(comment(more_data2$Sample), "sample stuff")
 
   other_data2 <- ps_read_table("OtherData", conn = conn)
 

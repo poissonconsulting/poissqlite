@@ -1,7 +1,7 @@
 Package: poissqlite
 Title: Work with SQLite Databases
-Version: 0.0.0.9029
-Date: 2018-05-09
+Version: 0.0.0.9030
+Date: 2018-05-16
 Authors@R: c(
     person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre")),
     person("Seb", "Dalgarno", role = "aut"))
@@ -10,7 +10,7 @@ License: MIT + file LICENSE
 URL: https://github.com/poissonconsulting/poissqlite
 BugReports: https://github.com/poissonconsulting/poissqlite/issues
 Depends: R (>= 3.4.0),
-         DBI,
+         DBI
 Imports: blob,
          checkr,
          dplyr,

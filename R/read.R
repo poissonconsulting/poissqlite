@@ -21,11 +21,12 @@ ps_read_table <- function(table_name, conn = getOption("ps.conn")) {
   metadata %<>% as.data.frame()
   rownames(metadata) <- metadata$DataColumn
   metadata <- metadata[colnames(table),]
-  metadata <- metadata[!is.na(metadata$DataUnits),]
-  metadata <- metadata[vapply(metadata$DataUnits, is_units, TRUE),]
 
-  units <- metadata$DataUnits
-  names(units) <- metadata$DataColumn
+  metadata_units <- metadata[!is.na(metadata$DataUnits),]
+  metadata_units <- metadata_units[vapply(metadata_units$DataUnits, is_units, TRUE),]
+
+  units <- metadata_units$DataUnits
+  names(units) <- metadata_units$DataColumn
 
   for (i in seq_along(units)) {
     table[[names(units[i])]] %<>% set_units(units[i])
@@ -35,6 +36,14 @@ ps_read_table <- function(table_name, conn = getOption("ps.conn")) {
   if (length(wchcrs)) {
     table %<>% poisspatial::ps_activate_sfc(sfc_name = names(units[wchcrs[length(wchcrs)]]))
   }
+
+  metadata_description <- metadata[!is.na(metadata$DataDescription),]
+  descriptions <- metadata_description$DataDescription
+  names(descriptions) <- metadata_description$DataColumn
+
+ for (i in seq_along(descriptions)) {
+   comment(table[[names(descriptions[i])]]) <- unname(descriptions[i])
+ }
 
  table
 }

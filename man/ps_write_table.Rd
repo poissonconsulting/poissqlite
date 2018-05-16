@@ -25,7 +25,8 @@ More importantly it saves the time zone for POSIXct columns
 in the metadata table and converts the column to a character vector
 of format `YYYY-mm-dd HH:MM:SS`.
 It also saves the projection and converts the geometry column to a character
-vector for sfc columns.
+vector for sfc columns. And saves any column comments to the DataDescription
+entry in the metadata table.
 }
 \details{
 \code{\link{ps_read_table}} looks up the time zone and projection and

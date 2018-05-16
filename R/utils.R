@@ -73,8 +73,40 @@ set_units <- function(x, units) {
   x
 }
 
+#' Set Comment
+#'
+#' @param x The object
+#' @param comment A string of the comment
+#'
+#' @return The modified object
+#' @export
+#'
+#' @examples
+#' x <- 1:2
+#' x <- set_comment(x, "A vector")
+#' comment(x)
+set_comment <- function(x, comment) {
+  comment(x) <- comment
+  x
+}
+
+#' Unset Comment
+#'
+#' @param x The object
+#'
+#' @return The modified object
+#' @export
+unset_comment <- function(x) {
+  comment(x) <- NULL
+  x
+}
+
 has_units <- function(x) {
   is.POSIXct(x) || is.factor(x) || poisspatial::is.sfc(x) || is.logical(x) || has_measurement_units(x) || is.Date(x)
+}
+
+has_comment <- function(x) {
+  !is.null(comment(x))
 }
 
 is.Date <- function(x) inherits(x, "Date")

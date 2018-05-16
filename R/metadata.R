@@ -50,6 +50,31 @@ ps_update_metadata_units <- function(x, conn, table_name) {
   x
 }
 
+ps_update_metadata_description <- function(x, conn, table_name) {
+
+  metadata <- ps_update_metadata(conn, rm_missing = FALSE)
+
+  column_name <- colnames(x)
+  description <- magrittr::extract2(x, 1) %>%
+    comment() %>% unname()
+
+  wch <- which(metadata$DataTable == table_name & metadata$DataColumn == column_name)
+
+  if (length(wch)) {
+    metadata$DataDescription[wch] <- description
+  } else {
+    new <- tibble::tibble(DataTable = table_name, DataColumn = column_name,
+                          DataUnits = NA_character_, DataDescription = description)
+    metadata %<>% rbind(new)
+  }
+
+  metadata <- metadata[order(metadata$DataTable, metadata$DataColumn),]
+
+  dbWriteTable(conn, name = "MetaData", value = metadata,
+               overwrite = TRUE, row.names = FALSE)
+  x
+}
+
 
 #' Update MetaData Table
 #'
