@@ -191,6 +191,17 @@ test_that("package", {
   expect_identical(comment(more_data2$Blob), "blobby stuff")
   expect_identical(comment(more_data2$Sample), "sample stuff2")
 
+  more_data3 <- more_data2
+  more_data3[] <- lapply(more_data3[], function(x) { comment(x) <- NULL; x})
+  more_data3[] <- lapply(more_data3[], function(x) { units::drop_units(x)})
+
+  expect_false(identical(more_data3, more_data2))
+
+  more_data3 <- ps_interpret_data(more_data3, table = "MoreData",
+                                   conn = conn)
+
+  expect_true(identical(more_data3, more_data2))
+
   other_data2 <- ps_read_table("OtherData", conn = conn)
 
   expect_identical(other_data2[[1]], other_data[colnames(other_data2)][[1]])
@@ -237,9 +248,9 @@ test_that("package", {
   expect_true(length(info$Blob) == 2L)
   expect_identical(info$Sample$key, TRUE)
 
-  expect_identical(length(ls()), 22L)
-  expect_identical(length(poisdata::ps_names_datas()), 14L)
-  expect_identical(length(ps_strip_columns("Blob")), 6L)
+  expect_identical(length(ls()), 23L)
+  expect_identical(length(poisdata::ps_names_datas()), 15L)
+  expect_identical(length(ps_strip_columns("Blob")), 7L)
 
   expect_identical(colnames(more_data), c("StartDateTime", "Sample", "Sample2","AName", "Random", "Distance", "Dayte"))
 })

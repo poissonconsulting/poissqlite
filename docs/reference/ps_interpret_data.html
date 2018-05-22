@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Close a connection to an sqlite database. — ps_disconnect_sqlite • poissqlite</title>
+<title>Interpret Data — ps_interpret_data • poissqlite</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,9 +28,10 @@
 
 
 
-<meta property="og:title" content="Close a connection to an sqlite database. — ps_disconnect_sqlite" />
+<meta property="og:title" content="Interpret Data — ps_interpret_data" />
 
-<meta property="og:description" content="A wrapper on DBI::dbDisconnect." />
+<meta property="og:description" content="Takes a data frame and sets the units and columns for columns which appear
+in the metadata for table table_name." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -94,27 +95,40 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Close a connection to an sqlite database.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/poissonconsulting/poissqlite/blob/master/R/connect.R'><code>R/connect.R</code></a></small>
-    <div class="hidden name"><code>ps_disconnect_sqlite.Rd</code></div>
+    <h1>Interpret Data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/poissonconsulting/poissqlite/blob/master/R/read.R'><code>R/read.R</code></a></small>
+    <div class="hidden name"><code>ps_interpret_data.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>A wrapper on DBI::dbDisconnect.</p>
+    <p>Takes a data frame and sets the units and columns for columns which appear
+in the metadata for table table_name.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>ps_disconnect_sqlite</span>(<span class='no'>conn</span>)</pre>
+    <pre class="usage"><span class='fu'>ps_interpret_data</span>(<span class='no'>x</span>, <span class='no'>table_name</span>, <span class='kw'>conn</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"ps.conn"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>x</th>
+      <td><p>A data frame of columns to interpret.</p></td>
+    </tr>
+    <tr>
+      <th>table_name</th>
+      <td><p>A string of the name of the table.</p></td>
+    </tr>
+    <tr>
       <th>conn</th>
-      <td><p>The connection to close.</p></td>
+      <td><p>An SQLiteConnection object.</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>The original data frame with units and column comments.</p>
     
 
   </div>
@@ -122,7 +136,9 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#value">Value</a></li>
+          </ul>
 
   </div>
 </div>
