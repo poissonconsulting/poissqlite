@@ -115,7 +115,8 @@ ps_df_to_sql  <- function(data, data_name = deparse(substitute(data)), table_nam
 #' @export
 ps_create_sql_script <- function(x, db_name = '', load = 'prepare', path = 'create-database.R'){
 
-  check_list(x, named = TRUE)
+  check_list(x)
+  check_named(x)
   lapply(x, check_data)
   check_string(db_name)
   check_string(load)

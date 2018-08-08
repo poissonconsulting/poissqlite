@@ -193,7 +193,7 @@ test_that("package", {
 
   more_data3 <- more_data2
   more_data3[] <- lapply(more_data3[], function(x) { comment(x) <- NULL; x})
-  more_data3[] <- lapply(more_data3[], function(x) { units::drop_units(x)})
+  more_data3$Distance <- units::drop_units(more_data3$Distance)
 
   expect_false(identical(more_data3, more_data2))
 
