@@ -1,7 +1,6 @@
 Package: poissqlite
 Title: Work with SQLite Databases
-Version: 0.0.0.9031
-Date: 2018-05-22
+Version: 0.0.0.9032
 Authors@R: c(
     person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre")),
     person("Seb", "Dalgarno", role = "aut"))
@@ -33,4 +32,4 @@ Suggests: datasets,
 Additional_Repositories: http://poissonconsulting.github.io/drat
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
