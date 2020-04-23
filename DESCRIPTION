@@ -29,7 +29,12 @@ Imports: blob,
 Suggests: datasets,
           testthat,
           covr
-Additional_Repositories: http://poissonconsulting.github.io/drat
+Remotes: 
+      poissonconsulting/checkr,
+      poissonconsulting/poisdata,
+      poissonconsulting/poisspatial,
+      poissonconsulting/poisutils,
+      poissonconsulting/yesno
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
