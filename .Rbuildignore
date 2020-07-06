@@ -9,3 +9,4 @@
 ^docs$
 ^document.R$
 ^codemeta\.json$
+^\.github$
