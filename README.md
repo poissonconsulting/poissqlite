@@ -1,11 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Travis-CI Build
-Status](https://travis-ci.org/poissonconsulting/poissqlite.svg?branch=master)](https://travis-ci.org/poissonconsulting/poissqlite)
-[![Coverage
-Status](https://img.shields.io/codecov/c/github/poissonconsulting/poissqlite/master.svg)](https://codecov.io/github/poissonconsulting/poissqlite?branch=master)
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![R build
+status](https://github.com/poissonconsulting/poissqlite/workflows/R-CMD-check/badge.svg)](https://github.com/poissonconsulting/poissqlite/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/poissonconsulting/poissqlite/branch/master/graph/badge.svg)](https://codecov.io/gh/poissonconsulting/poissqlite?branch=master)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
@@ -26,8 +27,8 @@ loaded).
 library(poissqlite)
 #> Loading required package: DBI
 conn <- ps_connect_sqlite(dir = tempdir(), new = TRUE)
-#> Warning in result_fetch(res@ptr, n = n): Don't need to call dbFetch() for
-#> statements, only for queries
+#> Warning in result_fetch(res@ptr, n = n): SQL statements must be issued with
+#> dbExecute() or dbSendStatement() instead of dbGetQuery() or dbSendQuery().
 print(class(conn))
 #> [1] "SQLiteConnection"
 #> attr(,"package")
@@ -72,8 +73,9 @@ write.csv(datasets::chickwts, file.path(tempdir(), "sub/chickwts.csv"), row.name
 blobs <- ps_blob_files(tempdir(), pattern = "[.]csv$", recursive = TRUE)
 
 print(blobs)
+#> <blob[2]>
 #>         cars.csv sub/chickwts.csv 
-#>   blob[382.00 B]  blob[  1.13 kB]
+#>      blob[391 B]    blob[1.14 kB]
 
 blob_data <- data.frame(File = names(blobs), BLOB = blobs)
 
@@ -102,8 +104,8 @@ print(head(cars_new))
 
 ``` r
 metadata <- ps_update_metadata(conn)
-#> Warning in result_fetch(res@ptr, n = n): Don't need to call dbFetch() for
-#> statements, only for queries
+#> Warning in result_fetch(res@ptr, n = n): SQL statements must be issued with
+#> dbExecute() or dbSendStatement() instead of dbGetQuery() or dbSendQuery().
 print(metadata)
 #> # A tibble: 2 x 4
 #>   DataTable  DataColumn DataUnits DataDescription
@@ -140,6 +142,9 @@ Please report any
 [Pull requests](https://github.com/poissonconsulting/poissqlite/pulls)
 are always welcome.
 
-Please note that this project is released with a [Contributor Code of
-Conduct](https://github.com/poissonconsulting/poissqlite/blob/master/CONDUCT.md).
-By participating in this project you agree to abide by its terms.
+## Code of Conduct
+
+Please note that the poissqlite project is released with a [Contributor
+Code of
+Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.
