@@ -46,6 +46,8 @@ Throws an error if the object was not created using ps_blob_object." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -80,19 +82,13 @@ Throws an error if the object was not created using ps_blob_object." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/poissonconsulting/poissqlite/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -119,7 +115,7 @@ Throws an error if the object was not created using ps_blob_object." />
 Throws an error if the object was not created using ps_blob_object.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/poissqlite/man/ps_deblob_object.html'>ps_deblob_object</a></span>(<span class='kw'>blob</span>)</pre>
+    <pre class="usage"><span class='fu'>ps_deblob_object</span><span class='op'>(</span><span class='va'>blob</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -132,9 +128,10 @@ Throws an error if the object was not created using ps_blob_object.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>mat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>9</span>, nrow = <span class='fl'>3</span>)
-<span class='kw'>blob</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/poissqlite/man/ps_blob_object.html'>ps_blob_object</a></span>(<span class='kw'>mat</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/poissqlite/man/ps_deblob_object.html'>ps_deblob_object</a></span>(<span class='kw'>blob</span>)</div><div class='output co'>#&gt;      [,1] [,2] [,3]
+    <pre class="examples"><div class='input'><span class='va'>mat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>9</span>, nrow <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+<span class='va'>blob</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ps_blob_object.html'>ps_blob_object</a></span><span class='op'>(</span><span class='va'>mat</span><span class='op'>)</span>
+<span class='fu'>ps_deblob_object</span><span class='op'>(</span><span class='va'>blob</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;      [,1] [,2] [,3]
 #&gt; [1,]    1    4    7
 #&gt; [2,]    2    5    8
 #&gt; [3,]    3    6    9</div></pre>
@@ -153,7 +150,7 @@ Throws an error if the object was not created using ps_blob_object.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

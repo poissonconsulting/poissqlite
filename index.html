@@ -38,19 +38,13 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/poissonconsulting/poissqlite/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -79,17 +73,16 @@
 <h3 class="hasAnchor">
 <a href="#connection" class="anchor"></a>Connection</h3>
 <p>The <code><a href="reference/ps_connect_sqlite.html">ps_connect_sqlite()</a></code> function can be used to connect to an sqlite3 database. By default it switches foreign keys on. The connection can be queried using the functions in the <code>DBI</code> package (which is automatically loaded).</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/poissonconsulting/poissqlite">poissqlite</a></span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/poissonconsulting/poissqlite">poissqlite</a></span><span class="op">)</span>
 <span class="co">#&gt; Loading required package: DBI</span>
-<span class="kw">conn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ps_connect_sqlite.html">ps_connect_sqlite</a></span>(dir = <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), new = <span class="fl">TRUE</span>)
-<span class="co">#&gt; Warning in result_fetch(res@ptr, n = n): Don't need to call dbFetch() for</span>
-<span class="co">#&gt; statements, only for queries</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="kw">conn</span>))
+<span class="va">conn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ps_connect_sqlite.html">ps_connect_sqlite</a></span><span class="op">(</span>dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>, new <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; Warning in result_fetch(res@ptr, n = n): SQL statements must be issued with</span>
+<span class="co">#&gt; dbExecute() or dbSendStatement() instead of dbGetQuery() or dbSendQuery().</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">conn</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] "SQLiteConnection"</span>
 <span class="co">#&gt; attr(,"package")</span>
-<span class="co">#&gt; [1] "RSQLite"</span>
-</pre></div>
+<span class="co">#&gt; [1] "RSQLite"</span></code></pre></div>
 </div>
 <div id="working-with-blobs" class="section level3">
 <h3 class="hasAnchor">
@@ -97,8 +90,8 @@
 <p>Files and R objects can be added to SQLite databases as storage type <a href="https://sqlite.org/datatype3.html">BLOB</a>.</p>
 <p>The <code><a href="reference/ps_blob_file.html">ps_blob_file()</a></code> function can be used to convert a file to a <code>blob</code> while <code><a href="reference/ps_deblob_file.html">ps_deblob_file()</a></code> performs the inverse operation, i.e., saves a blob to a file of the original format. <code><a href="reference/ps_blob_files.html">ps_blob_files()</a></code> and <code><a href="reference/ps_deblob_files.html">ps_deblob_files()</a></code> are the equivalent functions for working with multiple files. In addition, the <code><a href="reference/ps_blob_object.html">ps_blob_object()</a></code> and <code><a href="reference/ps_deblob_object.html">ps_deblob_object()</a></code> can be used to convert between an R object and a blob. This is achieved by reading or writing the object as an <code>.rds</code> file which means that <code><a href="reference/ps_deblob_file.html">ps_deblob_file()</a></code> applied to a blob created using <code><a href="reference/ps_blob_object.html">ps_blob_object()</a></code> produces the intermediate <code>.rds</code> file.</p>
 <p>It’s important to realize that the <code>ps_blob</code> family of functions embed the original file extension in the raw data to ensure the converted files are the original format. A consequence is that the <code>ps_deblob</code> family of functions will only work on blobs created using the <code>ps_blob</code> functions.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">datasets</span>::<span class="kw"><a href="https://rdrr.io/r/datasets/cars.html">cars</a></span>))
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/cars.html">cars</a></span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;   speed dist</span>
 <span class="co">#&gt; 1     4    2</span>
 <span class="co">#&gt; 2     4   10</span>
@@ -107,60 +100,58 @@
 <span class="co">#&gt; 5     8   16</span>
 <span class="co">#&gt; 6     9   10</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv</a></span>(<span class="kw">datasets</span>::<span class="kw"><a href="https://rdrr.io/r/datasets/cars.html">cars</a></span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"cars.csv"</span>), row.names = <span class="fl">FALSE</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"sub"</span>))
-<span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv</a></span>(<span class="kw">datasets</span>::<span class="kw"><a href="https://rdrr.io/r/datasets/chickwts.html">chickwts</a></span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"sub/chickwts.csv"</span>), row.names = <span class="fl">FALSE</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv</a></span><span class="op">(</span><span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/cars.html">cars</a></span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"cars.csv"</span><span class="op">)</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"sub"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv</a></span><span class="op">(</span><span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/chickwts.html">chickwts</a></span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"sub/chickwts.csv"</span><span class="op">)</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="kw">blobs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ps_blob_files.html">ps_blob_files</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), pattern = <span class="st">"[.]csv$"</span>, recursive = <span class="fl">TRUE</span>)
+<span class="va">blobs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ps_blob_files.html">ps_blob_files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>, pattern <span class="op">=</span> <span class="st">"[.]csv$"</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">blobs</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">blobs</span><span class="op">)</span>
+<span class="co">#&gt; &lt;blob[2]&gt;</span>
 <span class="co">#&gt;         cars.csv sub/chickwts.csv </span>
-<span class="co">#&gt;   blob[382.00 B]  blob[  1.13 kB]</span>
+<span class="co">#&gt;      blob[391 B]    blob[1.14 kB]</span>
 
-<span class="kw">blob_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(File = <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">blobs</span>), BLOB = <span class="kw">blobs</span>)
+<span class="va">blob_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>File <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">blobs</span><span class="op">)</span>, BLOB <span class="op">=</span> <span class="va">blobs</span><span class="op">)</span>
 
-<span class="fu">dbWriteTable</span>(<span class="kw">conn</span>, <span class="st">"blob_table"</span>, <span class="kw">blob_data</span>)
+<span class="fu">dbWriteTable</span><span class="op">(</span><span class="va">conn</span>, <span class="st">"blob_table"</span>, <span class="va">blob_data</span><span class="op">)</span>
 
-<span class="kw">blob_data_new</span> <span class="op">&lt;-</span> <span class="fu">dbReadTable</span>(<span class="kw">conn</span>, <span class="st">"blob_table"</span>)
+<span class="va">blob_data_new</span> <span class="op">&lt;-</span> <span class="fu">dbReadTable</span><span class="op">(</span><span class="va">conn</span>, <span class="st">"blob_table"</span><span class="op">)</span>
 
-<span class="kw">blobs</span> <span class="op">&lt;-</span> <span class="kw">blob_data_new</span><span class="op">$</span><span class="kw">BLOB</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">blobs</span>) <span class="op">&lt;-</span> <span class="kw">blob_data_new</span><span class="op">$</span><span class="kw">File</span> 
+<span class="va">blobs</span> <span class="op">&lt;-</span> <span class="va">blob_data_new</span><span class="op">$</span><span class="va">BLOB</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">blobs</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">blob_data_new</span><span class="op">$</span><span class="va">File</span> 
 
-<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"new"</span>))
-<span class="fu"><a href="reference/ps_deblob_files.html">ps_deblob_files</a></span>(<span class="kw">blobs</span>, dir = <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"new"</span>), ask = <span class="fl">FALSE</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"new"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="reference/ps_deblob_files.html">ps_deblob_files</a></span><span class="op">(</span><span class="va">blobs</span>, dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"new"</span><span class="op">)</span>, ask <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="kw">cars_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"new"</span>, <span class="st">"cars.csv"</span>)) 
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">cars_new</span>))
+<span class="va">cars_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"new"</span>, <span class="st">"cars.csv"</span><span class="op">)</span><span class="op">)</span> 
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">cars_new</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;   speed dist</span>
 <span class="co">#&gt; 1     4    2</span>
 <span class="co">#&gt; 2     4   10</span>
 <span class="co">#&gt; 3     7    4</span>
 <span class="co">#&gt; 4     7   22</span>
 <span class="co">#&gt; 5     8   16</span>
-<span class="co">#&gt; 6     9   10</span>
-</pre></div>
+<span class="co">#&gt; 6     9   10</span></code></pre></div>
 </div>
 <div id="meta-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#meta-data" class="anchor"></a>Meta Data</h3>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw">metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ps_update_metadata.html">ps_update_metadata</a></span>(<span class="kw">conn</span>)
-<span class="co">#&gt; Warning in result_fetch(res@ptr, n = n): Don't need to call dbFetch() for</span>
-<span class="co">#&gt; statements, only for queries</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">metadata</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ps_update_metadata.html">ps_update_metadata</a></span><span class="op">(</span><span class="va">conn</span><span class="op">)</span>
+<span class="co">#&gt; Warning in result_fetch(res@ptr, n = n): SQL statements must be issued with</span>
+<span class="co">#&gt; dbExecute() or dbSendStatement() instead of dbGetQuery() or dbSendQuery().</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 2 x 4</span>
 <span class="co">#&gt;   DataTable  DataColumn DataUnits DataDescription</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;          </span>
 <span class="co">#&gt; 1 blob_table BLOB       &lt;NA&gt;      &lt;NA&gt;           </span>
-<span class="co">#&gt; 2 blob_table File       &lt;NA&gt;      &lt;NA&gt;</span>
-</pre></div>
+<span class="co">#&gt; 2 blob_table File       &lt;NA&gt;      &lt;NA&gt;</span></code></pre></div>
 </div>
 <div id="disconnection" class="section level3">
 <h3 class="hasAnchor">
 <a href="#disconnection" class="anchor"></a>Disconnection</h3>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu">dbDisconnect</span>(<span class="kw">conn</span>)
-</pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">dbDisconnect</span><span class="op">(</span><span class="va">conn</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 <div id="installation" class="section level2">
@@ -179,7 +170,11 @@
 <a href="#contribution" class="anchor"></a>Contribution</h2>
 <p>Please report any <a href="https://github.com/poissonconsulting/poissqlite/issues">issues</a>.</p>
 <p><a href="https://github.com/poissonconsulting/poissqlite/pulls">Pull requests</a> are always welcome.</p>
-<p>Please note that this project is released with a <a href="https://github.com/poissonconsulting/poissqlite/blob/master/CONDUCT.md">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
+</div>
+<div id="code-of-conduct" class="section level2">
+<h2 class="hasAnchor">
+<a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h2>
+<p>Please note that the poissqlite project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
 
@@ -221,9 +216,9 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a></li>
-<li><a href="https://travis-ci.org/poissonconsulting/poissqlite"><img src="https://travis-ci.org/poissonconsulting/poissqlite.svg?branch=master" alt="Travis-CI Build Status"></a></li>
-<li><a href="https://codecov.io/github/poissonconsulting/poissqlite?branch=master"><img src="https://img.shields.io/codecov/c/github/poissonconsulting/poissqlite/master.svg" alt="Coverage Status"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+<li><a href="https://github.com/poissonconsulting/poissqlite/actions"><img src="https://github.com/poissonconsulting/poissqlite/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://codecov.io/gh/poissonconsulting/poissqlite?branch=master"><img src="https://codecov.io/gh/poissonconsulting/poissqlite/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
 <li><a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a></li>
 </ul>
 </div>
@@ -236,7 +231,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
