@@ -1,5 +1,3 @@
-context("package")
-
 test_that("package", {
   dir <- tempdir()
   conn <- ps_connect_sqlite(dir = dir, new = TRUE, ask = FALSE)
