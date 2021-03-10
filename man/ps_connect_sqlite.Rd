@@ -4,8 +4,13 @@
 \alias{ps_connect_sqlite}
 \title{Opens a connection to an sqlite database.}
 \usage{
-ps_connect_sqlite(file = "database", dir = ".", new = NA,
-  foreign_keys = TRUE, ask = getOption("poissqlite.ask", TRUE))
+ps_connect_sqlite(
+  file = "database",
+  dir = ".",
+  new = NA,
+  foreign_keys = TRUE,
+  ask = getOption("poissqlite.ask", TRUE)
+)
 }
 \arguments{
 \item{file}{A string of the name of the file (without the file extension .sqlite).}

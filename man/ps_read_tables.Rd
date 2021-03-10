@@ -4,8 +4,11 @@
 \alias{ps_read_tables}
 \title{Read Tables}
 \usage{
-ps_read_tables(conn = getOption("ps.conn"), rename = identity,
-  envir = parent.frame())
+ps_read_tables(
+  conn = getOption("ps.conn"),
+  rename = identity,
+  envir = parent.frame()
+)
 }
 \arguments{
 \item{conn}{An SQLiteConnection object.}

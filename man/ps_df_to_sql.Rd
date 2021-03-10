@@ -4,8 +4,11 @@
 \alias{ps_df_to_sql}
 \title{Data.frame to sql}
 \usage{
-ps_df_to_sql(data, data_name = deparse(substitute(data)),
-  table_name = tools::toTitleCase(data_name))
+ps_df_to_sql(
+  data,
+  data_name = deparse(substitute(data)),
+  table_name = tools::toTitleCase(data_name)
+)
 }
 \arguments{
 \item{data}{A data.frame.}

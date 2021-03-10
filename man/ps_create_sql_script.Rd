@@ -4,8 +4,12 @@
 \alias{ps_create_sql_script}
 \title{Create sql database}
 \usage{
-ps_create_sql_script(x, db_name = "", load = "prepare",
-  path = "create-database.R")
+ps_create_sql_script(
+  x,
+  db_name = "",
+  load = "prepare",
+  path = "create-database.R"
+)
 }
 \arguments{
 \item{x}{A named list of data.frames.}

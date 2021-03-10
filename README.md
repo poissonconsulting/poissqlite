@@ -127,13 +127,6 @@ To install from GitHub
     install.packages("devtools")
     devtools::install_github("poissonconsulting/poissqlite")
 
-or the Poisson [drat](https://github.com/poissonconsulting/drat)
-repository
-
-    install.packages("drat")
-    drat::addRepo("poissonconsulting")
-    install.packages("poissqlite")
-
 ## Contribution
 
 Please report any

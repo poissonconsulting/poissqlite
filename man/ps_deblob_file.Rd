@@ -4,8 +4,12 @@
 \alias{ps_deblob_file}
 \title{Deblob to File}
 \usage{
-ps_deblob_file(blob, file = "blob", dir = ".",
-  ask = getOption("poissqlite.ask", TRUE))
+ps_deblob_file(
+  blob,
+  file = "blob",
+  dir = ".",
+  ask = getOption("poissqlite.ask", TRUE)
+)
 }
 \arguments{
 \item{blob}{A blob.}

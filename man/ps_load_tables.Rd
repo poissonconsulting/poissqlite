@@ -4,8 +4,11 @@
 \alias{ps_load_tables}
 \title{Load Tables}
 \usage{
-ps_load_tables(conn = getOption("ps.conn"), rename = identity,
-  envir = parent.frame())
+ps_load_tables(
+  conn = getOption("ps.conn"),
+  rename = identity,
+  envir = parent.frame()
+)
 }
 \arguments{
 \item{conn}{An SQLiteConnection object.}

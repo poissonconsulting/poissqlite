@@ -4,8 +4,7 @@
 \alias{ps_write_tables_csvs}
 \title{Write Tables}
 \usage{
-ps_write_tables_csvs(conn = getOption("ps.conn"), dir = ".",
-  rename = identity)
+ps_write_tables_csvs(conn = getOption("ps.conn"), dir = ".", rename = identity)
 }
 \arguments{
 \item{conn}{An SQLiteConnection object.}
