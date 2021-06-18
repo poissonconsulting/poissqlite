@@ -14,7 +14,7 @@ ps_blob_file <- function(file) {
   blob %<>%
     serialize(NULL) %>%
     list() %>%
-    as.blob()
+    as_blob()
 
   names(blob) <- file
 
@@ -47,8 +47,8 @@ ps_blob_files <- function(dir = ".", pattern = "^[^.].*[.][^.]+$", recursive = F
 
   if (!length(files)) error("there are no matching files to blob")
 
-  blobs <- vapply(files, ps_blob_file, as.blob(raw(1))) %>%
-    as.blob()
+  blobs <- vapply(files, ps_blob_file, as_blob(raw(1))) %>%
+    as_blob()
 
   names(blobs) <- sfiles
   blobs

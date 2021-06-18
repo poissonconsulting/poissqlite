@@ -14,7 +14,7 @@ ps_connect_sqlite <- function(file = "database", dir = ".", new = NA,
                               ask = getOption("poissqlite.ask", TRUE)) {
   chk_string(file)
   chk_string(dir)
-  chk_scalar(new, c(TRUE, NA))
+  chk_scalar(new)
   chk_vector(new)
   check_values(new,  c(TRUE, NA))
   chk_flag(foreign_keys)
