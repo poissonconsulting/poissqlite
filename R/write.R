@@ -26,10 +26,10 @@
 ps_write_table <- function(x, table_name, conn = getOption("ps.conn"), delete = FALSE,
                            overwrite_units = FALSE, overwrite_descriptions = FALSE, rename = identity) {
   if (!is.data.frame(x)) error("x must be a data frame")
-  check_string(table_name)
-  check_flag(delete)
-  check_flag(overwrite_units)
-  check_flag(overwrite_descriptions)
+  chk_string(table_name)
+  chk_flag(delete)
+  chk_flag(overwrite_units)
+  chk_flag(overwrite_descriptions)
   check_sqlite_connection(conn)
 
   if (!dbExistsTable(conn, table_name))

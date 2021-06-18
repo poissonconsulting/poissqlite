@@ -114,7 +114,7 @@ ps_update_metadata_description <- function(x, conn, table_name, overwrite) {
 #' @export
 ps_update_metadata <- function(conn = getOption("ps.conn"), rm_missing = TRUE) {
   check_sqlite_connection(conn)
-  check_flag(rm_missing)
+  chk_flag(rm_missing)
 
   tables <- dbListTables(conn)
 
@@ -136,7 +136,7 @@ ps_update_metadata <- function(conn = getOption("ps.conn"), rm_missing = TRUE) {
   } else {
     metadata_table <- dbReadTable(conn, "MetaData")
 
-    check_colnames(metadata_table, c("DataTable", "DataColumn", "DataUnits", "DataDescription"),
+    check_names(metadata_table, names = c("DataTable", "DataColumn", "DataUnits", "DataDescription"),
                    exclusive = TRUE, order = TRUE, x_name = "MetaData table")
 
     check_data(metadata_table, values = list(DataTable = "",

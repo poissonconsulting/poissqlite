@@ -5,7 +5,7 @@
 #' @param file A string of the file name.
 #' @export
 ps_blob_file <- function(file) {
-  check_string(file)
+  chk_string(file)
 
   blob <- read_bin_file(file) %>%
     list()
@@ -30,9 +30,9 @@ ps_blob_file <- function(file) {
 #' @param recursive A flag indicating whether to recurse into subdirectories.
 #' @export
 ps_blob_files <- function(dir = ".", pattern = "^[^.].*[.][^.]+$", recursive = FALSE) {
-  check_string(dir)
-  check_string(pattern)
-  check_flag(recursive)
+  chk_string(dir)
+  chk_string(pattern)
+  chk_flag(recursive)
 
   if (!dir.exists(dir))
     error("directory '", dir, "' does not exist")
@@ -65,7 +65,7 @@ ps_blob_object <- function(object, name = substitute(object)) {
   if (!is.character(name))
     name %<>% deparse()
 
-  check_string(name)
+  chk_string(name)
 
   file <-  file.path(tempdir(), "object.rds")
   saveRDS(object, file)
@@ -98,9 +98,9 @@ ps_deblob_file_raw <- function(raw, file = "blob", dir = ".",
 
   stopifnot(is.raw(raw))
 
-  check_string(file)
-  check_string(dir)
-  check_flag(ask)
+  chk_string(file)
+  chk_string(dir)
+  chk_flag(ask)
 
   raw %<>% unserialize()
 
@@ -126,9 +126,9 @@ ps_deblob_files <- function(blobs, dir = ".", rm_ext = TRUE,
                                ask = getOption("poissqlite.ask", TRUE)) {
   if (!is.blob(blobs) || length(blobs) == 0)
     error("blobs must be a non-empty blob vector")
-  check_string(dir)
-  check_flag(rm_ext)
-  check_flag(ask)
+  chk_string(dir)
+  chk_flag(rm_ext)
+  chk_flag(ask)
 
   files <- names(blobs)
 
@@ -136,7 +136,7 @@ ps_deblob_files <- function(blobs, dir = ".", rm_ext = TRUE,
 
   if(rm_ext) files %<>% tools::file_path_sans_ext()
 
-  check_unique(files, x_name = "names(blobs)")
+  chk_unique(files, x_name = "names(blobs)")
 
   blobs %<>% lapply(identity)
 

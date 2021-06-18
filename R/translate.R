@@ -82,8 +82,8 @@ translate_key <- function(data) {
 ps_df_to_sql  <- function(data, data_name = deparse(substitute(data)), table_name = tools::toTitleCase(data_name)) {
 
   check_data(data)
-  check_string(data_name)
-  check_string(table_name)
+  chk_string(data_name)
+  chk_string(table_name)
 
   class <- translate_sql(data, translate_class)
   check <- translate_sql(data, translate_checks, collapse = "AND\n")
@@ -115,12 +115,12 @@ ps_df_to_sql  <- function(data, data_name = deparse(substitute(data)), table_nam
 #' @export
 ps_create_sql_script <- function(x, db_name = '', load = 'prepare', path = 'create-database.R'){
 
-  check_list(x)
-  check_named(x)
+  chk_list(x)
+  chk_named(x)
   lapply(x, check_data)
-  check_string(db_name)
-  check_string(load)
-  check_string(path)
+  chk_string(db_name)
+  chk_string(load)
+  chk_string(path)
 
   name <- names(x)
   title <- tools::toTitleCase(name)

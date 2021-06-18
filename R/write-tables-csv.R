@@ -9,7 +9,7 @@
 #' @export
 ps_write_tables_csvs <- function(conn = getOption("ps.conn"), dir = ".", rename = identity) {
 
-  check_string(dir)
+  chk_string(dir)
 
   ps_load_tables(conn = conn, rename = rename)
   poisdata::ps_write_data_csvs(dir = dir)

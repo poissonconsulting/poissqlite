@@ -10,7 +10,7 @@
 #' @export
 ps_interpret_data <- function(x, table_name, conn = getOption("ps.conn")) {
   check_data(x)
-  check_string(table_name)
+  chk_string(table_name)
   check_sqlite_connection(conn)
 
   tables <- dbListTables(conn)
@@ -73,7 +73,7 @@ ps_interpret_data <- function(x, table_name, conn = getOption("ps.conn")) {
 #' @param conn An SQLiteConnection object.
 #' @export
 ps_read_table <- function(table_name, conn = getOption("ps.conn")) {
-  check_string(table_name)
+  chk_string(table_name)
   check_sqlite_connection(conn)
 
   tables <- dbListTables(conn)

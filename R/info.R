@@ -42,7 +42,7 @@ ps_df_info <- function(df){
 #' @return A data frame with the name of the column and the type.
 #' @export
 ps_column_info <- function(table_name, conn = getOption("ps.conn")) {
-  check_string(table_name)
+  chk_string(table_name)
   check_sqlite_connection(conn)
 
   if (!dbExistsTable(conn, table_name))
