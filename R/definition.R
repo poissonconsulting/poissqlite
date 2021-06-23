@@ -6,7 +6,7 @@
 #' @return A string of the SQL definition of the table.
 #' @export
 ps_table_definition <- function(table_name, conn = getOption("ps.conn")) {
-  check_string(table_name)
+  chk_string(table_name)
   check_sqlite_connection(conn)
 
   if (!dbExistsTable(conn, table_name))

@@ -12,12 +12,13 @@
 ps_connect_sqlite <- function(file = "database", dir = ".", new = NA,
                               foreign_keys = TRUE,
                               ask = getOption("poissqlite.ask", TRUE)) {
-  check_string(file)
-  check_string(dir)
-  check_length1(new, c(TRUE, NA))
-  check_vector(new, c(TRUE, NA))
-  check_flag(foreign_keys)
-  check_flag(ask)
+  chk_string(file)
+  chk_string(dir)
+  chk_scalar(new)
+  chk_vector(new)
+  check_values(new,  c(TRUE, NA))
+  chk_flag(foreign_keys)
+  chk_flag(ask)
 
   if(dir != ".") {
     file %<>% file.path(dir, .)

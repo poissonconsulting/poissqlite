@@ -6,7 +6,7 @@
 #' @param conn An SQLiteConnection object.
 #' @export
 ps_delete_data <- function(table_name, conn = getOption("ps.conn")) {
-  check_string(table_name)
+  chk_string(table_name)
   check_sqlite_connection(conn)
 
   tables <- dbListTables(conn)
