@@ -1,5 +1,5 @@
 test_that("package", {
-  dir <- tempdir()
+  dir <- withr::local_tempdir()
   conn <- ps_connect_sqlite(dir = dir, new = TRUE, ask = FALSE)
   expect_is(conn, "SQLiteConnection")
 

@@ -8,27 +8,31 @@ Description: Facilitates working with SQLite databases.
 License: MIT + file LICENSE
 URL: https://github.com/poissonconsulting/poissqlite
 BugReports: https://github.com/poissonconsulting/poissqlite/issues
-Depends: R (>= 3.4.0),
-         DBI
-Imports: blob,
-         dplyr,
-         lubridate,
-         magrittr,
-         poisdata,
-         poisspatial (>= 0.0.0.9010),
-         poisutils,
-         purrr,
-         RSQLite,
-         sf,
-         stats,
-         tibble,
-         tools,
-         units (>= 0.5-1),
-         yesno,
-         chk
-Suggests: datasets,
-          testthat,
-          covr
+Depends: 
+    R (>= 3.4.0),
+    DBI
+Imports: 
+    blob,
+    dplyr,
+    lubridate,
+    magrittr,
+    poisdata,
+    poisspatial (>= 0.0.0.9010),
+    poisutils,
+    purrr,
+    RSQLite,
+    sf,
+    stats,
+    tibble,
+    tools,
+    units (>= 0.5-1),
+    yesno,
+    chk
+Suggests: 
+      datasets,
+      testthat,
+      covr,
+      withr
 Remotes: 
       poissonconsulting/chk,
       poissonconsulting/poisdata,
@@ -37,4 +41,4 @@ Remotes:
       poissonconsulting/yesno
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
